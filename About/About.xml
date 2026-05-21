@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>HSK More Hardcore</name>
+	<author>linyaDev</author>
+	<supportedVersions>
+		<li>1.5</li>
+	</supportedVersions>
+	<packageId>linya.hskmorehardcore</packageId>
+	<description>
+[English]
+Balance mod for Hardcore SK. Changes economy, loot, medicine, crafting and trading. Adds new mechanics and modifies existing ones to make survival harder and more meaningful.
+
+[Russian]
+Балансный мод для Hardcore SK. Изменяет экономику, лут, медицину, крафт и торговлю. Добавляет новые механики и изменяет существующие, чтобы выживание стало сложнее и осмысленнее.
+	</description>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+		</li>
+	</modDependencies>
+	<loadAfter>
+		<li>Ludeon.RimWorld</li>
+		<li>brrainz.harmony</li>
+		<li>skyarkhangel.HSK</li>
+		<li>notfood.MendAndRecycle</li>
+		<li>DimonSever000.Wiki.Specific</li>
+	</loadAfter>
+</ModMetaData>

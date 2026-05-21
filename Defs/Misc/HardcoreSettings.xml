@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<HSKMoreHardcore.HardcoreSettingsDef>
+		<defName>HSK_HardcoreSettings</defName>
+		<label>HSK Hardcore Settings</label>
+
+		<!-- Множитель стоимости крафта патронов (ингредиенты) -->
+		<ammoCraftCostMultiplier>5</ammoCraftCostMultiplier>
+		<!-- Множитель стоимости крафта стрел (MakeAmmo_Arrow_*) -->
+		<arrowCraftCostMultiplier>1</arrowCraftCostMultiplier>
+		<!-- Множитель стоимости крафта болтов (MakeAmmo_Bolt_*) -->
+		<boltCraftCostMultiplier>2</boltCraftCostMultiplier>
+		<!-- Материалы-исключения: их количество в рецептах патронов не множится -->
+		<ammoCraftExcludedMaterials>
+			<li>ElectronicComponents</li>
+		</ammoCraftExcludedMaterials>
+		<!-- Множитель размера глубинных залежей (1/7 = ~0.143) -->
+		<deepResourceMultiplier>0.143</deepResourceMultiplier>
+		<!-- Минимум серебра у торговцев -->
+		<traderSilverMinimum>3500</traderSilverMinimum>
+		<!-- Шанс отрастания дерева (0.25 = только 25% деревьев вырастут) -->
+		<treeRegrowthChance>0.01</treeRegrowthChance>
+		<!-- Множители цены продажи торговцу (defName -> множитель) -->
+		<sellPriceOverrides>
+			<li><key>WoodLog</key><value>0.01</value></li>
+		</sellPriceOverrides>
+	</HSKMoreHardcore.HardcoreSettingsDef>
+</Defs>

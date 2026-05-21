@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<SpecialThingFilterDef>
+		<defName>AllowRepairableApparel</defName>
+		<label>allow repairable</label>
+		<description>If disabled, only apparel that can no longer be normally repaired will be stored here.</description>
+		<parentCategory>Apparel</parentCategory>
+		<saveKey>AllowRepairableApparel</saveKey>
+		<workerClass>HSKMoreHardcore.SpecialThingFilterWorker_AllowRepairable</workerClass>
+		<allowedByDefault>true</allowedByDefault>
+	</SpecialThingFilterDef>
+
+	<SpecialThingFilterDef>
+		<defName>AllowRepairableWeapons</defName>
+		<label>allow repairable</label>
+		<description>If disabled, only weapons that can no longer be normally repaired will be stored here.</description>
+		<parentCategory>Weapons</parentCategory>
+		<saveKey>AllowRepairableWeapons</saveKey>
+		<workerClass>HSKMoreHardcore.SpecialThingFilterWorker_AllowRepairable</workerClass>
+		<allowedByDefault>true</allowedByDefault>
+	</SpecialThingFilterDef>
+</Defs>

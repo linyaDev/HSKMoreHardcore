@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<AllowRepairableApparel.label>разрешить восстанавливаемое</AllowRepairableApparel.label>
+	<AllowRepairableApparel.description>Если выключено, в этом складе будет храниться только одежда, которую уже нельзя починить обычным способом.</AllowRepairableApparel.description>
+	<AllowRepairableWeapons.label>разрешить восстанавливаемое</AllowRepairableWeapons.label>
+	<AllowRepairableWeapons.description>Если выключено, в этом складе будет храниться только оружие, которое уже нельзя починить обычным способом.</AllowRepairableWeapons.description>
+</LanguageData>
