@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>HSK More Hardcore</name>
+	<author>linyaDev</author>
+	<supportedVersions>
+		<li>1.5</li>
+		<li>1.6</li>
+	</supportedVersions>
+	<packageId>linya.hskmorehardcore</packageId>
+	<description>
+[English]
+Difficulty-increasing patches for Hardcore SK modpack.
+
+[Russian]
+Патчи для повышения сложности модпака Hardcore SK.
+	</description>
+	<loadAfter>
+		<li>Ludeon.RimWorld</li>
+		<li>skyarkhangel.HSK</li>
+	</loadAfter>
+</ModMetaData>
