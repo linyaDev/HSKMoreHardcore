@@ -11,7 +11,8 @@ namespace HSKMoreHardcore
         public static float weaponHpMultiplierAway = 0.05f; // 5% HP
 
         // Trader ammo
-        public static float traderAmmoMultiplier = 0.01f; // 1% для теста
-        public static float ammoPriceMultiplier = 0.01f; // 1% для теста
+        public static float traderAmmoMultiplier = 0.15f;
+        public static float ammoPriceMultiplier = 4f;
+        public static float weaponPriceMultiplier = 2f;
     }
 }
