@@ -14,8 +14,16 @@ Difficulty-increasing patches for Hardcore SK modpack.
 [Russian]
 Патчи для повышения сложности модпака Hardcore SK.
 	</description>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+		</li>
+	</modDependencies>
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>
+		<li>brrainz.harmony</li>
 		<li>skyarkhangel.HSK</li>
+		<li>notfood.MendAndRecycle</li>
 	</loadAfter>
 </ModMetaData>
