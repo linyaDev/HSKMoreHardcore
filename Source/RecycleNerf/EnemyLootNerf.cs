@@ -44,15 +44,14 @@ namespace HSKMoreHardcore
 
             var map = pawn.Map ?? pawn.MapHeld;
             bool isAwayMap = map != null && !map.IsPlayerHome;
-            Log.Message($"[EnemyLootNerf] EquipDrop Pawn={pawn.LabelShort}, Map={map}, MapNull={pawn.Map == null}, IsPlayerHome={map?.IsPlayerHome}, ParentType={map?.Parent?.GetType()?.Name}");
-            if (!isAwayMap)
-                return;
+            float hpMult = isAwayMap ? NerfSettings.weaponHpMultiplierAway : NerfSettings.weaponHpMultiplierHome;
+            string tag = isAwayMap ? "away" : "home";
 
             if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
             {
                 int before = resultingEq.HitPoints;
-                resultingEq.HitPoints = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * NerfSettings.weaponHpMultiplierAway));
-                Log.Message($"[EnemyLootNerf] [away] {pawn.LabelShort}: Weapon {resultingEq.def.defName} HP {before}/{resultingEq.MaxHitPoints} -> {resultingEq.HitPoints}/{resultingEq.MaxHitPoints}");
+                resultingEq.HitPoints = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * hpMult));
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} HP {before}/{resultingEq.MaxHitPoints} -> {resultingEq.HitPoints}/{resultingEq.MaxHitPoints}");
             }
         }
 
@@ -90,18 +89,16 @@ namespace HSKMoreHardcore
                 }
             }
 
-            // Damage weapons in inventory on away maps
-            if (isAwayMap)
+            // Damage weapons in inventory
+            float weaponHpMult = isAwayMap ? NerfSettings.weaponHpMultiplierAway : NerfSettings.weaponHpMultiplierHome;
+            for (int i = container.Count - 1; i >= 0; i--)
             {
-                for (int i = container.Count - 1; i >= 0; i--)
+                var thing = container[i];
+                if (thing.def.IsWeapon && thing.HitPoints > 1)
                 {
-                    var thing = container[i];
-                    if (thing.def.IsWeapon && thing.HitPoints > 1)
-                    {
-                        int before = thing.HitPoints;
-                        thing.HitPoints = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * NerfSettings.weaponHpMultiplierAway));
-                        Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}");
-                    }
+                    int before = thing.HitPoints;
+                    thing.HitPoints = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * weaponHpMult));
+                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}");
                 }
             }
         }

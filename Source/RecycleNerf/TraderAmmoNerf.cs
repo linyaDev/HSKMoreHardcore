@@ -59,7 +59,7 @@ namespace HSKMoreHardcore
                 if (ammoThingType.IsInstanceOfType(thing) && thing.stackCount > 1)
                 {
                     int before = thing.stackCount;
-                    thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.traderAmmoMultiplier));
+                    thing.stackCount = Mathf.Max(5, Mathf.FloorToInt(thing.stackCount * NerfSettings.traderAmmoMultiplier));
                     Log.Message($"[TraderAmmoNerf] {thing.def.defName}: {before} -> {thing.stackCount}");
                 }
             }
