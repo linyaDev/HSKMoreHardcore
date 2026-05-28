@@ -267,16 +267,31 @@ namespace HSKMoreHardcore
             if (pierTypeCache == null)
                 return;
 
-            int count = map.listerBuildings.allBuildingsColonist.Count(b => pierTypeCache.IsInstanceOfType(b));
+            int built = map.listerBuildings.allBuildingsColonist.Count(b => pierTypeCache.IsInstanceOfType(b));
+            int blueprints = 0;
+            foreach (var bp in map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint))
+            {
+                if (bp.def.entityDefToBuild is ThingDef td && pierTypeCache.IsAssignableFrom(td.thingClass))
+                    blueprints++;
+            }
+            foreach (var frame in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame))
+            {
+                if (frame.def.entityDefToBuild is ThingDef td && pierTypeCache.IsAssignableFrom(td.thingClass))
+                    blueprints++;
+            }
+            int count = built + blueprints;
             if (count >= NerfSettings.maxFishingPiers)
             {
-                __result = new AcceptanceReport($"Maximum {NerfSettings.maxFishingPiers} fishing piers allowed.");
+                __result = new AcceptanceReport($"Maximum {NerfSettings.maxFishingPiers} fishing piers allowed ({built} built, {blueprints} planned).");
             }
         }
 
-        // Причал начинает с 0 рыбы
-        public static void PierSpawnPostfix(object __instance)
+        // Причал начинает с 0 рыбы (только при новой постройке, не при загрузке)
+        public static void PierSpawnPostfix(object __instance, bool respawningAfterLoad)
         {
+            if (respawningAfterLoad)
+                return;
+
             var field = AccessTools.Field(__instance.GetType(), "fishStock");
             if (field != null)
             {

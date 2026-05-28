@@ -69,6 +69,15 @@ namespace HSKMoreHardcore
                     if (existingThingIds.Contains(thing.thingIDNumber))
                         continue;
 
+                    // Убираем вещи из запрещённых материалов
+                    if (thing.Stuff != null && NerfSettings.bannedPodMaterials.Contains(thing.Stuff.defName))
+                    {
+                        Log.Message($"[PodLootNerf] Destroyed banned material item: {thing.def.defName} ({thing.Stuff.defName})");
+                        thing.Destroy();
+                        nerfed++;
+                        continue;
+                    }
+
                     if (thing.def.IsMedicine && thing.stackCount > 1)
                     {
                         int before = thing.stackCount;

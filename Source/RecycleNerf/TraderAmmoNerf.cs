@@ -24,21 +24,13 @@ namespace HSKMoreHardcore
             var harmony = new Harmony("linya.hskmorehardcore.traderammo");
 
             // Патч на количество патронов у торговцев
-            var traderStockType = typeof(ThingSetMaker).Assembly.GetType("RimWorld.ThingSetMaker_TraderStock");
-            if (traderStockType != null)
+            var generatePublic = AccessTools.Method(typeof(ThingSetMaker), "Generate",
+                new Type[] { typeof(ThingSetMakerParams) });
+            if (generatePublic != null)
             {
-                var generate = AccessTools.Method(traderStockType, "Generate",
-                    new Type[] { typeof(ThingSetMakerParams), typeof(List<Thing>) });
-                if (generate != null)
-                {
-                    harmony.Patch(generate,
-                        postfix: new HarmonyMethod(typeof(TraderAmmoNerf), nameof(StockPostfix)));
-                    Log.Message("[HSKMoreHardcore] TraderAmmoNerf (stock) applied.");
-                }
-                else
-                {
-                    Log.Warning("[HSKMoreHardcore] TraderAmmoNerf: Generate method not found on ThingSetMaker_TraderStock.");
-                }
+                harmony.Patch(generatePublic,
+                    postfix: new HarmonyMethod(typeof(TraderAmmoNerf), nameof(StockPostfix)));
+                Log.Message("[HSKMoreHardcore] TraderAmmoNerf (stock) applied.");
             }
 
             // Патч на цену покупки у торговца
@@ -51,16 +43,33 @@ namespace HSKMoreHardcore
             }
         }
 
-        public static void StockPostfix(ThingSetMakerParams parms, List<Thing> outThings)
+        private static Type traderStockType;
+        private static Type rewardMarketValueType;
+
+        public static void StockPostfix(ThingSetMaker __instance, ref List<Thing> __result)
         {
-            for (int i = outThings.Count - 1; i >= 0; i--)
+            if (traderStockType == null)
+                traderStockType = typeof(ThingSetMaker).Assembly.GetType("RimWorld.ThingSetMaker_TraderStock");
+            if (rewardMarketValueType == null)
+                rewardMarketValueType = typeof(ThingSetMaker).Assembly.GetType("RimWorld.ThingSetMaker_MarketValue");
+
+            bool isTrader = traderStockType != null && traderStockType.IsInstanceOfType(__instance);
+            bool isReward = rewardMarketValueType != null && rewardMarketValueType.IsInstanceOfType(__instance);
+
+            if (!isTrader && !isReward)
+                return;
+
+            string source = isTrader ? "Trader" : "Reward";
+
+            for (int i = __result.Count - 1; i >= 0; i--)
             {
-                var thing = outThings[i];
+                var thing = __result[i];
                 if (ammoThingType.IsInstanceOfType(thing) && thing.stackCount > 1)
                 {
+                    float mult = isTrader ? NerfSettings.traderAmmoMultiplier : NerfSettings.rewardAmmoMultiplier;
                     int before = thing.stackCount;
-                    thing.stackCount = Mathf.Max(5, Mathf.FloorToInt(thing.stackCount * NerfSettings.traderAmmoMultiplier));
-                    Log.Message($"[TraderAmmoNerf] {thing.def.defName}: {before} -> {thing.stackCount}");
+                    thing.stackCount = Mathf.Max(5, Mathf.FloorToInt(thing.stackCount * mult));
+                    Log.Message($"[TraderAmmoNerf] [{source}] {thing.def.defName}: {before} -> {thing.stackCount}");
                 }
             }
         }
