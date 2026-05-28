@@ -12,7 +12,7 @@ namespace HSKMoreHardcore
         public static float medicineDropMultiplierAway = 0.05f;
         public static float weaponHpMultiplierHomeMin = 0.15f;
         public static float weaponHpMultiplierHomeMax = 1.0f;
-        public static float weaponHpCurvePower = 4f;
+        public static float weaponHpCurvePower = 3f;
         public static float weaponHpMultiplierAway = 0.05f; // 5% HP
 
         // Trader ammo

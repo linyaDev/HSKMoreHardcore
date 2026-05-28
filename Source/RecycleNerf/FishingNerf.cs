@@ -10,9 +10,12 @@ namespace HSKMoreHardcore
     [StaticConstructorOnStartup]
     public static class FishingNerf
     {
-        // Фиксированный таймер пополнения рыбы
-        private static Dictionary<int, int> spawnTimers = new Dictionary<int, int>();
         private static Type pierTypeCache;
+
+        private static Dictionary<int, int> GetTimers()
+        {
+            return HardcoreGameComponent.Get()?.FishSpawnTimers;
+        }
 
         static FishingNerf()
         {
@@ -164,9 +167,13 @@ namespace HSKMoreHardcore
             int fishStock = (int)stockField.GetValue(__instance);
             int maxFishStock = (int)maxStockField.GetValue(__instance);
 
+            var timers = GetTimers();
+            if (timers == null)
+                return;
+
             if (fishStock >= maxFishStock)
             {
-                spawnTimers.Remove(thing.thingIDNumber);
+                timers.Remove(thing.thingIDNumber);
                 return;
             }
 
@@ -182,20 +189,20 @@ namespace HSKMoreHardcore
 
             int interval = GetSpawnIntervalTicks(__instance);
 
-            if (!spawnTimers.ContainsKey(thing.thingIDNumber))
-                spawnTimers[thing.thingIDNumber] = interval;
+            if (!timers.ContainsKey(thing.thingIDNumber))
+                timers[thing.thingIDNumber] = interval;
 
-            spawnTimers[thing.thingIDNumber] -= 250; // TickRare = 250 тиков
+            timers[thing.thingIDNumber] -= 250; // TickRare = 250 тиков
 
-            if (spawnTimers[thing.thingIDNumber] <= 0)
+            if (timers[thing.thingIDNumber] <= 0)
             {
                 fishStock++;
                 stockField.SetValue(__instance, fishStock);
 
                 if (fishStock < maxFishStock)
-                    spawnTimers[thing.thingIDNumber] = interval;
+                    timers[thing.thingIDNumber] = interval;
                 else
-                    spawnTimers.Remove(thing.thingIDNumber);
+                    timers.Remove(thing.thingIDNumber);
             }
         }
 
@@ -220,7 +227,8 @@ namespace HSKMoreHardcore
                 return;
             }
 
-            if (spawnTimers.TryGetValue(thing.thingIDNumber, out int ticksLeft))
+            var timers = GetTimers();
+            if (timers != null && timers.TryGetValue(thing.thingIDNumber, out int ticksLeft))
             {
                 float hoursLeft = ticksLeft / 2500f;
                 float daysLeft = hoursLeft / 24f;
@@ -242,9 +250,12 @@ namespace HSKMoreHardcore
                 distance = 15f;
         }
 
-        // Fish trap: multiply ticksToCatch x4 after SpawnSetup calculates it
-        public static void TrapSpawnPostfix(object __instance)
+        // Fish trap: multiply ticksToCatch x4 after SpawnSetup calculates it (only on new build)
+        public static void TrapSpawnPostfix(object __instance, bool respawningAfterLoad)
         {
+            if (respawningAfterLoad)
+                return;
+
             var field = AccessTools.Field(__instance.GetType(), "ticksToCatch");
             var totalField = AccessTools.Field(__instance.GetType(), "totalTicks");
             if (field != null)
@@ -255,6 +266,8 @@ namespace HSKMoreHardcore
             }
         }
 
+        private static Type pierSpawnerTypeCache;
+
         // Ограничение количества причалов на карте
         public static void PierLimitPostfix(Map map, ref AcceptanceReport __result)
         {
@@ -263,26 +276,41 @@ namespace HSKMoreHardcore
 
             if (pierTypeCache == null)
                 pierTypeCache = AccessTools.TypeByName("SK.Building_FishingPier");
+            if (pierSpawnerTypeCache == null)
+                pierSpawnerTypeCache = AccessTools.TypeByName("SK.Building_FishingPierSpawner");
 
-            if (pierTypeCache == null)
-                return;
+            // Построенные пирсы
+            int built = 0;
+            foreach (var b in map.listerBuildings.allBuildingsColonist)
+            {
+                if ((pierTypeCache != null && pierTypeCache.IsInstanceOfType(b)) ||
+                    (pierSpawnerTypeCache != null && pierSpawnerTypeCache.IsInstanceOfType(b)))
+                    built++;
+            }
 
-            int built = map.listerBuildings.allBuildingsColonist.Count(b => pierTypeCache.IsInstanceOfType(b));
-            int blueprints = 0;
+            // Чертежи и рамки
+            int planned = 0;
             foreach (var bp in map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint))
             {
-                if (bp.def.entityDefToBuild is ThingDef td && pierTypeCache.IsAssignableFrom(td.thingClass))
-                    blueprints++;
+                if (bp.def.entityDefToBuild is ThingDef td &&
+                    td.thingClass != null &&
+                    ((pierTypeCache != null && pierTypeCache.IsAssignableFrom(td.thingClass)) ||
+                     (pierSpawnerTypeCache != null && pierSpawnerTypeCache.IsAssignableFrom(td.thingClass))))
+                    planned++;
             }
             foreach (var frame in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame))
             {
-                if (frame.def.entityDefToBuild is ThingDef td && pierTypeCache.IsAssignableFrom(td.thingClass))
-                    blueprints++;
+                if (frame.def.entityDefToBuild is ThingDef td &&
+                    td.thingClass != null &&
+                    ((pierTypeCache != null && pierTypeCache.IsAssignableFrom(td.thingClass)) ||
+                     (pierSpawnerTypeCache != null && pierSpawnerTypeCache.IsAssignableFrom(td.thingClass))))
+                    planned++;
             }
-            int count = built + blueprints;
+
+            int count = built + planned;
             if (count >= NerfSettings.maxFishingPiers)
             {
-                __result = new AcceptanceReport($"Maximum {NerfSettings.maxFishingPiers} fishing piers allowed ({built} built, {blueprints} planned).");
+                __result = new AcceptanceReport($"Maximum {NerfSettings.maxFishingPiers} fishing piers allowed ({built} built, {planned} planned).");
             }
         }
 

@@ -85,15 +85,11 @@ namespace HSKMoreHardcore
 
             if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
             {
-                float before = __result;
                 __result *= NerfSettings.ammoPriceMultiplier;
-                Log.Message($"[TraderAmmoNerf] Price ammo {thing.def.defName}: {before} -> {__result}");
             }
             else if (thing.def.IsWeapon)
             {
-                float before = __result;
                 __result *= NerfSettings.weaponPriceMultiplier;
-                Log.Message($"[TraderAmmoNerf] Price weapon {thing.def.defName}: {before} -> {__result}");
             }
         }
     }

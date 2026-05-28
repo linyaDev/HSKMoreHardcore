@@ -78,7 +78,6 @@ namespace HSKMoreHardcore
                 if (container == null)
                     return;
 
-                Log.Message($"[EnemyLootNerf] InventoryGen for {p.LabelShort}, faction={p.Faction?.Name}, items={container.Count}");
 
                 for (int i = container.Count - 1; i >= 0; i--)
                 {
@@ -138,9 +137,6 @@ namespace HSKMoreHardcore
             float medMult = isAwayMap ? NerfSettings.medicineDropMultiplierAway : NerfSettings.medicineDropMultiplier;
             float ammoMult = isAwayMap ? NerfSettings.ammoDropMultiplierAway : NerfSettings.ammoDropMultiplier;
             string tag = isAwayMap ? "away" : "home";
-            var mapParent = map?.Parent;
-            Log.Message($"[EnemyLootNerf] Pawn={pawn.LabelShort}, Faction={pawn.Faction?.Name}, Map={map}, MapNull={pawn.Map == null}, MapHeldNull={pawn.MapHeld == null}, IsPlayerHome={map?.IsPlayerHome}, ParentType={mapParent?.GetType()?.Name}, ParentDef={mapParent?.def?.defName}");
-
             var container = __instance.innerContainer;
             for (int i = container.Count - 1; i >= 0; i--)
             {
