@@ -15,6 +15,6 @@
 
 	<HSKMoreHardcore_Worn>Worn</HSKMoreHardcore_Worn>
 	<HSKMoreHardcore_WornDesc>This item has been worn by a colonist.</HSKMoreHardcore_WornDesc>
-	<HSKMoreHardcore_WornByEnemy>Worn by enemy</HSKMoreHardcore_WornByEnemy>
-	<HSKMoreHardcore_WornByEnemyDesc>This item was taken from an enemy.</HSKMoreHardcore_WornByEnemyDesc>
+	<HSKMoreHardcore_WornByEnemy>Battle-worn</HSKMoreHardcore_WornByEnemy>
+	<HSKMoreHardcore_WornByEnemyDesc>This item bears traces of battle.</HSKMoreHardcore_WornByEnemyDesc>
 </LanguageData>
