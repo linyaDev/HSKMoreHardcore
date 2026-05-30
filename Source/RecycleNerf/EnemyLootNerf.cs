@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using HarmonyLib;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -33,6 +35,16 @@ namespace HSKMoreHardcore
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf (skip Det for weapons) applied.");
             }
 
+            // Помечаем одежду при раздевании вражеской пешки
+            var apparelTryDrop = AccessTools.Method(typeof(Pawn_ApparelTracker), "TryDrop",
+                new Type[] { typeof(RimWorld.Apparel), typeof(RimWorld.Apparel).MakeByRefType(), typeof(IntVec3), typeof(bool) });
+            if (apparelTryDrop != null)
+            {
+                harmony.Patch(apparelTryDrop,
+                    postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(ApparelDropPostfix)));
+                Log.Message("[HSKMoreHardcore] EnemyLootNerf (apparel worn mark) applied.");
+            }
+
             var genInv = AccessTools.Method(typeof(RimWorld.PawnInventoryGenerator), "GenerateInventoryFor");
             if (genInv != null)
             {
@@ -48,6 +60,30 @@ namespace HSKMoreHardcore
                     postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(TryDropEquipmentPostfix)));
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf (equipment) applied.");
             }
+        }
+
+        // Помечаем одежду при раздевании вражеской пешки
+        public static void ApparelDropPostfix(Pawn_ApparelTracker __instance, RimWorld.Apparel ap, RimWorld.Apparel resultingAp)
+        {
+            var droppedApparel = resultingAp ?? ap;
+            if (droppedApparel == null)
+                return;
+
+            var pawn = __instance.pawn;
+
+            // Добавляем комп если нет
+            var comp = droppedApparel.TryGetComp<CompWornByEnemy>();
+            if (comp == null)
+            {
+                comp = new CompWornByEnemy();
+                comp.parent = droppedApparel;
+                droppedApparel.AllComps.Add(comp);
+            }
+
+            if (pawn != null && pawn.Faction != null && pawn.Faction.IsPlayer)
+                comp.worn = true;
+            else
+                comp.wornByEnemy = true;
         }
 
         // Пропускаем Core_SK урон для оружия — наша формула вместо этого
@@ -78,6 +114,13 @@ namespace HSKMoreHardcore
                 if (container == null)
                     return;
 
+                if (container.Count > 0)
+                {
+                    string items = "";
+                    foreach (var t in container)
+                        items += $"{t.def.defName}x{t.stackCount}, ";
+                    Log.Message($"[EnemyLootNerf] InventoryGen {p.LabelShort}: [{items}]");
+                }
 
                 for (int i = container.Count - 1; i >= 0; i--)
                 {
@@ -115,13 +158,37 @@ namespace HSKMoreHardcore
                 : NerfSettings.weaponHpMultiplierHomeMin + (NerfSettings.weaponHpMultiplierHomeMax - NerfSettings.weaponHpMultiplierHomeMin) * Mathf.Pow(Rand.Value, NerfSettings.weaponHpCurvePower);
             string tag = isAwayMap ? "away" : "home";
 
-            if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
+            if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1 && UsesArrows(resultingEq))
+            {
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} uses arrows, skipping HP nerf");
+            }
+            else if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
             {
                 int before = resultingEq.HitPoints;
                 int target = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * hpMult));
                 resultingEq.HitPoints = Mathf.Min(before, target);
                 Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} HP {before}/{resultingEq.MaxHitPoints} -> {resultingEq.HitPoints}/{resultingEq.MaxHitPoints}");
             }
+        }
+
+        private static bool UsesArrows(Thing thing)
+        {
+            var comp = thing.TryGetComp<ThingComp>();
+            // Ищем CompAmmoUser через рефлексию
+            foreach (var c in (thing as ThingWithComps)?.AllComps ?? new List<ThingComp>())
+            {
+                var propsField = AccessTools.Field(c.GetType(), "props");
+                var props = propsField?.GetValue(c);
+                if (props == null) continue;
+
+                var ammoSetField = AccessTools.Field(props.GetType(), "ammoSet");
+                if (ammoSetField == null) continue;
+
+                var ammoSet = ammoSetField.GetValue(props) as Def;
+                if (ammoSet != null && ammoSet.defName.Contains("Arrow"))
+                    return true;
+            }
+            return false;
         }
 
         public static void Prefix(Pawn_InventoryTracker __instance)
@@ -167,7 +234,7 @@ namespace HSKMoreHardcore
             for (int i = container.Count - 1; i >= 0; i--)
             {
                 var thing = container[i];
-                if (thing.def.IsWeapon && thing.HitPoints > 1)
+                if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
                 {
                     int before = thing.HitPoints;
                     int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * weaponHpMult));

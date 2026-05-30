@@ -92,6 +92,13 @@ namespace HSKMoreHardcore
                         Log.Message($"[PodLootNerf] Ammo {thing.def.defName}: {before} -> {thing.stackCount}");
                         nerfed++;
                     }
+                    else if (thing.def.IsDrug && thing.stackCount > 1)
+                    {
+                        int before = thing.stackCount;
+                        thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.podDrugMultiplier));
+                        Log.Message($"[PodLootNerf] Drug {thing.def.defName}: {before} -> {thing.stackCount}");
+                        nerfed++;
+                    }
                     else
                     {
                         Log.Message($"[PodLootNerf] Skip new thing: {thing.def.defName} x{thing.stackCount}, isMedicine={thing.def.IsMedicine}, isAmmo={ammoThingType?.IsInstanceOfType(thing)}");

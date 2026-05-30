@@ -24,6 +24,10 @@ namespace HSKMoreHardcore
 
         public static void Postfix(ref List<Thing> __result, Thing thing, float efficiency)
         {
+            // Только одежда — оружие не трогаем
+            if (!thing.def.IsApparel)
+                return;
+
             var costList = CostListCalculator.CostListAdjusted(thing);
             int totalCost = 0;
             foreach (var cost in costList)
@@ -34,7 +38,7 @@ namespace HSKMoreHardcore
             if (totalCost <= 0)
                 return;
 
-            // 5-10% of total material cost
+            // 10-15% of total material cost
             int amount = Mathf.Max(1, Mathf.FloorToInt(totalCost * Rand.Range(0.10f, 0.15f)));
 
             // Determine output: leather stuff -> Leather_Patch, fabric stuff -> Cloth

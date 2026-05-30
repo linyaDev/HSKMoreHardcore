@@ -19,6 +19,7 @@ namespace HSKMoreHardcore
         public static float traderAmmoMultiplier = 0.15f;
         public static float rewardAmmoMultiplier = 0.15f;
         public static float drugDropMultiplier = 0.33f;
+        public static float podDrugMultiplier = 0.5f;
         public static float ammoPriceMultiplier = 4f;
         public static float weaponPriceMultiplier = 2f;
 
@@ -29,7 +30,8 @@ namespace HSKMoreHardcore
         };
 
         // Fishing
-        public static int maxFishingPiers = 6;
+        public static int maxFishingPiers = 3;
+        public static int maxFishTraps = 5;
         public static float fishSpawnSlowdown = 1f; // множитель замедления пополнения рыбы
     }
 }

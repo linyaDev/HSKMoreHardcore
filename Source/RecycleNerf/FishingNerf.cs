@@ -84,6 +84,30 @@ namespace HSKMoreHardcore
                     postfix: new HarmonyMethod(typeof(FishingNerf), nameof(TrapPlaceProductPostfix)));
             }
 
+            // Показать время до поимки у ловушки
+            var trapType = AccessTools.TypeByName("SK.Building_FishTrap");
+            if (trapType != null)
+            {
+                var trapInspect = AccessTools.Method(trapType, "GetInspectString");
+                if (trapInspect != null)
+                {
+                    harmony.Patch(trapInspect,
+                        postfix: new HarmonyMethod(typeof(FishingNerf), nameof(TrapInspectPostfix)));
+                }
+            }
+
+            // Ограничение количества ловушек
+            var trapPlaceWorkerType = AccessTools.TypeByName("SK.PlaceWorker_FishTrap");
+            if (trapPlaceWorkerType != null)
+            {
+                var trapAllows = AccessTools.Method(trapPlaceWorkerType, "AllowsPlacing");
+                if (trapAllows != null)
+                {
+                    harmony.Patch(trapAllows,
+                        postfix: new HarmonyMethod(typeof(FishingNerf), nameof(TrapLimitPostfix)));
+                }
+            }
+
             // Ограничение количества причалов
             var placeWorkerType = AccessTools.TypeByName("SK.PlaceWorker_FishingPierSpawner");
             if (placeWorkerType != null)
@@ -250,7 +274,79 @@ namespace HSKMoreHardcore
                 distance = 15f;
         }
 
-        // Fish trap: multiply ticksToCatch x4 after SpawnSetup calculates it (only on new build)
+        // Показать точное время до поимки у ловушки
+        public static void TrapInspectPostfix(object __instance, ref string __result)
+        {
+            var ticksField = AccessTools.Field(__instance.GetType(), "ticksToCatch");
+            var fullField = AccessTools.Field(__instance.GetType(), "isFull");
+            if (ticksField == null)
+                return;
+
+            bool isFull = fullField != null && (bool)fullField.GetValue(__instance);
+            if (isFull)
+                return;
+
+            int ticksLeft = (int)ticksField.GetValue(__instance);
+            if (ticksLeft <= 0)
+                return;
+
+            float hoursLeft = ticksLeft / 2500f;
+            float daysLeft = hoursLeft / 24f;
+
+            string timeStr;
+            if (daysLeft >= 1f)
+                timeStr = $"{daysLeft:F1} days";
+            else
+                timeStr = $"{hoursLeft:F1}h";
+
+            __result += $"\nNext catch: {timeStr}";
+        }
+
+        private static Type trapTypeCache;
+
+        // Ограничение количества ловушек на карте
+        public static void TrapLimitPostfix(Map map, ref AcceptanceReport __result)
+        {
+            if (!__result.Accepted)
+                return;
+
+            if (trapTypeCache == null)
+                trapTypeCache = AccessTools.TypeByName("SK.Building_FishTrap");
+
+            if (trapTypeCache == null)
+                return;
+
+            int built = 0;
+            foreach (var b in map.listerBuildings.allBuildingsColonist)
+            {
+                if (trapTypeCache.IsInstanceOfType(b))
+                    built++;
+            }
+
+            int planned = 0;
+            foreach (var bp in map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint))
+            {
+                if (bp.def.entityDefToBuild is ThingDef td &&
+                    td.thingClass != null &&
+                    trapTypeCache.IsAssignableFrom(td.thingClass))
+                    planned++;
+            }
+            foreach (var frame in map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame))
+            {
+                if (frame.def.entityDefToBuild is ThingDef td &&
+                    td.thingClass != null &&
+                    trapTypeCache.IsAssignableFrom(td.thingClass))
+                    planned++;
+            }
+
+            int count = built + planned;
+            if (count >= NerfSettings.maxFishTraps)
+            {
+                __result = new AcceptanceReport($"Maximum {NerfSettings.maxFishTraps} fish traps allowed ({built} built, {planned} planned).");
+            }
+        }
+
+        // Ловушка: время поимки = интервал пирса (учёт биома)
         public static void TrapSpawnPostfix(object __instance, bool respawningAfterLoad)
         {
             if (respawningAfterLoad)
@@ -258,12 +354,29 @@ namespace HSKMoreHardcore
 
             var field = AccessTools.Field(__instance.GetType(), "ticksToCatch");
             var totalField = AccessTools.Field(__instance.GetType(), "totalTicks");
-            if (field != null)
+            if (field == null)
+                return;
+
+            var thing = __instance as Thing;
+            if (thing?.Map == null)
+                return;
+
+            int oldTicks = (int)field.GetValue(__instance);
+
+            // Биомный множитель
+            float biomeFactor = 1f;
+            var getBiomeFactor = AccessTools.Method("SK.Util_Zone_Fishing:GetBiomeFishSpawnRateFactor");
+            if (getBiomeFactor != null)
             {
-                int ticks = (int)field.GetValue(__instance);
-                field.SetValue(__instance, ticks * 4);
-                totalField?.SetValue(__instance, ticks * 4);
+                biomeFactor = (float)getBiomeFactor.Invoke(null, new object[] { thing.Map });
             }
+
+            float factor = biomeFactor * NerfSettings.fishSpawnSlowdown;
+            int interval = (int)(360000f * factor);
+
+            field.SetValue(__instance, interval);
+            totalField?.SetValue(__instance, interval);
+            Log.Message($"[FishingNerf] TrapSpawn: oldTicks={oldTicks}, newTicks={interval}, biomeFactor={biomeFactor}, slowdown={NerfSettings.fishSpawnSlowdown}");
         }
 
         private static Type pierSpawnerTypeCache;
@@ -327,17 +440,30 @@ namespace HSKMoreHardcore
             }
         }
 
-        // Fish trap: multiply ticksToCatch x4 after PlaceProduct resets it
+        // Ловушка: после поимки сбросить таймер по нашей формуле
         public static void TrapPlaceProductPostfix(object __instance)
         {
             var field = AccessTools.Field(__instance.GetType(), "ticksToCatch");
             var totalField = AccessTools.Field(__instance.GetType(), "totalTicks");
-            if (field != null)
+            if (field == null)
+                return;
+
+            var thing = __instance as Thing;
+            if (thing?.Map == null)
+                return;
+
+            float biomeFactor = 1f;
+            var getBiomeFactor = AccessTools.Method("SK.Util_Zone_Fishing:GetBiomeFishSpawnRateFactor");
+            if (getBiomeFactor != null)
             {
-                int ticks = (int)field.GetValue(__instance);
-                field.SetValue(__instance, ticks * 4);
-                totalField?.SetValue(__instance, ticks * 4);
+                biomeFactor = (float)getBiomeFactor.Invoke(null, new object[] { thing.Map });
             }
+
+            float factor = biomeFactor * NerfSettings.fishSpawnSlowdown;
+            int interval = (int)(360000f * factor);
+
+            field.SetValue(__instance, interval);
+            totalField?.SetValue(__instance, interval);
         }
     }
 }

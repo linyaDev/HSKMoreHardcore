@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<TradeSignal_OnCooldown>Перезарядка: {0}</TradeSignal_OnCooldown>
+	<TradeSignal_ConfirmPayment>При вызове каравана придётся дополнительно заплатить караванщику по прибытию {0} серебра. Давайте отложим эту сумму заранее?</TradeSignal_ConfirmPayment>
+	<TradeSignal_NotEnoughSilver>Недостаточно серебра. Нужно {0}, есть {1}.</TradeSignal_NotEnoughSilver>
+	<TradeSignal_CooldownShared>Готов к использованию.</TradeSignal_CooldownShared>
+	<TradeSignal_TooAdvanced>Мы попытались отправить сообщение, но другие племена не поняли нас.</TradeSignal_TooAdvanced>
+
+	<TribalSignal_CommandLabel>Позвать племенных торговцев</TribalSignal_CommandLabel>
+	<TribalSignal_CommandDesc>Поднять дымовой сигнал. Случайная не враждебная неолитовая фракция с караванами получит зов; караван придёт не сразу, а через некоторое время. Требуется {0} серебра. После вызова действует перезарядка.</TribalSignal_CommandDesc>
+	<TribalSignal_Scheduled>Сигнал отправлен фракции «{0}». Торговый караван ожидается примерно через {1} дн.</TribalSignal_Scheduled>
+	<TribalSignal_NoFaction>Нет подходящей племенной фракции (Neolithic, не враг, есть торговцы, температура).</TribalSignal_NoFaction>
+	<TribalSignal_Burning>Сигнальный костёр горит. Караван прибудет через {0}.</TribalSignal_Burning>
+	<TribalSignal_BurnedOut>Сигнальный костёр догорел.</TribalSignal_BurnedOut>
+
+	<HSKMoreHardcore_Worn>Ношеное</HSKMoreHardcore_Worn>
+	<HSKMoreHardcore_WornDesc>Этот предмет носил колонист.</HSKMoreHardcore_WornDesc>
+	<HSKMoreHardcore_WornByEnemy>Снято с врага</HSKMoreHardcore_WornByEnemy>
+	<HSKMoreHardcore_WornByEnemyDesc>Этот предмет снят с врага.</HSKMoreHardcore_WornByEnemyDesc>
+</LanguageData>
