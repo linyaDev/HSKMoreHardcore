@@ -6,7 +6,8 @@ namespace HSKMoreHardcore
 {
     // Нерф прочности брони в луте: зависит от защиты брони (по шкале Combat Extended) и нашего уровня развития.
     // Уровень развития берём из Faction.def.techLevel — его динамически поднимает мод Tech Advancing
-    // по мере исследований (Neolithic=1 ... Industrial=3 ... Spacer=4 ... Ultra=5 ... Archotech=6).
+    // по мере исследований. Значения enum TechLevel:
+    // Undefined=0, Animal=1, Neolithic=2, Medieval=3, Industrial=4, Spacer=5, Ultra=6, Archotech=7.
     //
     // ВАЖНО про CE: Sharp (~мм RHA) и Blunt (~МПа) — разные единицы, их нельзя складывать.
     // Нормируем каждый по своей опорной точке (топ-броня = катафракт: Sharp 28, Blunt 60)

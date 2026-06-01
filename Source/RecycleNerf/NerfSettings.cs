@@ -36,8 +36,9 @@ namespace HSKMoreHardcore
         public static float armorHpMin = 0.15f;          // floor multiplier at maximum nerf
         public static float armorSharpRef = 28f;         // CE Sharp of top-tier armor = "fully protective"
         public static float armorBluntRef = 60f;         // CE Blunt of top-tier armor = "fully protective"
-        public static int armorDevLevelMin = 1;          // bottom of the scale = Neolithic (Animal treated as Neolithic)
-        public static int armorDevLevelRef = 4;          // dev level (Spacer) at which the nerf fully fades
+        // TechLevel enum: Undefined=0, Animal=1, Neolithic=2, Medieval=3, Industrial=4, Spacer=5, Ultra=6, Archotech=7
+        public static int armorDevLevelMin = 2;          // bottom of the scale = Neolithic (Animal treated as Neolithic)
+        public static int armorDevLevelRef = 5;          // dev level (Spacer) at which the nerf fully fades
 
         // Fishing
         public static int maxFishingPiers = 3;

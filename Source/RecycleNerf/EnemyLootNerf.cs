@@ -160,8 +160,7 @@ namespace HSKMoreHardcore
 
             var map = pawn.Map ?? pawn.MapHeld;
             bool isAwayMap = map != null && !map.IsPlayerHome;
-            float hpMult = isAwayMap ? NerfSettings.weaponHpMultiplierAway
-                : NerfSettings.weaponHpMultiplierHomeMin + (NerfSettings.weaponHpMultiplierHomeMax - NerfSettings.weaponHpMultiplierHomeMin) * Mathf.Pow(Rand.Value, NerfSettings.weaponHpCurvePower);
+            WeaponHpCalc calc = ComputeWeaponHpMult(isAwayMap);
             string tag = isAwayMap ? "away" : "home";
 
             if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1 && UsesArrows(resultingEq))
@@ -171,10 +170,50 @@ namespace HSKMoreHardcore
             else if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
             {
                 int before = resultingEq.HitPoints;
-                int target = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * hpMult));
+                int target = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * calc.mult));
                 resultingEq.HitPoints = Mathf.Min(before, target);
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} HP {before}/{resultingEq.MaxHitPoints} -> {resultingEq.HitPoints}/{resultingEq.MaxHitPoints}");
+                string note = target >= before ? "; цель >= текущей, оставлено боевое значение" : "";
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} " +
+                            $"{WeaponHpBreakdown(calc)}, цель={target}/{resultingEq.MaxHitPoints}, " +
+                            $"HP {before}/{resultingEq.MaxHitPoints} -> {resultingEq.HitPoints}/{resultingEq.MaxHitPoints}{note}");
             }
+        }
+
+        // Разбор расчёта множителя прочности оружия (для логов)
+        private struct WeaponHpCalc
+        {
+            public bool away;
+            public float roll;    // Rand.Value (NaN на away — там фиксированный множитель)
+            public float curved;  // roll^power
+            public float mult;
+        }
+
+        private static WeaponHpCalc ComputeWeaponHpMult(bool isAwayMap)
+        {
+            WeaponHpCalc c = default;
+            c.away = isAwayMap;
+            if (isAwayMap)
+            {
+                c.roll = float.NaN;
+                c.curved = float.NaN;
+                c.mult = NerfSettings.weaponHpMultiplierAway;
+            }
+            else
+            {
+                c.roll = Rand.Value;
+                c.curved = Mathf.Pow(c.roll, NerfSettings.weaponHpCurvePower);
+                c.mult = NerfSettings.weaponHpMultiplierHomeMin
+                       + (NerfSettings.weaponHpMultiplierHomeMax - NerfSettings.weaponHpMultiplierHomeMin) * c.curved;
+            }
+            return c;
+        }
+
+        private static string WeaponHpBreakdown(WeaponHpCalc c)
+        {
+            if (c.away)
+                return $"away (фикс. множитель={c.mult:F2})";
+            return $"roll={c.roll:F3}, roll^{NerfSettings.weaponHpCurvePower:F1}={c.curved:F3}, " +
+                   $"диапазон {NerfSettings.weaponHpMultiplierHomeMin:F2}..{NerfSettings.weaponHpMultiplierHomeMax:F2} => множитель={c.mult:F2}";
         }
 
         private static bool UsesArrows(Thing thing)
@@ -234,18 +273,20 @@ namespace HSKMoreHardcore
                 }
             }
 
-            // Damage weapons in inventory
-            float weaponHpMult = isAwayMap ? NerfSettings.weaponHpMultiplierAway
-                : NerfSettings.weaponHpMultiplierHomeMin + (NerfSettings.weaponHpMultiplierHomeMax - NerfSettings.weaponHpMultiplierHomeMin) * Mathf.Pow(Rand.Value, NerfSettings.weaponHpCurvePower);
+            // Damage weapons in inventory (один бросок на пешку, применяется ко всему её оружию в инвентаре)
+            WeaponHpCalc weaponCalc = ComputeWeaponHpMult(isAwayMap);
             for (int i = container.Count - 1; i >= 0; i--)
             {
                 var thing = container[i];
                 if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
                 {
                     int before = thing.HitPoints;
-                    int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * weaponHpMult));
+                    int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * weaponCalc.mult));
                     thing.HitPoints = Mathf.Min(before, target);
-                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}");
+                    string note = target >= before ? "; цель >= текущей, оставлено боевое значение" : "";
+                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} " +
+                                $"{WeaponHpBreakdown(weaponCalc)}, цель={target}/{thing.MaxHitPoints}, " +
+                                $"HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}{note}");
                 }
             }
         }
