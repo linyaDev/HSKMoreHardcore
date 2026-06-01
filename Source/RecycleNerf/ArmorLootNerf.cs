@@ -4,25 +4,26 @@ using Verse;
 
 namespace HSKMoreHardcore
 {
-    // Нерф прочности брони в луте: зависит от защиты брони (по шкале Combat Extended) и нашего уровня развития.
-    // Уровень развития берём из Faction.def.techLevel — его динамически поднимает мод Tech Advancing
-    // по мере исследований. Значения enum TechLevel:
-    // Undefined=0, Animal=1, Neolithic=2, Medieval=3, Industrial=4, Spacer=5, Ultra=6, Archotech=7.
+    // Нерф прочности брони в луте: рандомный, как у оружия, но крутизна кривой растёт с «разрывом технологий»
+    // между бронёй и нашим уровнем развития.
     //
-    // ВАЖНО про CE: Sharp (~мм RHA) и Blunt (~МПа) — разные единицы, их нельзя складывать.
-    // Нормируем каждый по своей опорной точке (топ-броня = катафракт: Sharp 28, Blunt 60)
-    // и берём максимум — насколько броня защищает «в лучшем случае».
+    // Уровень развития игрока берём из Faction.def.techLevel (его двигает мод Tech Advancing).
+    // Значения enum TechLevel: Undefined=0, Animal=1, Neolithic=2, Medieval=3, Industrial=4, Spacer=5, Ultra=6, Archotech=7.
+    //
+    // ВАЖНО: техуровень самой брони НЕ берём из def.techLevel/тегов (в модпаке они битые),
+    // а выводим из её защиты по шкале Combat Extended (Sharp/Blunt).
     public static class ArmorLootNerf
     {
         // Полный разбор расчёта (для логов)
         public struct Calc
         {
-            public float sharp, blunt;       // CE-значения брони
-            public float sharpNorm, bluntNorm, protNorm;
-            public int dev;
-            public float devNorm;
-            public float nerf;               // 0 = нет нерфа, 1 = максимум
-            public float mult;               // итоговый множитель прочности
+            public float sharp;       // CE Sharp брони
+            public int armorTier;     // техуровень брони, выведенный из Sharp по порогам
+            public int dev;           // наш уровень развития
+            public int gap;           // armorTier - dev
+            public float power;       // степень кривой рандома (0 если нерфа нет)
+            public float roll;        // Rand.Value (NaN если нерфа нет)
+            public float mult;        // итоговый множитель прочности
         }
 
         // Текущий уровень развития игрока
@@ -34,27 +35,50 @@ namespace HSKMoreHardcore
             return (int)f.def.techLevel;
         }
 
+        // Техуровень брони по порогам Sharp (только Sharp). Ниже первого порога — Neolithic (2).
+        public static int ArmorTierFromSharp(float sharp)
+        {
+            if (sharp >= NerfSettings.armorSharpUltra) return 6;       // Ultra
+            if (sharp >= NerfSettings.armorSharpSpacer) return 5;      // Spacer
+            if (sharp >= NerfSettings.armorSharpIndustrial) return 4;  // Industrial
+            if (sharp >= NerfSettings.armorSharpMedieval) return 3;    // Medieval
+            return 2;                                                  // Neolithic
+        }
+
         public static Calc Compute(Apparel ap)
         {
             Calc c = default;
             c.sharp = ap.GetStatValue(StatDefOf.ArmorRating_Sharp);
-            c.blunt = ap.GetStatValue(StatDefOf.ArmorRating_Blunt);
-
-            c.sharpNorm = Mathf.Clamp01(c.sharp / NerfSettings.armorSharpRef);
-            c.bluntNorm = Mathf.Clamp01(c.blunt / NerfSettings.armorBluntRef);
-            c.protNorm = Mathf.Max(c.sharpNorm, c.bluntNorm);
+            c.armorTier = ArmorTierFromSharp(c.sharp);
 
             c.dev = PlayerDevLevel();
-            // Шкала развития считается от Neolithic (Animal приравнивается к Neolithic) до Spacer
-            float devSpan = Mathf.Max(1, NerfSettings.armorDevLevelRef - NerfSettings.armorDevLevelMin);
-            c.devNorm = Mathf.Clamp01((c.dev - NerfSettings.armorDevLevelMin) / devSpan);
+            c.gap = c.armorTier - c.dev;
 
-            c.nerf = c.protNorm * (1f - c.devNorm); // чем выше защита и ниже развитие — тем больше
-            c.mult = Mathf.Lerp(1f, NerfSettings.armorHpMin, c.nerf);
+            if (c.gap <= 0)
+            {
+                // Броня нашего уровня или ниже — не трогаем
+                c.power = 0f;
+                c.roll = float.NaN;
+                c.mult = 1f;
+                return c;
+            }
+
+            // Чем больше разрыв — тем круче кривая и тем вероятнее низкая прочность (как у оружия)
+            c.power = NerfSettings.armorGapPower * c.gap;
+            c.roll = Rand.Value;
+            c.mult = NerfSettings.armorHpMin + (1f - NerfSettings.armorHpMin) * Mathf.Pow(c.roll, c.power);
             return c;
         }
 
         public static float MultiplierFor(Apparel ap) => Compute(ap).mult;
+
+        private static string Breakdown(Calc c)
+        {
+            string head = $"Sharp={c.sharp:F1} => техур.брони={c.armorTier}, развитие={c.dev}, разрыв={c.gap}";
+            if (c.gap <= 0)
+                return head + " (<=0)";
+            return head + $", power={c.power:F1}, roll={c.roll:F3}, roll^power={Mathf.Pow(c.roll, c.power):F3} => множитель={c.mult:F2}";
+        }
 
         // Применить нерф к броне (только понижаем прочность). Возвращает true, если что-то изменили.
         public static bool Apply(Apparel ap, string tag)
@@ -63,13 +87,10 @@ namespace HSKMoreHardcore
                 return false;
 
             Calc c = Compute(ap);
-            string breakdown = $"защита S{c.sharp:F1}(норм {c.sharpNorm:F2})/B{c.blunt:F1}(норм {c.bluntNorm:F2}) " +
-                               $"protNorm={c.protNorm:F2}, развитие={c.dev} (devNorm={c.devNorm:F2}) => " +
-                               $"нерф={c.nerf:P0}, множитель={c.mult:F2}";
 
             if (c.mult >= 1f)
             {
-                Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {breakdown} — без изменений (HP {ap.HitPoints}/{ap.MaxHitPoints})");
+                Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {Breakdown(c)} — без изменений (HP {ap.HitPoints}/{ap.MaxHitPoints})");
                 return false;
             }
 
@@ -77,12 +98,12 @@ namespace HSKMoreHardcore
             int target = Mathf.Max(1, Mathf.FloorToInt(ap.MaxHitPoints * c.mult));
             if (target >= before)
             {
-                Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {breakdown}, но прочность {before}/{ap.MaxHitPoints} и так ниже целевой ({target}) — без изменений");
+                Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {Breakdown(c)}, цель={target}/{ap.MaxHitPoints} >= текущей {before} — оставлено боевое значение");
                 return false;
             }
 
             ap.HitPoints = target;
-            Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {breakdown}, прочность {before}/{ap.MaxHitPoints} -> {target}/{ap.MaxHitPoints}");
+            Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {Breakdown(c)}, прочность {before}/{ap.MaxHitPoints} -> {target}/{ap.MaxHitPoints}");
             return true;
         }
     }

@@ -29,16 +29,20 @@ namespace HSKMoreHardcore
             "AlphaPoly"
         };
 
-        // Armor (apparel) HP nerf on loot — scales with armor protection and player dev level.
-        // Uses Combat Extended armor scale (Sharp ~mmRHA, Blunt ~MPa) — the two are NOT summed,
-        // each is normalized against a top-tier reference (cataphract) and the max is used.
-        public static bool armorHpNerfEnabled = true;
-        public static float armorHpMin = 0.15f;          // floor multiplier at maximum nerf
-        public static float armorSharpRef = 28f;         // CE Sharp of top-tier armor = "fully protective"
-        public static float armorBluntRef = 60f;         // CE Blunt of top-tier armor = "fully protective"
+        // Armor (apparel) HP nerf on loot — randomized like the weapon nerf, but the curve power
+        // scales with the "tech gap" between the armor and the player's dev level.
+        // The armor's tech tier is derived from its Combat Extended armor rating (Sharp/Blunt),
+        // because the modpack's techLevel tags are unreliable.
         // TechLevel enum: Undefined=0, Animal=1, Neolithic=2, Medieval=3, Industrial=4, Spacer=5, Ultra=6, Archotech=7
-        public static int armorDevLevelMin = 2;          // bottom of the scale = Neolithic (Animal treated as Neolithic)
-        public static int armorDevLevelRef = 5;          // dev level (Spacer) at which the nerf fully fades
+        public static bool armorHpNerfEnabled = true;
+        public static float armorHpMin = 0.15f;          // floor multiplier (best-case durability at huge gap)
+        // Manual Sharp thresholds -> armor tech tier (below Medieval = Neolithic=2).
+        // Armor's tier is a step function of its CE Sharp rating (techLevel tags are unreliable here).
+        public static float armorSharpMedieval = 3f;     // Sharp >= 3  -> Medieval (3)
+        public static float armorSharpIndustrial = 8f;   // Sharp >= 8  -> Industrial (4)
+        public static float armorSharpSpacer = 16f;      // Sharp >= 16 -> Spacer (5)
+        public static float armorSharpUltra = 26f;       // Sharp >= 26 -> Ultra (6)
+        public static float armorGapPower = 2f;          // roll-curve power per tier of tech gap
 
         // Fishing
         public static int maxFishingPiers = 3;
