@@ -81,9 +81,15 @@ namespace HSKMoreHardcore
             }
 
             if (pawn != null && pawn.Faction != null && pawn.Faction.IsPlayer)
+            {
                 comp.worn = true;
+            }
             else
+            {
                 comp.wornByEnemy = true;
+                // Нерф прочности брони, снятой с врага (по защите и нашему уровню развития)
+                ArmorLootNerf.Apply(droppedApparel, "enemy");
+            }
         }
 
         // Пропускаем Core_SK урон для оружия — наша формула вместо этого

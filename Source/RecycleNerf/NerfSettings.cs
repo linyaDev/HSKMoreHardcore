@@ -29,6 +29,16 @@ namespace HSKMoreHardcore
             "AlphaPoly"
         };
 
+        // Armor (apparel) HP nerf on loot — scales with armor protection and player dev level.
+        // Uses Combat Extended armor scale (Sharp ~mmRHA, Blunt ~MPa) — the two are NOT summed,
+        // each is normalized against a top-tier reference (cataphract) and the max is used.
+        public static bool armorHpNerfEnabled = true;
+        public static float armorHpMin = 0.15f;          // floor multiplier at maximum nerf
+        public static float armorSharpRef = 28f;         // CE Sharp of top-tier armor = "fully protective"
+        public static float armorBluntRef = 60f;         // CE Blunt of top-tier armor = "fully protective"
+        public static int armorDevLevelMin = 1;          // bottom of the scale = Neolithic (Animal treated as Neolithic)
+        public static int armorDevLevelRef = 4;          // dev level (Spacer) at which the nerf fully fades
+
         // Fishing
         public static int maxFishingPiers = 3;
         public static int maxFishTraps = 5;

@@ -99,6 +99,12 @@ namespace HSKMoreHardcore
                         Log.Message($"[PodLootNerf] Drug {thing.def.defName}: {before} -> {thing.stackCount}");
                         nerfed++;
                     }
+                    else if (thing is RimWorld.Apparel apparel)
+                    {
+                        // Нерф прочности брони из капсул/ящиков (по защите и нашему уровню развития)
+                        if (ArmorLootNerf.Apply(apparel, "pod"))
+                            nerfed++;
+                    }
                     else
                     {
                         Log.Message($"[PodLootNerf] Skip new thing: {thing.def.defName} x{thing.stackCount}, isMedicine={thing.def.IsMedicine}, isAmmo={ammoThingType?.IsInstanceOfType(thing)}");
