@@ -69,7 +69,7 @@ namespace HSKMoreHardcore
                     prefix: new HarmonyMethod(typeof(FishingNerf), nameof(PierDistancePrefix)));
             }
 
-            // Slow down fish traps x4
+            // Перевод ловушек на нашу формулу таймера (биом × fishSpawnSlowdown)
             var trapSpawnSetup = AccessTools.Method("SK.Building_FishTrap:SpawnSetup");
             if (trapSpawnSetup != null)
             {
@@ -361,8 +361,6 @@ namespace HSKMoreHardcore
             if (thing?.Map == null)
                 return;
 
-            int oldTicks = (int)field.GetValue(__instance);
-
             // Биомный множитель
             float biomeFactor = 1f;
             var getBiomeFactor = AccessTools.Method("SK.Util_Zone_Fishing:GetBiomeFishSpawnRateFactor");
@@ -376,7 +374,6 @@ namespace HSKMoreHardcore
 
             field.SetValue(__instance, interval);
             totalField?.SetValue(__instance, interval);
-            Log.Message($"[FishingNerf] TrapSpawn: oldTicks={oldTicks}, newTicks={interval}, biomeFactor={biomeFactor}, slowdown={NerfSettings.fishSpawnSlowdown}");
         }
 
         private static Type pierSpawnerTypeCache;
