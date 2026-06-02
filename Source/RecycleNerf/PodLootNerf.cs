@@ -99,6 +99,13 @@ namespace HSKMoreHardcore
                         Log.Message($"[PodLootNerf] Drug {thing.def.defName}: {before} -> {thing.stackCount}");
                         nerfed++;
                     }
+                    else if (NerfSettings.removePodWeapons && thing.def.IsWeapon)
+                    {
+                        // Оружие из капсул/ящиков удаляем полностью
+                        Log.Message($"[PodLootNerf] Destroyed weapon: {thing.def.defName}");
+                        thing.Destroy();
+                        nerfed++;
+                    }
                     else if (thing is RimWorld.Apparel apparel)
                     {
                         // Нерф прочности брони из капсул/ящиков (по защите и нашему уровню развития)

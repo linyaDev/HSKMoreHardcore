@@ -29,6 +29,9 @@ namespace HSKMoreHardcore
             "AlphaPoly"
         };
 
+        // Remove all weapons from pod/crate loot
+        public static bool removePodWeapons = true;
+
         // Armor (apparel) HP nerf on loot — randomized like the weapon nerf, but the curve power
         // scales with the "tech gap" between the armor and the player's dev level.
         // The armor's tech tier is derived from its Combat Extended armor rating (Sharp/Blunt),

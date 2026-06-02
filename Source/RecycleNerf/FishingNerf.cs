@@ -290,7 +290,8 @@ namespace HSKMoreHardcore
             if (ticksLeft <= 0)
                 return;
 
-            float hoursLeft = ticksLeft / 2500f;
+            // ticksLeft — единицы счётчика (1 = 250 игровых тиков), без наживки. 2500 тиков = 1 час.
+            float hoursLeft = ticksLeft * 250f / 2500f;
             float daysLeft = hoursLeft / 24f;
 
             string timeStr;
@@ -299,7 +300,7 @@ namespace HSKMoreHardcore
             else
                 timeStr = $"{hoursLeft:F1}h";
 
-            __result += $"\nNext catch: {timeStr}";
+            __result += $"\nNext catch (no bait): {timeStr}";
         }
 
         private static Type trapTypeCache;
@@ -346,7 +347,7 @@ namespace HSKMoreHardcore
             }
         }
 
-        // Ловушка: время поимки = интервал пирса (учёт биома)
+        // Ловушка: фиксированный таймер поимки (с учётом биома)
         public static void TrapSpawnPostfix(object __instance, bool respawningAfterLoad)
         {
             if (respawningAfterLoad)
@@ -370,7 +371,9 @@ namespace HSKMoreHardcore
             }
 
             float factor = biomeFactor * NerfSettings.fishSpawnSlowdown;
-            int interval = (int)(360000f * factor);
+            // /250: у ловушки ticksToCatch — это счётчик, уменьшается на 1 за каждый 250-тиковый интервал,
+            // а не на 1 за тик. Поэтому переводим целевые игровые тики в единицы счётчика.
+            int interval = (int)(360000f * factor / 250f);
 
             field.SetValue(__instance, interval);
             totalField?.SetValue(__instance, interval);
@@ -457,7 +460,9 @@ namespace HSKMoreHardcore
             }
 
             float factor = biomeFactor * NerfSettings.fishSpawnSlowdown;
-            int interval = (int)(360000f * factor);
+            // /250: у ловушки ticksToCatch — это счётчик, уменьшается на 1 за каждый 250-тиковый интервал,
+            // а не на 1 за тик. Поэтому переводим целевые игровые тики в единицы счётчика.
+            int interval = (int)(360000f * factor / 250f);
 
             field.SetValue(__instance, interval);
             totalField?.SetValue(__instance, interval);
