@@ -46,6 +46,12 @@ namespace HSKMoreHardcore
         public static float armorSharpSpacer = 16f;      // Sharp >= 16 -> Spacer (5)
         public static float armorSharpUltra = 26f;       // Sharp >= 26 -> Ultra (6)
         public static float armorGapPower = 2f;          // roll-curve power per tier of tech gap
+        // Manual tier overrides by defName (for items whose Sharp doesn't reflect their tech, e.g. shield belts).
+        // TechLevel: Neolithic=2, Medieval=3, Industrial=4, Spacer=5, Ultra=6, Archotech=7.
+        public static Dictionary<string, int> armorTierOverrides = new Dictionary<string, int>
+        {
+            { "Apparel_ShieldBelt", 5 }, // Spacer — нет Sharp-брони, задаём тир вручную
+        };
 
         // Fishing
         public static int maxFishingPiers = 3;

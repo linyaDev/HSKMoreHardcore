@@ -49,7 +49,11 @@ namespace HSKMoreHardcore
         {
             Calc c = default;
             c.sharp = ap.GetStatValue(StatDefOf.ArmorRating_Sharp);
-            c.armorTier = ArmorTierFromSharp(c.sharp);
+            // Ручной override тира (напр. пояс-щит) важнее порогов Sharp
+            if (NerfSettings.armorTierOverrides.TryGetValue(ap.def.defName, out int overrideTier))
+                c.armorTier = overrideTier;
+            else
+                c.armorTier = ArmorTierFromSharp(c.sharp);
 
             c.dev = PlayerDevLevel();
             c.gap = c.armorTier - c.dev;
