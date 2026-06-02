@@ -32,6 +32,10 @@ namespace HSKMoreHardcore
         // Remove all weapons from pod/crate loot
         public static bool removePodWeapons = true;
 
+        // Market value multipliers for marked apparel (CompWornByEnemy)
+        public static float wornByEnemyValueMult = 0.3f; // снято с врага в бою -> 30% цены
+        public static float wornValueMult = 0.4f;        // носил наш колонист -> 40% цены
+
         // Armor (apparel) HP nerf on loot — randomized like the weapon nerf, but the curve power
         // scales with the "tech gap" between the armor and the player's dev level.
         // The armor's tech tier is derived from its Combat Extended armor rating (Sharp/Blunt),

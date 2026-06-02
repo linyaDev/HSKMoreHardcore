@@ -81,6 +81,7 @@ namespace HSKMoreHardcore
             if (trapPlaceProduct != null)
             {
                 harmony.Patch(trapPlaceProduct,
+                    prefix: new HarmonyMethod(typeof(FishingNerf), nameof(TrapPlaceProductPrefix)),
                     postfix: new HarmonyMethod(typeof(FishingNerf), nameof(TrapPlaceProductPostfix)));
             }
 
@@ -438,6 +439,131 @@ namespace HSKMoreHardcore
             {
                 field.SetValue(__instance, 0);
             }
+        }
+
+        // Кэш рефлексии для выбора вида рыбы
+        private static System.Reflection.MethodInfo getFishListMethod;
+        private static Type fishSpeciesType;
+        private static System.Reflection.FieldInfo fLivesOcean, fLivesRiver, fLivesMarsh, fCommonality;
+
+        // Ловушка: полностью заменяем оригинальную логику поимки на гарантированную.
+        // Таймер дошёл до 0 -> 100% ловится одна рыба (без шанса провала и без самоповреждения ловушки).
+        // Возврат false пропускает оригинальный PlaceProduct; таймер сбросит постфикс ниже.
+        public static bool TrapPlaceProductPrefix(object __instance)
+        {
+            var thing = __instance as Thing;
+            if (thing?.Map == null)
+                return false;
+
+            // Износ ловушки при поимке (как в оригинале). Если разрушилась — рыбы нет.
+            if (ApplyTrapWear(thing))
+                return false;
+
+            SpawnGuaranteedFish(thing);
+            return false;
+        }
+
+        // Износ ловушки: шанс получить урон зависит от качества. Возвращает true, если ловушка разрушилась.
+        private static bool ApplyTrapWear(Thing trap)
+        {
+            float damageChance = 0.5f;
+            if (QualityUtility.TryGetQuality(trap, out QualityCategory q))
+            {
+                switch ((int)q)
+                {
+                    case 0: damageChance = 0.7f; break;  // Awful
+                    case 1: damageChance = 0.6f; break;  // Poor
+                    case 3: damageChance = 0.4f; break;  // Good
+                    case 4: damageChance = 0.3f; break;  // Excellent
+                    case 5: damageChance = 0.2f; break;  // Masterwork
+                    case 6: damageChance = 0.15f; break; // Legendary
+                }
+            }
+
+            int damage = 0;
+            if (Rand.Value <= damageChance)
+            {
+                damage = Rand.RangeInclusive(0, 10);
+                if (Rand.Value < 0.5f)
+                    damage += Rand.RangeInclusive(10, 20);
+            }
+            if (damage <= 0)
+                return false;
+
+            if (trap.HitPoints <= damage)
+            {
+                var map = trap.Map;
+                var pos = trap.Position;
+                trap.Destroy((DestroyMode)2); // Deconstruct — как в оригинале (роняет материалы)
+                Messages.Message("HSK.FishTrapDestroyed".Translate(),
+                    new TargetInfo(pos, map, false), MessageTypeDefOf.NeutralEvent, true);
+                return true;
+            }
+
+            trap.HitPoints -= damage;
+            return false;
+        }
+
+        private static void SpawnGuaranteedFish(Thing trap)
+        {
+            var map = trap.Map;
+            var pos = trap.Position;
+
+            if (getFishListMethod == null)
+                getFishListMethod = AccessTools.Method("SK.Util_FishIndustry:GetFishSpeciesList");
+            if (fishSpeciesType == null)
+                fishSpeciesType = AccessTools.TypeByName("SK.PawnKindDef_FishSpecies");
+            if (getFishListMethod == null || fishSpeciesType == null)
+                return;
+            if (fLivesOcean == null) fLivesOcean = AccessTools.Field(fishSpeciesType, "livesInOcean");
+            if (fLivesRiver == null) fLivesRiver = AccessTools.Field(fishSpeciesType, "livesInRiver");
+            if (fLivesMarsh == null) fLivesMarsh = AccessTools.Field(fishSpeciesType, "livesInMarsh");
+            if (fCommonality == null) fCommonality = AccessTools.Field(fishSpeciesType, "commonality");
+            if (fLivesOcean == null || fLivesRiver == null || fLivesMarsh == null || fCommonality == null)
+                return;
+
+            var species = getFishListMethod.Invoke(null, new object[] { map.Biome }) as System.Collections.IEnumerable;
+            if (species == null)
+                return;
+
+            var terr = map.terrainGrid.TerrainAt(pos);
+            bool ocean = terr == TerrainDefOf.WaterOceanShallow || terr == TerrainDefOf.WaterOceanDeep;
+            bool marsh = terr == TerrainDef.Named("Marsh");
+
+            // Взвешенный выбор вида по типу воды (по commonality)
+            var candidates = new List<KeyValuePair<PawnKindDef, float>>();
+            float totalWeight = 0f;
+            foreach (var s in species)
+            {
+                bool ok = ocean ? (bool)fLivesOcean.GetValue(s)
+                        : (marsh ? (bool)fLivesMarsh.GetValue(s) : (bool)fLivesRiver.GetValue(s));
+                if (!ok)
+                    continue;
+                float w = (float)fCommonality.GetValue(s);
+                if (w <= 0f)
+                    continue;
+                candidates.Add(new KeyValuePair<PawnKindDef, float>((PawnKindDef)s, w));
+                totalWeight += w;
+            }
+            if (candidates.Count == 0 || totalWeight <= 0f)
+                return;
+
+            PawnKindDef chosen = candidates[candidates.Count - 1].Key;
+            float roll = Rand.Value * totalWeight;
+            foreach (var c in candidates)
+            {
+                roll -= c.Value;
+                if (roll <= 0f)
+                {
+                    chosen = c.Key;
+                    break;
+                }
+            }
+
+            var pawn = PawnGenerator.GeneratePawn(chosen, null);
+            var corpse = (Corpse)ThingMaker.MakeThing(pawn.RaceProps.corpseDef);
+            corpse.InnerPawn = pawn;
+            GenSpawn.Spawn(corpse, pos, map);
         }
 
         // Ловушка: после поимки сбросить таймер по нашей формуле

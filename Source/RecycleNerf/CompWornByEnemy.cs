@@ -1,7 +1,44 @@
+using System.Collections.Generic;
 using Verse;
 
 namespace HSKMoreHardcore
 {
+    // Привязывает CompProperties_WornByEnemy ко всем дефам одежды при старте игры,
+    // чтобы метка «со следами боя» (worn/wornByEnemy) сохранялась между загрузками.
+    // Делаем в коде, а не XML: проверка по финальным дефам исключает задвоение компа
+    // через наследование абстрактных дефов (которое ломало бы скрайб при загрузке).
+    // Старт происходит до загрузки любого сейва, так что вещи получают комп при загрузке.
+    [StaticConstructorOnStartup]
+    public static class WornByEnemyCompInjector
+    {
+        static WornByEnemyCompInjector()
+        {
+            int injected = 0;
+            foreach (var def in DefDatabase<ThingDef>.AllDefsListForReading)
+            {
+                if (!def.IsApparel)
+                    continue;
+                if (def.comps == null)
+                    def.comps = new List<CompProperties>();
+                bool already = false;
+                foreach (var c in def.comps)
+                {
+                    if (c is CompProperties_WornByEnemy)
+                    {
+                        already = true;
+                        break;
+                    }
+                }
+                if (!already)
+                {
+                    def.comps.Add(new CompProperties_WornByEnemy());
+                    injected++;
+                }
+            }
+            Log.Message($"[HSKMoreHardcore] WornByEnemy comp injected into {injected} apparel defs.");
+        }
+    }
+
     public class CompWornByEnemy : ThingComp
     {
         public bool worn;
