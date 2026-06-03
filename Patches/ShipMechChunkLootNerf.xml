@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- "Technical compartment chunk" (ShipMechChunk): remove electronic and industrial
+	     components from its costList so deconstruction no longer yields them. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="ShipMechChunk"]/costList/ElectronicComponents</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="ShipMechChunk"]/costList/ComponentIndustrial</xpath>
+	</Operation>
+</Patch>
