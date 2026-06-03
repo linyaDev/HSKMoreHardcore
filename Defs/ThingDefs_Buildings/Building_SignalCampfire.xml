@@ -32,7 +32,7 @@
 		</building>
 		<tickerType>Normal</tickerType>
 		<costList>
-			<WoodLog>70</WoodLog>
+			<WoodLog>35</WoodLog>
 		</costList>
 		<comps>
 			<li Class="CompProperties_Glower">
