@@ -36,6 +36,21 @@ namespace HSKMoreHardcore
         public static float wornByEnemyValueMult = 0.3f; // снято с врага в бою -> 30% цены
         public static float wornValueMult = 0.4f;        // носил наш колонист -> 40% цены
 
+        // Quality-additive offsets for apparel equipped stats.
+        // Added to the apparel's equipped offset: delta = dir * (qualityIndex - baseline) * step,
+        // where dir = +1 (higher is better) or -1 (lower is better). QualityCategory index: Awful=0..Legendary=6.
+        public static int apparelQualityBaselineIndex = 3; // Good — authored offset = this quality
+        public static Dictionary<string, float> apparelQualityStatStep = new Dictionary<string, float>
+        {
+            { "MoveSpeed", 0.01f },
+            { "WorkSpeedGlobal", 0.01f },
+            { "MentalBreakThreshold", 0.01f },
+        };
+        public static HashSet<string> apparelQualityLowerIsBetter = new HashSet<string>
+        {
+            "MentalBreakThreshold",
+        };
+
         // Armor (apparel) HP nerf on loot — randomized like the weapon nerf, but the curve power
         // scales with the "tech gap" between the armor and the player's dev level.
         // The armor's tech tier is derived from its Combat Extended armor rating (Sharp/Blunt),
