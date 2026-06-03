@@ -76,7 +76,7 @@ namespace HSKMoreHardcore
 
         // Fishing
         public static int maxFishingPiers = 3;
-        public static int maxFishTraps = 5;
+        public static int maxFishTraps = 3;
         public static float fishSpawnSlowdown = 1f; // множитель замедления пополнения рыбы
     }
 }
