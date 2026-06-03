@@ -49,11 +49,12 @@ namespace HSKMoreHardcore
         {
             Calc c = default;
             c.sharp = ap.GetStatValue(StatDefOf.ArmorRating_Sharp);
-            // Ручной override тира (напр. пояс-щит) важнее порогов Sharp
+            // Ручной override тира (напр. пояс-щит) важнее всего; иначе берём максимум из
+            // армор-тира (по Sharp) и техуровня дефа (def.techLevel есть у всех вещей через наследование).
             if (NerfSettings.armorTierOverrides.TryGetValue(ap.def.defName, out int overrideTier))
                 c.armorTier = overrideTier;
             else
-                c.armorTier = ArmorTierFromSharp(c.sharp);
+                c.armorTier = Mathf.Max(ArmorTierFromSharp(c.sharp), (int)ap.def.techLevel);
 
             c.dev = PlayerDevLevel();
             c.gap = c.armorTier - c.dev;
@@ -76,9 +77,16 @@ namespace HSKMoreHardcore
 
         public static float MultiplierFor(Apparel ap) => Compute(ap).mult;
 
+        private static string TierName(int tier)
+        {
+            if (tier < 0) tier = 0;
+            if (tier > 7) tier = 7;
+            return ((TechLevel)tier).ToString();
+        }
+
         private static string Breakdown(Calc c)
         {
-            string head = $"Sharp={c.sharp:F1} => техур.брони={c.armorTier}, развитие={c.dev}, разрыв={c.gap}";
+            string head = $"Sharp={c.sharp:F1} => техур.брони={TierName(c.armorTier)}, развитие={TierName(c.dev)}, разрыв={c.gap}";
             if (c.gap <= 0)
                 return head + " (<=0)";
             return head + $", power={c.power:F1}, roll={c.roll:F3}, roll^power={Mathf.Pow(c.roll, c.power):F3} => множитель={c.mult:F2}";
