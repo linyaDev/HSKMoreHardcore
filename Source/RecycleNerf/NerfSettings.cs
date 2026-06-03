@@ -39,7 +39,9 @@ namespace HSKMoreHardcore
         // Quality-additive offsets for apparel equipped stats.
         // Added to the apparel's equipped offset: delta = dir * (qualityIndex - baseline) * step,
         // where dir = +1 (higher is better) or -1 (lower is better). QualityCategory index: Awful=0..Legendary=6.
-        public static int apparelQualityBaselineIndex = 3; // Good — authored offset = this quality
+        // Baseline range (no stat effect): Normal..Good. Below it -> negative tiers, above -> positive.
+        public static int apparelQualityBaselineLow = 2;  // Normal
+        public static int apparelQualityBaselineHigh = 3; // Good
         public static Dictionary<string, float> apparelQualityStatStep = new Dictionary<string, float>
         {
             { "MoveSpeed", 0.01f },

@@ -72,12 +72,20 @@ namespace HSKMoreHardcore
             if (arrivalTick > 0 && Find.TickManager.TicksGame >= arrivalTick)
             {
                 isActive = false;
+                UpdateGlow();
                 Messages.Message(Props.doneKey.Translate(), MessageTypeDefOf.NeutralEvent);
                 if (Props.destroyOnUse)
                 {
                     parent.Destroy(DestroyMode.Vanish);
                 }
             }
+        }
+
+        // Пересчитать свечение костра (CompGlower) после смены состояния «зажжён»
+        private void UpdateGlow()
+        {
+            if (parent.Spawned)
+                parent.GetComp<CompGlower>()?.UpdateLit(parent.Map);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -193,6 +201,7 @@ namespace HSKMoreHardcore
 
             isActive = true;
             arrivalTick = fireTick;
+            UpdateGlow();
 
             string delayDaysStr = ((float)Props.arrivalDelayTicks / GenDate.TicksPerDay).ToString("F1");
             Messages.Message(

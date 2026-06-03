@@ -23,14 +23,16 @@ namespace HSKMoreHardcore
             Log.Message("[HSKMoreHardcore] ApparelQualityDescription applied.");
         }
 
-        // Цвет секции «Поправка по качеству» (rich-text hex)
-        private const string SectionColor = "#9BD7FF";
+        // Цвета строк статов (rich-text hex)
+        private const string ImproveColor = "#9BD7FF"; // улучшение
+        private const string WorseColor = "#FF6B6B";   // ухудшение
+        // без изменений — белый (без тега)
 
         public static void Postfix(Apparel __instance, ref string __result)
         {
             if (__instance?.def?.equippedStatOffsets == null)
                 return;
-            if (!__instance.TryGetQuality(out _))
+            if (!__instance.TryGetQuality(out QualityCategory q))
                 return;
 
             StringBuilder sb = null;
@@ -39,21 +41,29 @@ namespace HSKMoreHardcore
                 if (mod.stat == null || !NerfSettings.apparelQualityStatStep.ContainsKey(mod.stat.defName))
                     continue;
 
+                ApparelQualityOffsetUtil.Delta(mod.stat.defName, q, out int improvement);
+                if (improvement == 0)
+                    continue; // не меняется при этом качестве — не пишем
+
                 float adjusted = StatWorker.StatOffsetFromGear(__instance, mod.stat);
+
                 if (sb == null)
                 {
                     sb = new StringBuilder();
+                    sb.Append("\n\n");
                     sb.Append("HSKMoreHardcore_QualityAdj".Translate());
                     sb.Append(":");
                 }
+
+                string line = mod.stat.LabelCap + ": " + mod.stat.ValueToString(adjusted, ToStringNumberSense.Offset);
                 sb.Append("\n");
-                sb.Append(mod.stat.LabelCap);
-                sb.Append(": ");
-                sb.Append(mod.stat.ValueToString(adjusted, ToStringNumberSense.Offset));
+                sb.Append(improvement > 0
+                    ? $"<color={ImproveColor}>{line}</color>"
+                    : $"<color={WorseColor}>{line}</color>");
             }
 
             if (sb != null)
-                __result += $"\n\n<color={SectionColor}>{sb}</color>";
+                __result += sb.ToString();
         }
     }
 }
