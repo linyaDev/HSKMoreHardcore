@@ -70,14 +70,14 @@ namespace HSKMoreHardcore
 
             // Чем больше разрыв — тем круче кривая и тем вероятнее низкая прочность (как у оружия)
             c.power = NerfSettings.armorGapPower * c.gap;
-            c.roll = Rand.Value;
+            c.roll = HardcoreGameComponent.Roll(ap.def.defName);
             c.mult = NerfSettings.armorHpMin + (1f - NerfSettings.armorHpMin) * Mathf.Pow(c.roll, c.power);
             return c;
         }
 
         public static float MultiplierFor(Apparel ap) => Compute(ap).mult;
 
-        private static string TierName(int tier)
+        public static string TierName(int tier)
         {
             if (tier < 0) tier = 0;
             if (tier > 7) tier = 7;

@@ -160,7 +160,6 @@ namespace HSKMoreHardcore
 
             var map = pawn.Map ?? pawn.MapHeld;
             bool isAwayMap = map != null && !map.IsPlayerHome;
-            WeaponHpCalc calc = ComputeWeaponHpMult(isAwayMap);
             string tag = isAwayMap ? "away" : "home";
 
             if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1 && UsesArrows(resultingEq))
@@ -169,6 +168,7 @@ namespace HSKMoreHardcore
             }
             else if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
             {
+                WeaponHpCalc calc = ComputeWeaponHpMult(resultingEq, isAwayMap);
                 int before = resultingEq.HitPoints;
                 int target = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * calc.mult));
                 resultingEq.HitPoints = Mathf.Min(before, target);
@@ -179,32 +179,47 @@ namespace HSKMoreHardcore
             }
         }
 
-        // Разбор расчёта множителя прочности оружия (для логов)
+        // Разбор расчёта множителя прочности оружия (для логов).
+        // Прогрессия по разрыву техуровня, как у брони: power растёт с gap = техур.оружия − развитие.
         private struct WeaponHpCalc
         {
             public bool away;
-            public float roll;    // Rand.Value (NaN на away — там фиксированный множитель)
-            public float curved;  // roll^power
+            public int tier;     // техуровень оружия (def.techLevel)
+            public int dev;      // наш уровень развития
+            public int gap;      // tier - dev
+            public float power;  // степень кривой (0 если нерфа нет)
+            public float roll;   // Rand.Value (NaN если нерфа нет / away)
             public float mult;
         }
 
-        private static WeaponHpCalc ComputeWeaponHpMult(bool isAwayMap)
+        private static WeaponHpCalc ComputeWeaponHpMult(Thing weapon, bool isAwayMap)
         {
             WeaponHpCalc c = default;
             c.away = isAwayMap;
             if (isAwayMap)
             {
                 c.roll = float.NaN;
-                c.curved = float.NaN;
                 c.mult = NerfSettings.weaponHpMultiplierAway;
+                return c;
             }
-            else
+
+            c.tier = (int)weapon.def.techLevel;
+            c.dev = ArmorLootNerf.PlayerDevLevel();
+            c.gap = c.tier - c.dev;
+
+            if (c.gap <= 0)
             {
-                c.roll = Rand.Value;
-                c.curved = Mathf.Pow(c.roll, NerfSettings.weaponHpCurvePower);
-                c.mult = NerfSettings.weaponHpMultiplierHomeMin
-                       + (NerfSettings.weaponHpMultiplierHomeMax - NerfSettings.weaponHpMultiplierHomeMin) * c.curved;
+                // Оружие нашего уровня или ниже — не трогаем
+                c.power = 0f;
+                c.roll = float.NaN;
+                c.mult = 1f;
+                return c;
             }
+
+            c.power = NerfSettings.weaponGapPower * c.gap;
+            c.roll = HardcoreGameComponent.Roll(weapon.def.defName);
+            c.mult = NerfSettings.weaponHpMultiplierHomeMin
+                   + (1f - NerfSettings.weaponHpMultiplierHomeMin) * Mathf.Pow(c.roll, c.power);
             return c;
         }
 
@@ -212,8 +227,11 @@ namespace HSKMoreHardcore
         {
             if (c.away)
                 return $"away (фикс. множитель={c.mult:F2})";
-            return $"roll={c.roll:F3}, roll^{NerfSettings.weaponHpCurvePower:F1}={c.curved:F3}, " +
-                   $"диапазон {NerfSettings.weaponHpMultiplierHomeMin:F2}..{NerfSettings.weaponHpMultiplierHomeMax:F2} => множитель={c.mult:F2}";
+
+            string head = $"техур.оружия={ArmorLootNerf.TierName(c.tier)}, развитие={ArmorLootNerf.TierName(c.dev)}, разрыв={c.gap}";
+            if (c.gap <= 0)
+                return head + " (<=0, без изменений)";
+            return head + $", power={c.power:F1}, roll={c.roll:F3}, roll^power={Mathf.Pow(c.roll, c.power):F3} => множитель={c.mult:F2}";
         }
 
         private static bool UsesArrows(Thing thing)
@@ -273,13 +291,13 @@ namespace HSKMoreHardcore
                 }
             }
 
-            // Damage weapons in inventory (один бросок на пешку, применяется ко всему её оружию в инвентаре)
-            WeaponHpCalc weaponCalc = ComputeWeaponHpMult(isAwayMap);
+            // Damage weapons in inventory (расчёт на каждое оружие — техуровень разный)
             for (int i = container.Count - 1; i >= 0; i--)
             {
                 var thing = container[i];
                 if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
                 {
+                    WeaponHpCalc weaponCalc = ComputeWeaponHpMult(thing, isAwayMap);
                     int before = thing.HitPoints;
                     int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * weaponCalc.mult));
                     thing.HitPoints = Mathf.Min(before, target);
