@@ -18,11 +18,13 @@ namespace HSKMoreHardcore
 
             var harmony = new Harmony("linya.hskmorehardcore.enemylootnerf");
 
-            var original = AccessTools.Method(typeof(Pawn_InventoryTracker), "DropAllNearPawn");
-            if (original != null)
+            // Нерф расходников/оружия из инвентаря — на универсальном GenDrop.TryDropSpawn,
+            // чтобы ловить все пути дропа (раздеть всё, выборочно через NonUnoPinata, смерть).
+            var tryDropSpawn = AccessTools.Method(typeof(GenDrop), "TryDropSpawn");
+            if (tryDropSpawn != null)
             {
-                harmony.Patch(original,
-                    prefix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(Prefix)));
+                harmony.Patch(tryDropSpawn,
+                    prefix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(TryDropSpawnPrefix)));
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf applied.");
             }
 
@@ -51,6 +53,16 @@ namespace HSKMoreHardcore
                 harmony.Patch(genInv,
                     postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(InventoryGenPostfix)));
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf (inventory gen) applied.");
+            }
+
+            // Замена индустриальной/ультратех медицины на травы при спавне (ловит мед, добавленный
+            // после генерации — например CE-медиком). Только враждебные, торговцев не трогаем.
+            var spawnSetup = AccessTools.Method(typeof(Pawn), "SpawnSetup");
+            if (spawnSetup != null)
+            {
+                harmony.Patch(spawnSetup,
+                    postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(SpawnSetupMedicinePostfix)));
+                Log.Message("[HSKMoreHardcore] EnemyLootNerf (spawn medicine replace) applied.");
             }
 
             var tryDrop = AccessTools.Method(typeof(Pawn_EquipmentTracker), "TryDropEquipment");
@@ -146,6 +158,47 @@ namespace HSKMoreHardcore
             catch (Exception e)
             {
                 Log.Error($"[EnemyLootNerf] InventoryGenPostfix error on {p?.LabelShort}: {e}");
+            }
+        }
+
+        // При спавне врага меняем индустриальную/ультратех медицину в инвентаре на травы.
+        // Ловит мед, добавленный после генерации (CE-медик и т.п.). Торговцы/нейтралы не задеты.
+        public static void SpawnSetupMedicinePostfix(Pawn __instance, bool respawningAfterLoad)
+        {
+            try
+            {
+                if (respawningAfterLoad)
+                    return;
+                var p = __instance;
+                if (p?.inventory == null || p.Faction == null)
+                    return;
+                if (!p.HostileTo(Faction.OfPlayer)) // только враждебные: торговцев/нейтралов не трогаем
+                    return;
+
+                var herbal = DefDatabase<ThingDef>.GetNamedSilentFail("HerbMedicine")
+                    ?? DefDatabase<ThingDef>.GetNamedSilentFail("MedicineHerbal");
+                if (herbal == null)
+                    return;
+
+                var container = p.inventory.innerContainer;
+                for (int i = container.Count - 1; i >= 0; i--)
+                {
+                    var thing = container[i];
+                    if (thing.def.defName == "MedicineIndustrial" || thing.def.defName == "MedicineUltratech")
+                    {
+                        int count = thing.stackCount;
+                        Log.Message($"[EnemyLootNerf] [spawn] Replace {thing.def.defName} x{count} -> {herbal.defName} on {p.LabelShort}");
+                        container.Remove(thing);
+                        thing.Destroy();
+                        var replacement = ThingMaker.MakeThing(herbal);
+                        replacement.stackCount = count;
+                        container.TryAdd(replacement);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[EnemyLootNerf] SpawnSetupMedicinePostfix error on {__instance?.LabelShort}: {e}");
             }
         }
 
@@ -254,58 +307,60 @@ namespace HSKMoreHardcore
             return false;
         }
 
-        public static void Prefix(Pawn_InventoryTracker __instance)
+        // Срабатывает на ЛЮБОМ дропе вещи; нерфим только то, что падает из инвентаря вражеской пешки.
+        // Это ловит все пути: «раздеть всё» (DropAllNearPawn), выборочно (NonUnoPinata innerContainer.TryDrop), смерть.
+        public static void TryDropSpawnPrefix(Thing thing, Map map)
         {
-            var pawn = __instance.pawn;
-
-            // Only nerf enemy pawns
-            if (pawn == null || (pawn.Faction != null && pawn.Faction.IsPlayer))
+            if (thing == null)
                 return;
 
-            var map = pawn.Map ?? pawn.MapHeld;
-            bool isAwayMap = map != null && !map.IsPlayerHome;
-            float medMult = isAwayMap ? NerfSettings.medicineDropMultiplierAway : NerfSettings.medicineDropMultiplier;
-            float ammoMult = isAwayMap ? NerfSettings.ammoDropMultiplierAway : NerfSettings.ammoDropMultiplier;
-            string tag = isAwayMap ? "away" : "home";
-            var container = __instance.innerContainer;
-            for (int i = container.Count - 1; i >= 0; i--)
-            {
-                var thing = container[i];
-                if (thing.def.IsMedicine)
-                {
-                    int before = thing.stackCount;
-                    thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * medMult));
-                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Medicine {thing.def.defName} {before} -> {thing.stackCount}");
-                }
-                else if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
-                {
-                    int before = thing.stackCount;
-                    thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * ammoMult));
-                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Ammo {thing.def.defName} {before} -> {thing.stackCount}");
-                }
-                else if (thing.def.IsDrug && thing.stackCount > 1)
-                {
-                    int before = thing.stackCount;
-                    thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.drugDropMultiplier));
-                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Drug {thing.def.defName} {before} -> {thing.stackCount}");
-                }
-            }
+            // Только инвентарь вражеской пешки (не игрок/пленные/рабы). Экипировка/одежда сюда не попадают.
+            var pawn = (thing.ParentHolder as Pawn_InventoryTracker)?.pawn;
+            if (pawn == null || pawn.Faction == null || pawn.Faction.IsPlayer
+                || pawn.IsPrisonerOfColony || pawn.IsSlaveOfColony)
+                return;
 
-            // Damage weapons in inventory (расчёт на каждое оружие — техуровень разный)
-            for (int i = container.Count - 1; i >= 0; i--)
+            bool isAwayMap = map != null && !map.IsPlayerHome;
+            string tag = isAwayMap ? "away" : "home";
+
+            if (thing.def.IsMedicine)
             {
-                var thing = container[i];
-                if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
-                {
-                    WeaponHpCalc weaponCalc = ComputeWeaponHpMult(thing, isAwayMap);
-                    int before = thing.HitPoints;
-                    int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * weaponCalc.mult));
-                    thing.HitPoints = Mathf.Min(before, target);
-                    string note = target >= before ? "; цель >= текущей, оставлено боевое значение" : "";
-                    Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} " +
-                                $"{WeaponHpBreakdown(weaponCalc)}, цель={target}/{thing.MaxHitPoints}, " +
-                                $"HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}{note}");
-                }
+                float medMult = isAwayMap ? NerfSettings.medicineDropMultiplierAway : NerfSettings.medicineDropMultiplier;
+                int before = thing.stackCount;
+                thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * medMult));
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Medicine {thing.def.defName} {before} -> {thing.stackCount}");
+            }
+            else if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
+            {
+                float ammoMult = isAwayMap ? NerfSettings.ammoDropMultiplierAway : NerfSettings.ammoDropMultiplier;
+                int before = thing.stackCount;
+                thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * ammoMult));
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Ammo {thing.def.defName} {before} -> {thing.stackCount}");
+            }
+            else if (thing.def.IsDrug && thing.stackCount > 1)
+            {
+                int before = thing.stackCount;
+                thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.drugDropMultiplier));
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Drug {thing.def.defName} {before} -> {thing.stackCount}");
+            }
+            else if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
+            {
+                WeaponHpCalc calc = ComputeWeaponHpMult(thing, isAwayMap);
+                int before = thing.HitPoints;
+                int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * calc.mult));
+                thing.HitPoints = Mathf.Min(before, target);
+                string note = target >= before ? "; цель >= текущей, оставлено боевое значение" : "";
+                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} " +
+                            $"{WeaponHpBreakdown(calc)}, цель={target}/{thing.MaxHitPoints}, " +
+                            $"HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}{note}");
+            }
+            else if (thing is RimWorld.Apparel apparel)
+            {
+                // Одежда в инвентаре врага (в т.ч. груз вьючных животных): метка «со следами боя» + нерф прочности
+                var comp = apparel.TryGetComp<CompWornByEnemy>();
+                if (comp != null)
+                    comp.wornByEnemy = true;
+                ArmorLootNerf.Apply(apparel, tag);
             }
         }
     }
