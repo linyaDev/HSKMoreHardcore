@@ -43,16 +43,31 @@ namespace HSKMoreHardcore
     {
         public bool worn;
         public bool wornByEnemy;
+        public bool washed;
+
+        // Помечена ли вещь как поношенная (можно постирать)
+        public bool IsWornMarked => worn || wornByEnemy;
+
+        // Постирать: снять метки износа, поставить «постирано»
+        public void Wash()
+        {
+            worn = false;
+            wornByEnemy = false;
+            washed = true;
+        }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref worn, "worn", false);
             Scribe_Values.Look(ref wornByEnemy, "wornByEnemy", false);
+            Scribe_Values.Look(ref washed, "washed", false);
         }
 
         public override string CompInspectStringExtra()
         {
+            if (washed)
+                return "HSKMoreHardcore_Washed".Translate();
             if (wornByEnemy)
                 return "HSKMoreHardcore_WornByEnemy".Translate();
             if (worn)
@@ -62,6 +77,8 @@ namespace HSKMoreHardcore
 
         public override string GetDescriptionPart()
         {
+            if (washed)
+                return "HSKMoreHardcore_WashedDesc".Translate();
             if (wornByEnemy)
                 return "HSKMoreHardcore_WornByEnemyDesc".Translate();
             if (worn)

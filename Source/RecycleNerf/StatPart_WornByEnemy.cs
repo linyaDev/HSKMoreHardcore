@@ -33,6 +33,14 @@ namespace HSKMoreHardcore
             if (comp == null)
                 return false;
 
+            // «Постирано» имеет приоритет (стирка снимает износ)
+            if (comp.washed)
+            {
+                mult = NerfSettings.washedValueMult;
+                labelKey = "HSKMoreHardcore_Washed";
+                return true;
+            }
+
             bool any = false;
             if (comp.wornByEnemy)
             {

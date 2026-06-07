@@ -33,7 +33,8 @@ namespace HSKMoreHardcore
 
         // Market value multipliers for marked apparel (CompWornByEnemy)
         public static float wornByEnemyValueMult = 0.3f; // снято с врага в бою -> 30% цены
-        public static float wornValueMult = 0.85f;       // носил наш колонист -> 85% цены
+        public static float wornValueMult = 0.6f;        // носил наш колонист -> 60% цены
+        public static float washedValueMult = 0.8f;      // постирано -> 80% цены
 
         // Quality-additive offsets for apparel equipped stats.
         // Added to the apparel's equipped offset: delta = dir * (qualityIndex - baseline) * step,
