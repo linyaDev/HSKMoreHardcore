@@ -16,7 +16,8 @@ namespace HSKMoreHardcore
             int injected = 0;
             foreach (var def in DefDatabase<ThingDef>.AllDefsListForReading)
             {
-                if (!def.IsApparel)
+                // Одежда — метки износа/стирки; оружие — счётчик починок «Починено».
+                if (!def.IsApparel && !def.IsWeapon)
                     continue;
                 if (def.comps == null)
                     def.comps = new List<CompProperties>();
@@ -35,7 +36,7 @@ namespace HSKMoreHardcore
                     injected++;
                 }
             }
-            Log.Message($"[HSKMoreHardcore] WornByEnemy comp injected into {injected} apparel defs.");
+            Log.Message($"[HSKMoreHardcore] WornByEnemy comp injected into {injected} apparel/weapon defs.");
         }
     }
 
@@ -44,9 +45,14 @@ namespace HSKMoreHardcore
         public bool worn;
         public bool wornByEnemy;
         public bool washed;
+        // Счётчик починок. Независим от меток износа/стирки — может стоять одновременно с ними.
+        public int repairCount;
 
         // Помечена ли вещь как поношенная (можно постирать)
         public bool IsWornMarked => worn || wornByEnemy;
+
+        // Можно ли чинить обычной починкой (Mend & Recycle)
+        public bool CanMendNormally => repairCount < NerfSettings.repairBlockThreshold;
 
         // Постирать: снять метки износа, поставить «постирано»
         public void Wash()
@@ -62,28 +68,35 @@ namespace HSKMoreHardcore
             Scribe_Values.Look(ref worn, "worn", false);
             Scribe_Values.Look(ref wornByEnemy, "wornByEnemy", false);
             Scribe_Values.Look(ref washed, "washed", false);
+            Scribe_Values.Look(ref repairCount, "repairCount", 0);
         }
 
         public override string CompInspectStringExtra()
         {
+            var parts = new List<string>();
             if (washed)
-                return "HSKMoreHardcore_Washed".Translate();
+                parts.Add("HSKMoreHardcore_Washed".Translate());
             if (wornByEnemy)
-                return "HSKMoreHardcore_WornByEnemy".Translate();
+                parts.Add("HSKMoreHardcore_WornByEnemy".Translate());
             if (worn)
-                return "HSKMoreHardcore_Worn".Translate();
-            return null;
+                parts.Add("HSKMoreHardcore_Worn".Translate());
+            if (repairCount > 0)
+                parts.Add("HSKMoreHardcore_Repaired".Translate() + " x" + repairCount);
+            return parts.Count > 0 ? string.Join(", ", parts) : null;
         }
 
         public override string GetDescriptionPart()
         {
+            var parts = new List<string>();
             if (washed)
-                return "HSKMoreHardcore_WashedDesc".Translate();
+                parts.Add("HSKMoreHardcore_WashedDesc".Translate());
             if (wornByEnemy)
-                return "HSKMoreHardcore_WornByEnemyDesc".Translate();
+                parts.Add("HSKMoreHardcore_WornByEnemyDesc".Translate());
             if (worn)
-                return "HSKMoreHardcore_WornDesc".Translate();
-            return null;
+                parts.Add("HSKMoreHardcore_WornDesc".Translate());
+            if (repairCount > 0)
+                parts.Add(("HSKMoreHardcore_RepairedDesc".Translate()) + " (x" + repairCount + ")");
+            return parts.Count > 0 ? string.Join("\n", parts) : null;
         }
     }
 

@@ -36,6 +36,10 @@ namespace HSKMoreHardcore
         public static float wornValueMult = 0.6f;        // носил наш колонист -> 60% цены
         public static float washedValueMult = 0.8f;      // постирано -> 80% цены
 
+        // Ремонт (хук на Mend & Recycle). «Починено» — независимая метка-счётчик.
+        public static int repairBlockThreshold = 2;       // обычная починка запрещена при repairCount >= этого
+        public static float repairValueMult = 0.9f;       // множитель цены за каждую починку (мультипликативно: 0.9^repairCount)
+
         // Quality-additive offsets for apparel equipped stats.
         // Added to the apparel's equipped offset: delta = dir * (qualityIndex - baseline) * step,
         // where dir = +1 (higher is better) or -1 (lower is better). QualityCategory index: Awful=0..Legendary=6.

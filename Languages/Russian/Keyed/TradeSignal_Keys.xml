@@ -19,5 +19,7 @@
 	<HSKMoreHardcore_WornByEnemyDesc>Этот предмет имеет следы боя.</HSKMoreHardcore_WornByEnemyDesc>
 	<HSKMoreHardcore_Washed>Постирано</HSKMoreHardcore_Washed>
 	<HSKMoreHardcore_WashedDesc>Этот предмет постиран.</HSKMoreHardcore_WashedDesc>
+	<HSKMoreHardcore_Repaired>Починено</HSKMoreHardcore_Repaired>
+	<HSKMoreHardcore_RepairedDesc>Этот предмет чинили.</HSKMoreHardcore_RepairedDesc>
 	<HSKMoreHardcore_QualityAdj>Статы с учётом качества</HSKMoreHardcore_QualityAdj>
 </LanguageData>
