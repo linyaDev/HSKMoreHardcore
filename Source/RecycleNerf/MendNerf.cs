@@ -34,8 +34,10 @@ namespace HSKMoreHardcore
                 Log.Warning("[HSKMoreHardcore] MendNerf: Mending.WorkGiver_DoBill.EnoughSkill not found (Mend&Recycle missing?).");
             }
 
-            // Счётчик + метка после починки: гейтим по джобу Mend (Notify_IterationCompleted общий).
-            var notify = AccessTools.Method(typeof(Bill), nameof(Bill.Notify_IterationCompleted));
+            // Счётчик + метка после починки: гейтим по джобу Mend.
+            // Патчим Bill_Production (он ПЕРЕОПРЕДЕЛЯЕТ Notify_IterationCompleted — у мендовых билов
+            // именно этот тип, патч базового Bill сюда не доходит).
+            var notify = AccessTools.Method(typeof(Bill_Production), nameof(Bill.Notify_IterationCompleted));
             if (notify != null && mendJob != null)
             {
                 harmony.Patch(notify,
@@ -51,23 +53,35 @@ namespace HSKMoreHardcore
                 return;
             var comp = thing?.TryGetComp<CompWornByEnemy>();
             if (comp != null && !comp.CanMendNormally)
+            {
                 __result = false;
+                Log.Message($"[MendNerf] block ordinary mend: {thing.LabelCap} repairCount={comp.repairCount} >= {NerfSettings.repairBlockThreshold}");
+            }
         }
 
         public static void NotifyIterationCompletedPostfix(Pawn billDoer, List<Thing> ingredients)
         {
-            if (billDoer?.CurJob?.def != mendJob || ingredients == null)
+            var curDef = billDoer?.CurJob?.def;
+            if (curDef != mendJob)
+                return;
+            Log.Message($"[MendNerf] mend completed by {billDoer.LabelShort}; ingredients={(ingredients == null ? "null" : ingredients.Count.ToString())}");
+            if (ingredients == null)
                 return;
             foreach (var t in ingredients)
             {
                 if (t == null || t.Destroyed)
-                    continue;
-                var comp = t.TryGetComp<CompWornByEnemy>();
-                if (comp != null)
                 {
-                    comp.repairCount++;
-                    Log.Message($"[MendNerf] {t.LabelCap}: repairCount -> {comp.repairCount}");
+                    Log.Message($"[MendNerf]   skip: {(t == null ? "null" : t.LabelCap + " (destroyed)")}");
+                    continue;
                 }
+                var comp = t.TryGetComp<CompWornByEnemy>();
+                if (comp == null)
+                {
+                    Log.Message($"[MendNerf]   {t.LabelCap}: no CompWornByEnemy — skip");
+                    continue;
+                }
+                comp.repairCount++;
+                Log.Message($"[MendNerf]   {t.LabelCap}: repairCount -> {comp.repairCount} (mark applied)");
             }
         }
     }
