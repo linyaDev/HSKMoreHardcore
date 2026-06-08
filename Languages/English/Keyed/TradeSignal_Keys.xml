@@ -21,5 +21,6 @@
 	<HSKMoreHardcore_WashedDesc>This item has been washed.</HSKMoreHardcore_WashedDesc>
 	<HSKMoreHardcore_Repaired>Repaired</HSKMoreHardcore_Repaired>
 	<HSKMoreHardcore_RepairedDesc>This item has been repaired.</HSKMoreHardcore_RepairedDesc>
+	<HSKMoreHardcore_NoReconstructMaterial>Needs {0} {1} for reconstruction</HSKMoreHardcore_NoReconstructMaterial>
 	<HSKMoreHardcore_QualityAdj>Stats adjusted for quality</HSKMoreHardcore_QualityAdj>
 </LanguageData>
