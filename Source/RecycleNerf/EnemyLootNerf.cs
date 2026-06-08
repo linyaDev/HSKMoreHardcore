@@ -55,15 +55,6 @@ namespace HSKMoreHardcore
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf (inventory gen) applied.");
             }
 
-            // Замена индустриальной/ультратех медицины на травы при спавне (ловит мед, добавленный
-            // после генерации — например CE-медиком). Только враждебные, торговцев не трогаем.
-            var spawnSetup = AccessTools.Method(typeof(Pawn), "SpawnSetup");
-            if (spawnSetup != null)
-            {
-                harmony.Patch(spawnSetup,
-                    postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(SpawnSetupMedicinePostfix)));
-                Log.Message("[HSKMoreHardcore] EnemyLootNerf (spawn medicine replace) applied.");
-            }
 
             var tryDrop = AccessTools.Method(typeof(Pawn_EquipmentTracker), "TryDropEquipment");
             if (tryDrop != null)
@@ -123,82 +114,20 @@ namespace HSKMoreHardcore
                 if (p.kindDef?.trader == true)
                     return;
 
-                var herbal = DefDatabase<ThingDef>.GetNamedSilentFail("HerbMedicine")
-                    ?? DefDatabase<ThingDef>.GetNamedSilentFail("MedicineHerbal");
-                if (herbal == null)
-                    return;
-
+                // Замену индустриальной медицины на травы делает XML-патч пешкокайндов
+                // (Patches/RaiderMedicineHerbal.xml). Здесь — только лог инвентаря для диагностики.
                 var container = p.inventory?.innerContainer;
-                if (container == null)
+                if (container == null || container.Count == 0)
                     return;
 
-                if (container.Count > 0)
-                {
-                    string items = "";
-                    foreach (var t in container)
-                        items += $"{t.def.defName}x{t.stackCount}, ";
-                    Log.Message($"[EnemyLootNerf] InventoryGen {p.LabelShort}: [{items}]");
-                }
-
-                for (int i = container.Count - 1; i >= 0; i--)
-                {
-                    var thing = container[i];
-                    if (thing.def.defName == "MedicineIndustrial" || thing.def.defName == "MedicineUltratech")
-                    {
-                        int count = thing.stackCount;
-                        Log.Message($"[EnemyLootNerf] Replace {thing.def.defName} x{count} -> MedicineHerbal on {p.LabelShort}");
-                        container.Remove(thing);
-                        thing.Destroy();
-                        var replacement = ThingMaker.MakeThing(herbal);
-                        replacement.stackCount = count;
-                        container.TryAdd(replacement);
-                    }
-                }
+                string items = "";
+                foreach (var t in container)
+                    items += $"{t.def.defName}x{t.stackCount}, ";
+                Log.Message($"[EnemyLootNerf] InventoryGen {p.LabelShort}: [{items}]");
             }
             catch (Exception e)
             {
                 Log.Error($"[EnemyLootNerf] InventoryGenPostfix error on {p?.LabelShort}: {e}");
-            }
-        }
-
-        // При спавне врага меняем индустриальную/ультратех медицину в инвентаре на травы.
-        // Ловит мед, добавленный после генерации (CE-медик и т.п.). Торговцы/нейтралы не задеты.
-        public static void SpawnSetupMedicinePostfix(Pawn __instance, bool respawningAfterLoad)
-        {
-            try
-            {
-                if (respawningAfterLoad)
-                    return;
-                var p = __instance;
-                if (p?.inventory == null || p.Faction == null)
-                    return;
-                if (!p.HostileTo(Faction.OfPlayer)) // только враждебные: торговцев/нейтралов не трогаем
-                    return;
-
-                var herbal = DefDatabase<ThingDef>.GetNamedSilentFail("HerbMedicine")
-                    ?? DefDatabase<ThingDef>.GetNamedSilentFail("MedicineHerbal");
-                if (herbal == null)
-                    return;
-
-                var container = p.inventory.innerContainer;
-                for (int i = container.Count - 1; i >= 0; i--)
-                {
-                    var thing = container[i];
-                    if (thing.def.defName == "MedicineIndustrial" || thing.def.defName == "MedicineUltratech")
-                    {
-                        int count = thing.stackCount;
-                        Log.Message($"[EnemyLootNerf] [spawn] Replace {thing.def.defName} x{count} -> {herbal.defName} on {p.LabelShort}");
-                        container.Remove(thing);
-                        thing.Destroy();
-                        var replacement = ThingMaker.MakeThing(herbal);
-                        replacement.stackCount = count;
-                        container.TryAdd(replacement);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"[EnemyLootNerf] SpawnSetupMedicinePostfix error on {__instance?.LabelShort}: {e}");
             }
         }
 
