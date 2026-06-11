@@ -48,10 +48,10 @@
 		<value><MarketValue>80</MarketValue></value>
 	</Operation>
 
-	<!-- MedicineIndustrial: 35 -> 140 -->
+	<!-- MedicineIndustrial: 35 -> 200 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="MedicineIndustrial"]/statBases/MarketValue</xpath>
-		<value><MarketValue>140</MarketValue></value>
+		<value><MarketValue>200</MarketValue></value>
 	</Operation>
 
 	<!-- MedicineUltratech: 130 -> 520 -->
