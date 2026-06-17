@@ -199,7 +199,7 @@ namespace HSKMoreHardcore
             }
 
             c.power = NerfSettings.weaponGapPower * c.gap;
-            c.roll = HardcoreGameComponent.Roll(weapon.def.defName);
+            c.roll = HardcoreGameComponent.Roll(weapon.thingIDNumber);
             c.mult = NerfSettings.weaponHpMultiplierHomeMin
                    + (1f - NerfSettings.weaponHpMultiplierHomeMin) * Mathf.Pow(c.roll, c.power);
             return c;
