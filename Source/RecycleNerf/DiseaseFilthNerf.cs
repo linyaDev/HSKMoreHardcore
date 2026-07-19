@@ -11,7 +11,7 @@ namespace HSKMoreHardcore
     [StaticConstructorOnStartup]
     public static class DiseaseFilthNerf
     {
-        private const int UnclearableTicks = 60000; // 1 день
+        private const int UnclearableTicks = 120000; // 2 дня
 
         static DiseaseFilthNerf()
         {

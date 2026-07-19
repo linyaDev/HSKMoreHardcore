@@ -48,6 +48,15 @@
 		<value><MarketValue>80</MarketValue></value>
 	</Operation>
 
+	<!-- Fungicine: 20 -> 400 (HSK more content) -->
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>HSK more content</li></mods>
+		<match Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="Fungicine"]/statBases/MarketValue</xpath>
+			<value><MarketValue>180</MarketValue></value>
+		</match>
+	</Operation>
+
 	<!-- MedicineIndustrial: 35 -> 200 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="MedicineIndustrial"]/statBases/MarketValue</xpath>
