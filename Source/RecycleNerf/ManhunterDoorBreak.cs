@@ -78,7 +78,8 @@ namespace HSKMoreHardcore
         // Manhunter не нашёл цель — если глобальный флаг активен, ломать дверь
         public static void JobPostfix(ref Job __result, Pawn pawn)
         {
-            if (__result != null && __result.def == JobDefOf.AttackMelee)
+            // Только если оригинал не дал атаку (Goto/Wait/null = бродит или застрял)
+            if (__result != null && __result.def != JobDefOf.Goto && __result.def != JobDefOf.Wait)
                 return;
 
             if (!IsManhunter(pawn))
