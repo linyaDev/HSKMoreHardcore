@@ -14,6 +14,11 @@
 		<ammoCraftExcludedMaterials>
 			<li>ElectronicComponents</li>
 		</ammoCraftExcludedMaterials>
+		<!-- Рецепты патронов, исключённые из множителя стоимости -->
+		<ammoCraftExcludedRecipes>
+			<li>MakeAmmo_StoneBall</li>
+			<li>MakeAmmo_ExplosiveBall</li>
+		</ammoCraftExcludedRecipes>
 		<!-- Множитель размера глубинных залежей (1/7 = ~0.143) -->
 		<deepResourceMultiplier>0.143</deepResourceMultiplier>
 		<!-- Минимум серебра у торговцев -->

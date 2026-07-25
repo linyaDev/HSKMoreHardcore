@@ -101,21 +101,14 @@ namespace HSKMoreHardcore
             Calc c = Compute(ap);
 
             if (c.mult >= 1f)
-            {
-                Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {Breakdown(c)} — без изменений (HP {ap.HitPoints}/{ap.MaxHitPoints})");
                 return false;
-            }
 
             int before = ap.HitPoints;
             int target = Mathf.Max(1, Mathf.FloorToInt(ap.MaxHitPoints * c.mult));
             if (target >= before)
-            {
-                Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {Breakdown(c)}, цель={target}/{ap.MaxHitPoints} >= текущей {before} — оставлено боевое значение");
                 return false;
-            }
 
             ap.HitPoints = target;
-            Log.Message($"[ArmorLootNerf] [{tag}] {ap.def.defName}: {Breakdown(c)}, прочность {before}/{ap.MaxHitPoints} -> {target}/{ap.MaxHitPoints}");
             return true;
         }
     }

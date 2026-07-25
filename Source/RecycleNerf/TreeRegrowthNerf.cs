@@ -35,7 +35,15 @@ namespace HSKMoreHardcore
                 return;
 
             var plant = c.GetPlant(___map);
-            if (plant == null || !plant.def.plant.IsTree)
+            if (plant == null)
+                return;
+
+            bool isTree = plant.def.plant.IsTree;
+            bool yieldsWood = plant.def.plant.harvestedThingDef != null
+                && (plant.def.plant.harvestedThingDef.defName == "WoodLog"
+                    || plant.def.plant.harvestedThingDef.defName == "Kindling");
+
+            if (!isTree && !yieldsWood)
                 return;
 
             if (!Rand.Chance(chance))

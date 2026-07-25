@@ -22,6 +22,13 @@ namespace HSKMoreHardcore
                     excluded.Add(mat);
             }
 
+            var excludedRecipes = new HashSet<string>();
+            if (settings?.ammoCraftExcludedRecipes != null)
+            {
+                foreach (var r in settings.ammoCraftExcludedRecipes)
+                    excludedRecipes.Add(r);
+            }
+
             int patchedAmmo = 0;
             int patchedArrow = 0;
             int patchedBolt = 0;
@@ -31,6 +38,9 @@ namespace HSKMoreHardcore
                     continue;
 
                 if (recipe.ingredients == null)
+                    continue;
+
+                if (excludedRecipes.Contains(recipe.defName))
                     continue;
 
                 float mult;

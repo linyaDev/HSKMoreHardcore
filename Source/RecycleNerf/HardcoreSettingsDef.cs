@@ -10,6 +10,7 @@ namespace HSKMoreHardcore
         public float boltCraftCostMultiplier = 2f;
         public float deepResourceMultiplier = 0.143f; // ~1/7
         public List<string> ammoCraftExcludedMaterials;
+        public List<string> ammoCraftExcludedRecipes;
         public int traderSilverMinimum = 3500;
         public Dictionary<string, float> sellPriceOverrides;
         public float treeRegrowthChance = 0.25f;
