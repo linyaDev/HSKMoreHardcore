@@ -52,9 +52,6 @@ namespace HSKMoreHardcore
 
         public static void Postfix(Map map)
         {
-            Log.Message($"[PodLootNerf] Postfix called. Position={savedPosition}, existingThings={existingThingIds.Count}");
-            int nerfed = 0;
-
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(savedPosition, 3f, true))
             {
                 if (!cell.InBounds(map))
@@ -72,54 +69,34 @@ namespace HSKMoreHardcore
                     // Убираем вещи из запрещённых материалов
                     if (thing.Stuff != null && NerfSettings.bannedPodMaterials.Contains(thing.Stuff.defName))
                     {
-                        Log.Message($"[PodLootNerf] Destroyed banned material item: {thing.def.defName} ({thing.Stuff.defName})");
                         thing.Destroy();
-                        nerfed++;
                         continue;
                     }
 
                     if (thing.def.IsMedicine && thing.stackCount > 1)
                     {
-                        int before = thing.stackCount;
                         thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.medicineDropMultiplier));
-                        Log.Message($"[PodLootNerf] Medicine {thing.def.defName}: {before} -> {thing.stackCount}");
-                        nerfed++;
                     }
                     else if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing) && thing.stackCount > 1)
                     {
-                        int before = thing.stackCount;
-                        thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.ammoDropMultiplier));
-                        Log.Message($"[PodLootNerf] Ammo {thing.def.defName}: {before} -> {thing.stackCount}");
-                        nerfed++;
+                        thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.podAmmoMultiplier));
                     }
                     else if (thing.def.IsDrug && thing.stackCount > 1)
                     {
-                        int before = thing.stackCount;
                         thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.podDrugMultiplier));
-                        Log.Message($"[PodLootNerf] Drug {thing.def.defName}: {before} -> {thing.stackCount}");
-                        nerfed++;
                     }
                     else if (NerfSettings.removePodWeapons && thing.def.IsWeapon)
                     {
-                        // Оружие из капсул/ящиков удаляем полностью
-                        Log.Message($"[PodLootNerf] Destroyed weapon: {thing.def.defName}");
                         thing.Destroy();
-                        nerfed++;
                     }
                     else if (thing is RimWorld.Apparel apparel)
                     {
                         // Нерф прочности брони из капсул/ящиков (по защите и нашему уровню развития)
-                        if (ArmorLootNerf.Apply(apparel, "pod"))
-                            nerfed++;
-                    }
-                    else
-                    {
-                        Log.Message($"[PodLootNerf] Skip new thing: {thing.def.defName} x{thing.stackCount}, isMedicine={thing.def.IsMedicine}, isAmmo={ammoThingType?.IsInstanceOfType(thing)}");
+                        ArmorLootNerf.Apply(apparel, "pod");
                     }
                 }
             }
 
-            Log.Message($"[PodLootNerf] Done. Nerfed {nerfed} items.");
             existingThingIds.Clear();
         }
     }

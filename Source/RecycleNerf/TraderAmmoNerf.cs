@@ -59,8 +59,6 @@ namespace HSKMoreHardcore
             if (!isTrader && !isReward)
                 return;
 
-            string source = isTrader ? "Trader" : "Reward";
-
             var settings = HardcoreSettingsDef.Instance;
             int silverMin = settings?.traderSilverMinimum ?? 3500;
 
@@ -74,9 +72,7 @@ namespace HSKMoreHardcore
                 else if (ammoThingType.IsInstanceOfType(thing) && thing.stackCount > 1)
                 {
                     float mult = isTrader ? NerfSettings.traderAmmoMultiplier : NerfSettings.rewardAmmoMultiplier;
-                    int before = thing.stackCount;
                     thing.stackCount = Mathf.Max(5, Mathf.FloorToInt(thing.stackCount * mult));
-                    Log.Message($"[TraderAmmoNerf] [{source}] {thing.def.defName}: {before} -> {thing.stackCount}");
                 }
             }
         }

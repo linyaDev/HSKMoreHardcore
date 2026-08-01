@@ -116,16 +116,13 @@ namespace HSKMoreHardcore
             if (item == null)
                 return;
 
-            int oldRepair = 0;
             item.HitPoints = item.MaxHitPoints;
             var comp = item.TryGetComp<CompWornByEnemy>();
             if (comp != null)
             {
-                oldRepair = comp.repairCount;
                 comp.repairCount = 0; // снимаем «Починено»
             }
 
-            Log.Message($"[Reconstruct] {item.LabelCap}: HP -> 100%, repairCount {oldRepair} -> 0, stuff consumed {consumedStuff}");
             job.bill?.Notify_IterationCompleted(pawn, new List<Thing> { item });
         }
     }

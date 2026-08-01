@@ -50,8 +50,6 @@ namespace HSKMoreHardcore
             {
                 if (bannedSmeltProducts.Contains(thing.def.defName))
                 {
-                    Log.Message($"[SmeltNerf] Skipped {thing.def.defName} x{thing.stackCount}");
-
                     if (!replaced)
                     {
                         if (steelBarDef == null)
@@ -61,7 +59,6 @@ namespace HSKMoreHardcore
                         {
                             Thing steel = ThingMaker.MakeThing(steelBarDef);
                             steel.stackCount = 5;
-                            Log.Message($"[SmeltNerf] Added SteelBar x3");
                             yield return steel;
                         }
                         replaced = true;

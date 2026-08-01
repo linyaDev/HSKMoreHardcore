@@ -50,9 +50,6 @@ namespace HSKMoreHardcore
             if (carried == null || !carried.def.IsMedicine)
                 return;
 
-            // DEBUG: убрать после проверки.
-            Log.Message($"[HSKMoreHardcore] TendDropMedicineWaste: {pawn.LabelShort} прервал лечение (condition={condition}), уничтожаю {carried.LabelCap} x{carried.stackCount}.");
-
             // Убираем из рук и уничтожаем, пока CleanupCurrentJob не уронил на пол.
             pawn.carryTracker.innerContainer.Remove(carried);
             carried.Destroy(DestroyMode.Vanish);

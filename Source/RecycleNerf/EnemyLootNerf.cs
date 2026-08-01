@@ -115,15 +115,7 @@ namespace HSKMoreHardcore
                     return;
 
                 // Замену индустриальной медицины на травы делает XML-патч пешкокайндов
-                // (Patches/RaiderMedicineHerbal.xml). Здесь — только лог инвентаря для диагностики.
-                var container = p.inventory?.innerContainer;
-                if (container == null || container.Count == 0)
-                    return;
-
-                string items = "";
-                foreach (var t in container)
-                    items += $"{t.def.defName}x{t.stackCount}, ";
-                Log.Message($"[EnemyLootNerf] InventoryGen {p.LabelShort}: [{items}]");
+                // (Patches/RaiderMedicineHerbal.xml).
             }
             catch (Exception e)
             {
@@ -146,7 +138,7 @@ namespace HSKMoreHardcore
 
             if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1 && UsesArrows(resultingEq))
             {
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} uses arrows, skipping HP nerf");
+                // arrows — skip HP nerf
             }
             else if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
             {
@@ -154,10 +146,6 @@ namespace HSKMoreHardcore
                 int before = resultingEq.HitPoints;
                 int target = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * calc.mult));
                 resultingEq.HitPoints = Mathf.Min(before, target);
-                string note = target >= before ? "; цель >= текущей, оставлено боевое значение" : "";
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Weapon {resultingEq.def.defName} " +
-                            $"{WeaponHpBreakdown(calc)}, цель={target}/{resultingEq.MaxHitPoints}, " +
-                            $"HP {before}/{resultingEq.MaxHitPoints} -> {resultingEq.HitPoints}/{resultingEq.MaxHitPoints}{note}");
             }
         }
 
@@ -257,20 +245,17 @@ namespace HSKMoreHardcore
                 float medMult = isAwayMap ? NerfSettings.medicineDropMultiplierAway : NerfSettings.medicineDropMultiplier;
                 int before = thing.stackCount;
                 thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * medMult));
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Medicine {thing.def.defName} {before} -> {thing.stackCount}");
             }
             else if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
             {
                 float ammoMult = isAwayMap ? NerfSettings.ammoDropMultiplierAway : NerfSettings.ammoDropMultiplier;
                 int before = thing.stackCount;
                 thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * ammoMult));
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Ammo {thing.def.defName} {before} -> {thing.stackCount}");
             }
             else if (thing.def.IsDrug && thing.stackCount > 1)
             {
                 int before = thing.stackCount;
                 thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.drugDropMultiplier));
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: Drug {thing.def.defName} {before} -> {thing.stackCount}");
             }
             else if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
             {
@@ -278,10 +263,6 @@ namespace HSKMoreHardcore
                 int before = thing.HitPoints;
                 int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * calc.mult));
                 thing.HitPoints = Mathf.Min(before, target);
-                string note = target >= before ? "; цель >= текущей, оставлено боевое значение" : "";
-                Log.Message($"[EnemyLootNerf] [{tag}] {pawn.LabelShort}: InvWeapon {thing.def.defName} " +
-                            $"{WeaponHpBreakdown(calc)}, цель={target}/{thing.MaxHitPoints}, " +
-                            $"HP {before}/{thing.MaxHitPoints} -> {thing.HitPoints}/{thing.MaxHitPoints}{note}");
             }
             else if (thing is RimWorld.Apparel apparel)
             {

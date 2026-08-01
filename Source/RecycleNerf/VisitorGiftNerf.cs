@@ -47,7 +47,6 @@ namespace HSKMoreHardcore
                     var replacement = ThingMaker.MakeThing(herbalDef);
                     replacement.stackCount = count;
                     __result[i] = replacement;
-                    Log.Message($"[VisitorGiftNerf] Replaced {thing.def.defName} x{count} -> MedicineHerbal x{count}");
                 }
             }
         }

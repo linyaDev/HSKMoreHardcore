@@ -63,24 +63,16 @@ namespace HSKMoreHardcore
             var curDef = billDoer?.CurJob?.def;
             if (curDef != mendJob)
                 return;
-            Log.Message($"[MendNerf] mend completed by {billDoer.LabelShort}; ingredients={(ingredients == null ? "null" : ingredients.Count.ToString())}");
             if (ingredients == null)
                 return;
             foreach (var t in ingredients)
             {
                 if (t == null || t.Destroyed)
-                {
-                    Log.Message($"[MendNerf]   skip: {(t == null ? "null" : t.LabelCap + " (destroyed)")}");
                     continue;
-                }
                 var comp = t.TryGetComp<CompWornByEnemy>();
                 if (comp == null)
-                {
-                    Log.Message($"[MendNerf]   {t.LabelCap}: no CompWornByEnemy — skip");
                     continue;
-                }
                 comp.repairCount++;
-                Log.Message($"[MendNerf]   {t.LabelCap}: repairCount -> {comp.repairCount} (mark applied)");
             }
         }
     }

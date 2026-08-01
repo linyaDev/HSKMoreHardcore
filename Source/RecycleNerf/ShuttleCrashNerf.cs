@@ -75,7 +75,6 @@ namespace HSKMoreHardcore
                 {
                     pawn.apparel.Remove(ap);
                     ap.Destroy();
-                    Log.Message($"[ShuttleCrashNerf] Removed helmet {ap.def.defName} from {pawn.LabelShort}");
                 }
             }
 
@@ -91,9 +90,7 @@ namespace HSKMoreHardcore
 
                 foreach (var thing in toReduce)
                 {
-                    int before = thing.stackCount;
                     thing.stackCount = UnityEngine.Mathf.Min(5, thing.stackCount);
-                    Log.Message($"[ShuttleCrashNerf] {pawn.LabelShort}: ammo {thing.def.defName} {before} -> {thing.stackCount}");
                 }
             }
         }

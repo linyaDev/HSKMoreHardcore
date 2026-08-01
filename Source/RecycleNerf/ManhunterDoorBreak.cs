@@ -71,7 +71,6 @@ namespace HSKMoreHardcore
             if (dinfo.Instigator is not Pawn attacker || attacker.Faction != Faction.OfPlayer)
                 return;
 
-            Log.Message($"[ManhunterDoorBreak] HARM FLAG SET: {pawn.LabelShort} hit by {attacker.LabelShort} on map {pawn.Map.uniqueID}, tick={Find.TickManager.TicksGame}");
             lastHarmTickPerMap[pawn.Map.uniqueID] = Find.TickManager.TicksGame;
         }
 
@@ -90,28 +89,15 @@ namespace HSKMoreHardcore
 
             // Проверяем глобальный флаг для этой карты
             if (!lastHarmTickPerMap.TryGetValue(pawn.Map.uniqueID, out int lastTick))
-            {
-                Log.Message($"[ManhunterDoorBreak] {pawn.LabelShort}: no harm flag for map {pawn.Map.uniqueID}");
                 return;
-            }
 
             int elapsed = Find.TickManager.TicksGame - lastTick;
             if (elapsed > AggroWindowTicks)
-            {
-                Log.Message($"[ManhunterDoorBreak] {pawn.LabelShort}: harm flag expired ({elapsed} > {AggroWindowTicks})");
                 return;
-            }
-
-            Log.Message($"[ManhunterDoorBreak] {pawn.LabelShort}: harm flag active (elapsed={elapsed}), looking for door...");
 
             Building_Door door = FindNearestDoor(pawn);
             if (door == null)
-            {
-                Log.Message($"[ManhunterDoorBreak] {pawn.LabelShort}: no reachable door found");
                 return;
-            }
-
-            Log.Message($"[ManhunterDoorBreak] {pawn.LabelShort}: attacking door at {door.Position}");
             Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, door);
             job.maxNumMeleeAttacks = 4;
             job.expiryInterval = 600;

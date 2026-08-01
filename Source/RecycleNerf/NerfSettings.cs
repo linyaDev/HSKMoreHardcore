@@ -78,6 +78,9 @@ namespace HSKMoreHardcore
             { "Apparel_ShieldBelt", 5 }, // Spacer — нет Sharp-брони, задаём тир вручную
         };
 
+        // Pod/crate ammo
+        public static float podAmmoMultiplier = 0.2f;
+
         // Fishing
         public static int maxFishingPiers = 3;
         public static int maxFishTraps = 3;
