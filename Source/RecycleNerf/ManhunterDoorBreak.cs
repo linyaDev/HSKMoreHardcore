@@ -95,7 +95,11 @@ namespace HSKMoreHardcore
             if (elapsed > AggroWindowTicks)
                 return;
 
-            Building_Door door = FindNearestDoor(pawn);
+            // Если рядом есть колонист — не переключаемся на дверь, пусть AI атакует его
+            if (HasNearbyEnemy(pawn, 10f))
+                return;
+
+            Building_Door door = FindDoorNearestToColonist(pawn);
             if (door == null)
                 return;
             Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, door);
@@ -113,21 +117,52 @@ namespace HSKMoreHardcore
                 || pawn.MentalStateDef == MentalStateDefOf.ManhunterPermanent;
         }
 
-        private static Building_Door FindNearestDoor(Pawn pawn)
+        private static bool HasNearbyEnemy(Pawn pawn, float radius)
         {
-            Building_Door best = null;
-            float bestDist = float.MaxValue;
+            float radiusSq = radius * radius;
+            foreach (var p in pawn.Map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
+            {
+                if (p.Dead)
+                    continue;
+                if (pawn.Position.DistanceToSquared(p.Position) <= radiusSq)
+                    return true;
+            }
+            return false;
+        }
 
+        private static Building_Door FindDoorNearestToColonist(Pawn pawn)
+        {
             var map = pawn.Map;
             if (map == null)
                 return null;
 
+            // Ближайший колонист к животному
+            Pawn nearestColonist = null;
+            float nearestColonistDist = float.MaxValue;
+            foreach (var p in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
+            {
+                if (p.Dead)
+                    continue;
+                float dist = pawn.Position.DistanceToSquared(p.Position);
+                if (dist < nearestColonistDist)
+                {
+                    nearestColonistDist = dist;
+                    nearestColonist = p;
+                }
+            }
+
+            if (nearestColonist == null)
+                return null;
+
+            // Дверь, ближайшая к этому колонисту, но достижимая для животного
+            Building_Door best = null;
+            float bestDist = float.MaxValue;
             foreach (var b in map.listerBuildings.allBuildingsColonist)
             {
                 if (b is Building_Door door && !door.Open
                     && pawn.CanReach(door, PathEndMode.Touch, Danger.Deadly))
                 {
-                    float dist = pawn.Position.DistanceToSquared(door.Position);
+                    float dist = nearestColonist.Position.DistanceToSquared(door.Position);
                     if (dist < bestDist)
                     {
                         bestDist = dist;

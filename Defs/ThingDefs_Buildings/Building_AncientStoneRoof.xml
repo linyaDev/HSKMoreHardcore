@@ -4,6 +4,7 @@
 		<defName>AncientStoneRoofFraming</defName>
 		<label>ancient stone roofing</label>
 		<description>A crude but effective thick stone roof built using ancient techniques. Requires significantly more stone than modern methods, but can be researched earlier.</description>
+		<designationCategory>Zone</designationCategory>
 		<statBases>
 			<MaxHitPoints>500</MaxHitPoints>
 			<WorkToBuild>300</WorkToBuild>
