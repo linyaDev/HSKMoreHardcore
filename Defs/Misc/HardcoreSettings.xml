@@ -23,7 +23,8 @@
 		<deepResourceMultiplier>0.143</deepResourceMultiplier>
 		<!-- Минимум серебра у торговцев -->
 		<traderSilverMinimum>3500</traderSilverMinimum>
-		<!-- Шанс отрастания дерева (0.25 = только 25% деревьев вырастут) -->
+		<!-- Шанс отрастания дерева (0.01 = вырастет только 1% деревьев).
+		     Начальную генерацию карты не затрагивает — только отрастание по ходу игры. -->
 		<treeRegrowthChance>0.01</treeRegrowthChance>
 		<!-- Множители цены продажи торговцу (defName -> множитель) -->
 		<sellPriceOverrides>
