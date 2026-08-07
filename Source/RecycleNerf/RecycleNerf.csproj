@@ -8,7 +8,7 @@
     <OutputPath>..\..\Assemblies</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <RimWorldPath>D:\SteamLibrary\steamapps\common\RimWorld</RimWorldPath>
+    <RimWorldPath>D:\RimWorld_HSK_1.5</RimWorldPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">

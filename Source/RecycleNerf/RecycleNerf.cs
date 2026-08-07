@@ -24,9 +24,19 @@ namespace HSKMoreHardcore
 
         public static void Postfix(ref List<Thing> __result, Thing thing, float efficiency)
         {
-            // Только одежда — оружие не трогаем
             if (!thing.def.IsApparel)
                 return;
+
+            // Металл: урезаем каждый ресурс до 10-15% от оригинала
+            if (IsMetallic(thing))
+            {
+                float mult = Rand.Range(0.10f, 0.15f);
+                for (int i = __result.Count - 1; i >= 0; i--)
+                {
+                    __result[i].stackCount = Mathf.Max(1, Mathf.FloorToInt(__result[i].stackCount * mult));
+                }
+                return;
+            }
 
             var costList = CostListCalculator.CostListAdjusted(thing);
             int totalCost = 0;
@@ -38,11 +48,9 @@ namespace HSKMoreHardcore
             if (totalCost <= 0)
                 return;
 
-            // 10-15% of total material cost
             int amount = Mathf.Max(1, Mathf.FloorToInt(totalCost * Rand.Range(0.10f, 0.15f)));
 
-            // Determine output: leather stuff -> Leather_Patch, fabric stuff -> Cloth
-            ThingDef outputDef = DetermineOutput(thing);
+            ThingDef outputDef = IsLeathery(thing) ? RecycleNerfDefs.Leather_Patch : RimWorld.ThingDefOf.Cloth;
 
             Thing output = ThingMaker.MakeThing(outputDef);
             output.stackCount = amount;
@@ -51,18 +59,28 @@ namespace HSKMoreHardcore
             __result.Add(output);
         }
 
-        private static ThingDef DetermineOutput(Thing thing)
+        private static bool IsMetallic(Thing thing)
         {
-            if (thing.Stuff?.stuffProps?.categories != null)
+            if (thing.Stuff?.stuffProps?.categories == null)
+                return false;
+            foreach (var cat in thing.Stuff.stuffProps.categories)
             {
-                foreach (var cat in thing.Stuff.stuffProps.categories)
-                {
-                    if (cat.defName == "Leathery")
-                        return RecycleNerfDefs.Leather_Patch;
-                }
+                if (cat.defName.Contains("Metallic"))
+                    return true;
             }
+            return false;
+        }
 
-            return RimWorld.ThingDefOf.Cloth;
+        private static bool IsLeathery(Thing thing)
+        {
+            if (thing.Stuff?.stuffProps?.categories == null)
+                return false;
+            foreach (var cat in thing.Stuff.stuffProps.categories)
+            {
+                if (cat.defName == "Leathery")
+                    return true;
+            }
+            return false;
         }
     }
 
