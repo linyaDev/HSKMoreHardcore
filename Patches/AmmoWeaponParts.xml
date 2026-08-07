@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!--
+		Огнестрельные патроны требуют оружейную деталь своего класса.
+		Гейт приходит не из researchPrerequisite, а из того, что деталь надо уметь делать:
+		Pistol_Component открывается на Gunsmithing, Shotgun_Component на GasOperation,
+		Rifle_Component на Rifles_C1, Heavy_Component на HeavyTurrets.
+
+		Расход везде 1 на партию — стоимость растёт сама, от 50 у пистолетной детали
+		до 500 у тяжёлой.
+
+		Где калибр делят несколько классов оружия, деталь задана через "или": подойдёт
+		любая из перечисленных. Учти, что "или" опускает гейт до самого раннего варианта.
+
+		Стрелы, гвозди, огнемётные смеси и факелы не трогаем.
+
+		Каждой группе нужны две операции: добавить ингредиент и расширить
+		fixedIngredientFilter, иначе деталь не пройдёт отбор сырья.
+
+		Детали вынесены в ammoCraftExcludedMaterials (Defs/Misc/HardcoreSettings.xml),
+		чтобы AmmoCraftNerf не умножал их на ammoCraftCostMultiplier.
+	-->
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Combat Extended</li>
+		</mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+
+				<!-- 9x19mm и .45 ACP: 5 пистолетов и 4 ПП, поэтому подойдёт любая из двух -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_9x19mmPara_FMJ" or defName="MakeAmmo_9x19mmPara_AP" or defName="MakeAmmo_9x19mmPara_HP" or defName="MakeAmmo_45ACP_FMJ" or defName="MakeAmmo_45ACP_AP" or defName="MakeAmmo_45ACP_HP"]/ingredients</xpath>
+					<value>
+						<li>
+							<filter>
+								<thingDefs>
+									<li>Pistol_Component</li>
+									<li>SMG_Component</li>
+								</thingDefs>
+							</filter>
+							<count>1</count>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_9x19mmPara_FMJ" or defName="MakeAmmo_9x19mmPara_AP" or defName="MakeAmmo_9x19mmPara_HP" or defName="MakeAmmo_45ACP_FMJ" or defName="MakeAmmo_45ACP_AP" or defName="MakeAmmo_45ACP_HP"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Pistol_Component</li>
+						<li>SMG_Component</li>
+					</value>
+				</li>
+
+				<!-- 12 Gauge: 7 дробовиков из 7 собраны на Shotgun_Component, вариантов нет -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_12Gauge_Buck" or defName="MakeAmmo_12Gauge_Slug" or defName="MakeAmmo_12Gauge_Beanbag"]/ingredients</xpath>
+					<value>
+						<li>
+							<filter>
+								<thingDefs>
+									<li>Shotgun_Component</li>
+								</thingDefs>
+							</filter>
+							<count>1</count>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_12Gauge_Buck" or defName="MakeAmmo_12Gauge_Slug" or defName="MakeAmmo_12Gauge_Beanbag"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Shotgun_Component</li>
+					</value>
+				</li>
+
+				<!-- 5.56, 7.62x39, .303: обычные винтовочные -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_556x45mmNATO_FMJ" or defName="MakeAmmo_556x45mmNATO_AP" or defName="MakeAmmo_556x45mmNATO_HP" or defName="MakeAmmo_762x39mmSoviet_FMJ" or defName="MakeAmmo_762x39mmSoviet_AP" or defName="MakeAmmo_762x39mmSoviet_HP" or defName="MakeAmmo_303British_FMJ" or defName="MakeAmmo_303British_AP" or defName="MakeAmmo_303British_HP"]/ingredients</xpath>
+					<value>
+						<li>
+							<filter>
+								<thingDefs>
+									<li>Rifle_Component</li>
+								</thingDefs>
+							</filter>
+							<count>1</count>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_556x45mmNATO_FMJ" or defName="MakeAmmo_556x45mmNATO_AP" or defName="MakeAmmo_556x45mmNATO_HP" or defName="MakeAmmo_762x39mmSoviet_FMJ" or defName="MakeAmmo_762x39mmSoviet_AP" or defName="MakeAmmo_762x39mmSoviet_HP" or defName="MakeAmmo_303British_FMJ" or defName="MakeAmmo_303British_AP" or defName="MakeAmmo_303British_HP"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Rifle_Component</li>
+					</value>
+				</li>
+
+				<!-- 7.62x51: наполовину снайперский, подойдёт винтовочная или снайперская -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_762x51mmNATO_FMJ" or defName="MakeAmmo_762x51mmNATO_AP" or defName="MakeAmmo_762x51mmNATO_HP"]/ingredients</xpath>
+					<value>
+						<li>
+							<filter>
+								<thingDefs>
+									<li>Rifle_Component</li>
+									<li>Sniper_Component</li>
+								</thingDefs>
+							</filter>
+							<count>1</count>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_762x51mmNATO_FMJ" or defName="MakeAmmo_762x51mmNATO_AP" or defName="MakeAmmo_762x51mmNATO_HP"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Rifle_Component</li>
+						<li>Sniper_Component</li>
+					</value>
+				</li>
+
+				<!-- .50 BMG и 14.5x114mm: крупный калибр, только тяжёлая деталь.
+				     AdvSniper_Component сюда намеренно не добавлен: "или" опустило бы
+				     гейт, а не ужесточило. -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_50BMG_FMJ" or defName="MakeAmmo_50BMG_AP" or defName="MakeAmmo_145x114mm_FMJ" or defName="MakeAmmo_145x114mm_AP"]/ingredients</xpath>
+					<value>
+						<li>
+							<filter>
+								<thingDefs>
+									<li>Heavy_Component</li>
+								</thingDefs>
+							</filter>
+							<count>1</count>
+						</li>
+					</value>
+				</li>
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_50BMG_FMJ" or defName="MakeAmmo_50BMG_AP" or defName="MakeAmmo_145x114mm_FMJ" or defName="MakeAmmo_145x114mm_AP"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Heavy_Component</li>
+					</value>
+				</li>
+
+			</operations>
+		</match>
+	</Operation>
+</Patch>

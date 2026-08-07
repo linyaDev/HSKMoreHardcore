@@ -13,6 +13,14 @@
 		<!-- Материалы-исключения: их количество в рецептах патронов не множится -->
 		<ammoCraftExcludedMaterials>
 			<li>ElectronicComponents</li>
+			<!-- Оружейные детали добавлены патчем AmmoWeaponParts.xml, расход там задан
+			     по классу калибра и множиться не должен -->
+			<li>Pistol_Component</li>
+			<li>SMG_Component</li>
+			<li>Shotgun_Component</li>
+			<li>Rifle_Component</li>
+			<li>Sniper_Component</li>
+			<li>Heavy_Component</li>
 		</ammoCraftExcludedMaterials>
 		<!-- Рецепты патронов, исключённые из множителя стоимости -->
 		<ammoCraftExcludedRecipes>
