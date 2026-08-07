@@ -42,8 +42,11 @@ namespace HSKMoreHardcore
             bool yieldsWood = plant.def.plant.harvestedThingDef != null
                 && (plant.def.plant.harvestedThingDef.defName == "WoodLog"
                     || plant.def.plant.harvestedThingDef.defName == "Kindling");
+            // Фруктовые деревья HSK для игры деревьями не являются: harvestTag=Standard,
+            // forceIsTree не выставлен, урожай — плоды. Опознаём их по пню после рубки.
+            bool leavesStump = plant.def.plant.choppedThingDef != null;
 
-            if (!isTree && !yieldsWood)
+            if (!isTree && !yieldsWood && !leavesStump)
                 return;
 
             if (!Rand.Chance(chance))
