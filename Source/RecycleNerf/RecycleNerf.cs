@@ -50,7 +50,9 @@ namespace HSKMoreHardcore
 
             int amount = Mathf.Max(1, Mathf.FloorToInt(totalCost * Rand.Range(0.10f, 0.15f)));
 
-            ThingDef outputDef = IsLeathery(thing) ? RecycleNerfDefs.Leather_Patch : RimWorld.ThingDefOf.Cloth;
+            // Кожа даёт лоскутную кожу, всё остальное — лоскутную ткань: разбор возвращает
+            // обрезки, а не полноценное сырьё.
+            ThingDef outputDef = IsLeathery(thing) ? RecycleNerfDefs.Leather_Patch : RecycleNerfDefs.Cloth_Patch;
 
             Thing output = ThingMaker.MakeThing(outputDef);
             output.stackCount = amount;
@@ -88,5 +90,6 @@ namespace HSKMoreHardcore
     public static class RecycleNerfDefs
     {
         public static ThingDef Leather_Patch;
+        public static ThingDef Cloth_Patch;
     }
 }
