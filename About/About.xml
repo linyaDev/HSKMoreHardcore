@@ -18,6 +18,10 @@ Balance mod for Hardcore SK. Changes economy, loot, medicine, crafting and tradi
 			<packageId>brrainz.harmony</packageId>
 			<displayName>Harmony</displayName>
 		</li>
+		<li>
+			<packageId>skyarkhangel.HSK</packageId>
+			<displayName>Hardcore SK</displayName>
+		</li>
 	</modDependencies>
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>
