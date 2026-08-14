@@ -115,7 +115,7 @@ namespace HSKMoreHardcore
                     return;
 
                 // Замену индустриальной медицины на травы делает XML-патч пешкокайндов
-                // (Patches/RaiderMedicineHerbal.xml).
+                // (Patches/Core_SK/RaiderMedicineHerbal.xml).
             }
             catch (Exception e)
             {
