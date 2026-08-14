@@ -57,19 +57,6 @@
 		</operations>
 	</Operation>
 
-	<!-- Capsules: replace MedicineIndustrial with Herbmedicine in DropPodLanded -->
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="DropPodLanded"]/comps/li[@Class="SK.CompLoot_Properties"]/lootCounters/MedicineIndustrial</xpath>
-		<value>
-			<Herbmedicine>10</Herbmedicine>
-		</value>
-	</Operation>
-
-	<!-- Capsules: replace MedicineIndustrial with HerbMedicine in ShipWreckLanded -->
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="ShipWreckLanded"]/comps/li[@Class="SK.CompLoot_Properties"]/lootCounters/MedicineIndustrial</xpath>
-		<value>
-			<HerbMedicine>10</HerbMedicine>
-		</value>
-	</Operation>
+	<!-- 1.6: DropPodLanded/ShipWreckLanded loot moved from CompLoot_Properties
+	     lootCounters to CompSealedCargo_Properties — capsule ops dropped until ported -->
 </Patch>
