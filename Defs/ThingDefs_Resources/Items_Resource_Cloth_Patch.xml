@@ -16,7 +16,7 @@
 		Опирается на SK_ResourceBase и категорию BTextiles из Core_SK.
 	-->
 
-	<ThingDef ParentName="SK_ResourceBase">
+	<ThingDef ParentName="ResourceBase">
 		<defName>Cloth_Patch</defName>
 		<label>patch cloth</label>
 		<description>A weak textile sewn together from scraps and offcuts of other fabrics. Its irregular seams fray easily and catch on everything, and no amount of care makes it look like anything but rags stitched into a sheet.</description>
