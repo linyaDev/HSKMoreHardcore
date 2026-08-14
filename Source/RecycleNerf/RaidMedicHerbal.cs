@@ -16,6 +16,10 @@ namespace HSKMoreHardcore
 
         static RaidMedicHerbal()
         {
+#if V16
+            // 1.6: SkyAI reworked, AdvancedAI_TendUtility is gone — disabled until ported
+            return;
+#endif
             var type = AccessTools.TypeByName("SkyMind.AdvancedAI_TendUtility");
             if (type == null)
             {
