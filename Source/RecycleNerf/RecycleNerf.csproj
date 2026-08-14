@@ -6,6 +6,8 @@
     <LangVersion>12.0</LangVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>../../Assemblies/</OutputPath>
+    <!-- 1.6 branch: build against the 1.6 game copy -->
+    <DefineConstants>V16</DefineConstants>
   </PropertyGroup>
 
   <!-- Reference assemblies for .NET Framework 4.8, so the project builds on macOS/Linux too. -->
@@ -15,7 +17,7 @@
 
   <!-- Game paths. Override from the command line with -p:RimWorldPath=... if your install differs. -->
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
-    <RimWorldPath Condition="'$(RimWorldPath)' == ''">D:\RimWorld_HSK_1.5</RimWorldPath>
+    <RimWorldPath Condition="'$(RimWorldPath)' == ''">D:\RimWorld_HSK</RimWorldPath>
     <RimWorldManaged Condition="'$(RimWorldManaged)' == ''">$(RimWorldPath)/RimWorldWin64_Data/Managed</RimWorldManaged>
     <HarmonyAssembly Condition="'$(HarmonyAssembly)' == ''">$(RimWorldPath)/Mods/Harmony/Current/Assemblies/0Harmony.dll</HarmonyAssembly>
   </PropertyGroup>

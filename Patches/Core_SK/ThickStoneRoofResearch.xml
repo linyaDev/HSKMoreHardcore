@@ -6,9 +6,5 @@
 		<value><li>AncientStoneRoof</li></value>
 	</Operation>
 
-	<!-- Thick stone roof: increase research cost to 100 stone per tile (40 -> 100) -->
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="ThickStoneRoofFraming"]/costStuffCount</xpath>
-		<value><costStuffCount>100</costStuffCount></value>
-	</Operation>
+	<!-- 1.6: ThickStoneRoofFraming removed from Core_SK, cost op dropped -->
 </Patch>
