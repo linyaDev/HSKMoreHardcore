@@ -15,6 +15,10 @@
 
 		    Apparel_Robe        ApparelNoble,      SetNoble     -> Apparel -> Root
 		    Apparel_ClothMask   SpecialApparelCat, SetGasMask   -> Apparel -> Root
+		    Rucksack            SpecialApparelCat               -> Apparel -> Root
+
+		Rucksack (рогулька) — вещь самого Vile's, но категория у неё тоже SpecialApparelCat,
+		так что в собственный белый список рецепта она не попадает.
 
 		Дописываем их в его же фильтр поимённо — тем же приёмом, каким он сам вписал туда
 		перчатки Apparello. Предикат [thingDefs] попадает только в его узел: у рецепта HSK
@@ -39,6 +43,7 @@
 					<value>
 						<li>Apparel_Robe</li>
 						<li>Apparel_ClothMask</li>
+						<li>Rucksack</li>
 					</value>
 				</li>
 
@@ -47,6 +52,7 @@
 					<value>
 						<li>Apparel_Robe</li>
 						<li>Apparel_ClothMask</li>
+						<li>Rucksack</li>
 					</value>
 				</li>
 
