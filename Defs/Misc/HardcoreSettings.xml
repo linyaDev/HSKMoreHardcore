@@ -26,6 +26,8 @@
 		<ammoCraftExcludedRecipes>
 			<li>MakeAmmo_StoneBall</li>
 			<li>MakeAmmo_ExplosiveBall</li>
+			<!-- Пилумы — неолитный расходник, как стрелы (в CE 60% возврат после броска) -->
+			<li>MakeAmmo_Pilum</li>
 		</ammoCraftExcludedRecipes>
 		<!-- Множитель размера глубинных залежей (1/7 = ~0.143) -->
 		<deepResourceMultiplier>0.143</deepResourceMultiplier>
