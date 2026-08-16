@@ -19,10 +19,6 @@ namespace HSKMoreHardcore
 
         static FishingNerf()
         {
-#if V16
-            // 1.6: HSK fishing reworked around Odyssey vanilla fishing — nerf disabled until ported
-            return;
-#endif
             var zoneType = AccessTools.TypeByName("SK.Zone_Fishing");
             if (zoneType == null)
                 return;

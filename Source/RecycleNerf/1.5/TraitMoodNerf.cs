@@ -17,10 +17,6 @@ namespace HSKMoreHardcore
     {
         static TraitMoodNerf()
         {
-#if V16
-            // 1.6: SK.TraitChangerMapComponent is gone from the pack — disabled until ported
-            return;
-#endif
             var harmony = new Harmony("linya.hskmorehardcore.traitmoodnerf");
             var targetType = AccessTools.TypeByName("SK.TraitChangerMapComponent");
             if (targetType == null)

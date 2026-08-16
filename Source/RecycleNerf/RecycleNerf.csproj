@@ -11,6 +11,12 @@
     <DefineConstants>V16</DefineConstants>
   </PropertyGroup>
 
+  <!-- Исходники разложены как XML мода: Common/ — общее, 1.6/ — версионное,
+       1.5/ — справочные исходники замороженной 1.5-DLL, в сборку не входят. -->
+  <ItemGroup>
+    <Compile Remove="1.5/**" />
+  </ItemGroup>
+
   <!-- Reference assemblies for .NET Framework 4.8, so the project builds on macOS/Linux too. -->
   <ItemGroup>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
