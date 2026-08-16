@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>RecycleNerf</AssemblyName>
+    <AssemblyName>HSKMoreHardcore</AssemblyName>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>12.0</LangVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <!-- Единая ветка: собираем только 1.6-сборку, в 1.5/Assemblies лежит
          замороженная DLL из release_1.4 (загрузку версии решает loadFolders.xml) -->
-    <OutputPath>../../1.6/Assemblies/</OutputPath>
+    <OutputPath>../1.6/Assemblies/</OutputPath>
     <DefineConstants>V16</DefineConstants>
   </PropertyGroup>
 
