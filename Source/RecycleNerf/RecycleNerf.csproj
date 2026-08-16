@@ -5,8 +5,9 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>12.0</LangVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>../../Assemblies/</OutputPath>
-    <!-- 1.6 branch: build against the 1.6 game copy -->
+    <!-- Единая ветка: собираем только 1.6-сборку, в 1.5/Assemblies лежит
+         замороженная DLL из release_1.4 (загрузку версии решает loadFolders.xml) -->
+    <OutputPath>../../1.6/Assemblies/</OutputPath>
     <DefineConstants>V16</DefineConstants>
   </PropertyGroup>
 
