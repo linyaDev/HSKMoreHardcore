@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Reinforced crossbow: keep 8 primitive components, add 4 industrial components -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Crossbow"]/costList</xpath>
+		<value><ComponentIndustrial>4</ComponentIndustrial></value>
+	</Operation>
+</Patch>
