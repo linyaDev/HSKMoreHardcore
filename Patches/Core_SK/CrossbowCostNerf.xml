@@ -5,4 +5,14 @@
 		<xpath>Defs/ThingDef[defName="Crossbow"]/costList</xpath>
 		<value><ComponentIndustrial>4</ComponentIndustrial></value>
 	</Operation>
+
+	<!-- Reinforced crossbow: build from planks (Woody) instead of raw logs -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Crossbow"]/stuffCategories</xpath>
+		<value>
+			<stuffCategories>
+				<li>Woody</li>
+			</stuffCategories>
+		</value>
+	</Operation>
 </Patch>
