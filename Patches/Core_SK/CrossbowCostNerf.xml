@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Reinforced crossbow: keep 8 primitive components, add 4 industrial components -->
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="Crossbow"]/costList</xpath>
-		<value><ComponentIndustrial>4</ComponentIndustrial></value>
-	</Operation>
-
-	<!-- Reinforced crossbow: build from planks (Woody) instead of raw logs -->
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="Crossbow"]/stuffCategories</xpath>
-		<value>
-			<stuffCategories>
-				<li>Woody</li>
-			</stuffCategories>
-		</value>
+	<!-- Crossbow cost nerfs. Vile's Pre-Industrial rewrites both defs entirely
+	     (Crossbow -> Light Crossbow, Norbal_Scorpion -> Repeating Nu Gong) with its
+	     own costs, so only apply when Vile's is not loaded. -->
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>HMC Vile's Pre-Industrial Overhaul</li></mods>
+		<nomatch Class="PatchOperationSequence">
+			<operations>
+				<!-- Reinforced crossbow: keep 8 primitive components, add 4 industrial -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Crossbow"]/costList</xpath>
+					<value><ComponentIndustrial>4</ComponentIndustrial></value>
+				</li>
+				<!-- Reinforced crossbow: build from planks (Woody) instead of raw logs -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="Crossbow"]/stuffCategories</xpath>
+					<value>
+						<stuffCategories>
+							<li>Woody</li>
+						</stuffCategories>
+					</value>
+				</li>
+				<!-- Scorpion crossbow: same treatment -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/costList</xpath>
+					<value><ComponentIndustrial>4</ComponentIndustrial></value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/stuffCategories</xpath>
+					<value>
+						<stuffCategories>
+							<li>Woody</li>
+						</stuffCategories>
+					</value>
+				</li>
+			</operations>
+		</nomatch>
 	</Operation>
 </Patch>
