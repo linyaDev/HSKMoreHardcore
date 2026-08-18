@@ -115,10 +115,10 @@
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_WhiteRose</xpath>
 		<value><Plant_WhiteRose>0.3</Plant_WhiteRose></value>
 	</Operation>
-	<!-- Healroot: 0.06 -> 0.12 -->
+	<!-- HealrootWild (1.6: renamed from Plant_Healroot, base 0.16): 0.16 -> 0.32 -->
 	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_Healroot</xpath>
-		<value><Plant_Healroot>0.12</Plant_Healroot></value>
+		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_HealrootWild</xpath>
+		<value><Plant_HealrootWild>0.32</Plant_HealrootWild></value>
 	</Operation>
 	<!-- Mint: 0.04 -> 0.08 -->
 	<Operation Class="PatchOperationReplace">
