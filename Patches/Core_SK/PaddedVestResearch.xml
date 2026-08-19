@@ -7,4 +7,16 @@
 		<xpath>Defs/ThingDef[defName="Armor_PaddedVest"]/recipeMaker/researchPrerequisite</xpath>
 		<value><researchPrerequisite>Apparel_A1</researchPrerequisite></value>
 	</Operation>
+
+	<!-- Плюс шьётся на верстаке кожевника. recipeUsers у самого дефа нет — он
+	     наследуется от ApparelMedievalBase (HandTailoringBench); при слиянии
+	     наследования списки объединяются, так что станка будет два. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Armor_PaddedVest"]/recipeMaker</xpath>
+		<value>
+			<recipeUsers>
+				<li>LeatherworkerTable</li>
+			</recipeUsers>
+		</value>
+	</Operation>
 </Patch>
