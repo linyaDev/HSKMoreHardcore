@@ -19,4 +19,10 @@
 			</recipeUsers>
 		</value>
 	</Operation>
+
+	<!-- Дешевле по коже: 75 -> 55 (компоненты 2 шт. не трогаем) -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Armor_PaddedVest"]/costStuffCount</xpath>
+		<value><costStuffCount>55</costStuffCount></value>
+	</Operation>
 </Patch>
