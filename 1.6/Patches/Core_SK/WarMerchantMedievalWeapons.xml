@@ -20,14 +20,20 @@
 			<li Class="StockGenerator_Category">
 				<maxTechLevelGenerate>Medieval</maxTechLevelGenerate>
 				<categoryDef>WeaponsMelee</categoryDef>
+				<thingDefCountRange>2~3</thingDefCountRange>
+				<countRange>1~1</countRange>
+				<totalPriceRange>600~1600</totalPriceRange>
+			</li>
+			<!-- Арбалеты по категории, а не по тегу WeaponRanged: тег тянет весь
+			     неолитный пул (луки, пращи, пилумы — у Pila он тоже есть), и
+			     средневековое почти не выпадает. Компаундный арбалет отсекается
+			     потолком Medieval (он Industrial). -->
+			<li Class="StockGenerator_Category">
+				<maxTechLevelGenerate>Medieval</maxTechLevelGenerate>
+				<categoryDef>CrossbarRanged</categoryDef>
 				<thingDefCountRange>1~2</thingDefCountRange>
 				<countRange>1~1</countRange>
-				<totalPriceRange>400~1000</totalPriceRange>
-			</li>
-			<li Class="StockGenerator_MarketValue">
-				<tradeTag>WeaponRanged</tradeTag>
-				<maxTechLevelGenerate>Medieval</maxTechLevelGenerate>
-				<countRange>1~2</countRange>
+				<totalPriceRange>300~900</totalPriceRange>
 			</li>
 		</value>
 	</Operation>
