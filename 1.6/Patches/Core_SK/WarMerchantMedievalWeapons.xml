@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Военный караванщик (Caravan_Neolithic_WarMerchant) возит и средневековое
-	     оружие: свои генераторы поверх неолитных (min-техуровня в StockGenerator
-	     нет, поэтому Medieval-генератор покрывает неолит+средневековье — это
-	     просто расширяет ассортимент). Сток задаётся патчем Core_SK_CoreModule,
-	     наш мод грузится позже. Затрагивает все фракции с этим караваном
-	     (Княжество, Королевство, Норбалы, Хищники) — все средневековые. -->
+	<!-- Военный караванщик (Caravan_Neolithic_WarMerchant) возит средневековое
+	     оружие вместо неолитного: старые неолитные генераторы убираются, вместо
+	     них Medieval (нижней границы техуровня в StockGenerator нет, так что
+	     неолит формально тоже может попасться, но потолок теперь средневековый).
+	     Сток задаётся патчем Core_SK_CoreModule, наш мод грузится позже.
+	     Затрагивает все фракции с этим караваном (Княжество, Королевство,
+	     Норбалы, Хищники) — все средневековые. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_WarMerchant"]/stockGenerators/li[@Class="StockGenerator_Category"][categoryDef="WeaponsMelee"][maxTechLevelGenerate="Neolithic"]</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_WarMerchant"]/stockGenerators/li[@Class="StockGenerator_MarketValue"][tradeTag="WeaponRanged"][maxTechLevelGenerate="Neolithic"]</xpath>
+	</Operation>
+
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_WarMerchant"]/stockGenerators</xpath>
 		<value>
