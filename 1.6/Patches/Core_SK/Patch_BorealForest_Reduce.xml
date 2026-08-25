@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 
-	<!-- Reduce BorealForest: plantDensity 0.7 -> 0.525, tree weights x0.65,
+	<!-- Reduce BorealForest: plantDensity 0.7 -> 0.63, tree weights x0.65,
 	     animals -20%. Non-tree weights left at HSK stock.
-	     Итог по абсолютному числу: деревья ~58% от исходного HSK (середина между
-	     стоком и прежним нерфом x0.3, дававшим ~19%), трава/мох ~97%.
+	     Итог по абсолютному числу: деревья ~70% от исходного HSK (прежний нерф x0.3 давал ~19%),
+	     трава/мох ~107%, вся растительность 90% от стока.
 	     Dense variant carries the original HSK values -->
 
 	<!-- animalDensity: 2.5 -> 2.0 (-20%) -->
@@ -13,10 +13,10 @@
 		<value><animalDensity>2.0</animalDensity></value>
 	</Operation>
 
-	<!-- plantDensity: 0.7 -> 0.525 -->
+	<!-- plantDensity: 0.7 -> 0.63 (90% от стока) -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/plantDensity</xpath>
-		<value><plantDensity>0.525</plantDensity></value>
+		<value><plantDensity>0.63</plantDensity></value>
 	</Operation>
 
 	<!-- === Trees (weights x0.65) === -->

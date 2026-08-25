@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 
-	<!-- Reduce TemperateForest: plantDensity 0.65 -> 0.525, tree weights x0.65,
+	<!-- Reduce TemperateForest: plantDensity 0.65 -> 0.585, tree weights x0.65,
 	     animals reduced. Non-tree weights left at HSK stock.
-	     Итог по абсолютному числу: деревья ~62% от исходного HSK (середина между
-	     стоком и прежним нерфом x0.35, дававшим ~25%), трава/кусты ~97%.
+	     Итог по абсолютному числу: деревья ~70% от исходного HSK (прежний нерф x0.35 давал ~25%),
+	     трава/кусты ~108%, вся растительность 90% от стока.
 	     Dense variant carries the original HSK values -->
 
 	<!-- animalDensity: 3.3 -> 1.61 (-51%) -->
@@ -13,10 +13,10 @@
 		<value><animalDensity>1.61</animalDensity></value>
 	</Operation>
 
-	<!-- plantDensity: 0.65 -> 0.525 -->
+	<!-- plantDensity: 0.65 -> 0.585 (90% от стока) -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/plantDensity</xpath>
-		<value><plantDensity>0.525</plantDensity></value>
+		<value><plantDensity>0.585</plantDensity></value>
 	</Operation>
 
 	<!-- === Trees (weights x0.65) === -->
