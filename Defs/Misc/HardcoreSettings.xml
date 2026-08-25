@@ -28,6 +28,10 @@
 			<li>MakeAmmo_ExplosiveBall</li>
 			<!-- Пилумы — неолитный расходник, как стрелы (в CE 60% возврат после броска) -->
 			<li>MakeAmmo_Pilum</li>
+			<!-- Дротики духовой трубки — как стрелы, без множителя -->
+			<li>MakeAmmo_Dart</li>
+			<li>MakeAmmo_Dart_Stone</li>
+			<li>MakeAmmo_Dart_Metal</li>
 		</ammoCraftExcludedRecipes>
 		<!-- Множитель размера глубинных залежей (1/7 = ~0.143) -->
 		<deepResourceMultiplier>0.143</deepResourceMultiplier>
