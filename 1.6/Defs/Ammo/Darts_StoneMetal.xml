@@ -87,7 +87,7 @@
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<!-- Слабее каменной стрелы (6 урона, 0.2/1.42) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>4</damageAmountBase>
+			<damageAmountBase>5</damageAmountBase>
 			<armorPenetrationSharp>0.15</armorPenetrationSharp>
 			<armorPenetrationBlunt>0.8</armorPenetrationBlunt>
 		</projectile>
@@ -99,7 +99,7 @@
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<!-- Слабее стальной стрелы (7 урона, 0.5/3.02) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>5</damageAmountBase>
+			<damageAmountBase>6</damageAmountBase>
 			<armorPenetrationSharp>0.35</armorPenetrationSharp>
 			<armorPenetrationBlunt>1.5</armorPenetrationBlunt>
 		</projectile>

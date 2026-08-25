@@ -3,7 +3,7 @@
 	<!-- Костяной щит (Shield_Bone): в дефе нет recipeMaker — предмет существует,
 	     но нигде не крафтится (в отличие от Shield_Tribal). Добавляем рецепт по
 	     образцу трайбл-щита: верстак кожевника, Продвинутый пошив I (Apparel_A2).
-	     Стоимость: 40 кожи (stuff — любая кожа, как у трайбл-щита) + 40 брёвен
+	     Стоимость: 25 кожи (stuff — любая кожа, как у трайбл-щита) + 40 брёвен
 	     (фикс. WoodLog: категорию в costList не вписать, а делать брёвна стаффом
 	     нельзя — при двух stuff-ингредиентах материал щита выбирался бы случайно). -->
 	<Operation Class="PatchOperationReplace">
@@ -16,7 +16,7 @@
 	</Operation>
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="Shield_Bone"]/costStuffCount</xpath>
-		<value><costStuffCount>40</costStuffCount></value>
+		<value><costStuffCount>25</costStuffCount></value>
 	</Operation>
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/ThingDef[defName="Shield_Bone"]</xpath>
