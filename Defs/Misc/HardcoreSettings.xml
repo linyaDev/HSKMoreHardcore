@@ -33,10 +33,9 @@
 		<deepResourceMultiplier>0.143</deepResourceMultiplier>
 		<!-- Минимум серебра у торговцев -->
 		<traderSilverMinimum>3500</traderSilverMinimum>
-		<!-- Шанс отрастания дерева (0.1 = вырастет 10% деревьев; было 0.01 — леса
-		     со временем лысели, 1.0 — ваниль). Начальную генерацию карты не
-		     затрагивает — только отрастание по ходу игры. -->
-		<treeRegrowthChance>0.1</treeRegrowthChance>
+		<!-- Шанс отрастания дерева (0.03 = вырастет 3% деревьев; 1.0 — ваниль).
+		     Начальную генерацию карты не затрагивает — только отрастание по ходу игры. -->
+		<treeRegrowthChance>0.03</treeRegrowthChance>
 		<!-- Множители цены продажи торговцу (defName -> множитель) -->
 		<sellPriceOverrides>
 			<li><key>WoodLog</key><value>0.01</value></li>
