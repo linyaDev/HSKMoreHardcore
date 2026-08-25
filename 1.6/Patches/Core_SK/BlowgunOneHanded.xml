@@ -8,6 +8,12 @@
 		</value>
 	</Operation>
 
+	<!-- Рецепт: только 35 дерева. Травяная медицина в costList — рудимент
+	     времён «трубки с набором ядовитых дротиков», яд теперь в самих дротиках. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="blowgun"]/costList</xpath>
+	</Operation>
+
 	<!-- Новые дротики в аммосет трубки (дефы — в Defs/Ammo/Darts_StoneMetal.xml). -->
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/CombatExtended.AmmoSetDef[defName="AmmoSet_Darts"]/ammoTypes</xpath>
