@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 
-	<!-- Reduce TemperateForest: plantDensity 0.65 -> 0.5, tree weights x0.65,
+	<!-- Reduce TemperateForest: plantDensity 0.65 -> 0.5, tree weights x0.55,
 	     animals reduced. Non-tree weights left at HSK stock.
-	     Итог по абсолютному числу: деревья ~60% от исходного HSK (прежний нерф x0.35 давал ~25%),
-	     трава/кусты ~92%, вся растительность ~77% от стока.
+	     Итог по абсолютному числу: деревья ~54% от исходного HSK (прежний нерф x0.35 давал ~25%),
+	     трава/кусты ~98%, вся растительность ~77% от стока.
 	     Dense variant carries the original HSK values -->
 
 	<!-- animalDensity: 3.3 -> 1.61 (-51%) -->
@@ -19,56 +19,56 @@
 		<value><plantDensity>0.5</plantDensity></value>
 	</Operation>
 
-	<!-- === Trees (weights x0.65) === -->
-	<!-- TreePoplar: 3.5 -> 2.28 -->
+	<!-- === Trees (weights x0.55) === -->
+	<!-- TreePoplar: 3.5 -> 1.93 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreePoplar</xpath>
-		<value><Plant_TreePoplar>2.28</Plant_TreePoplar></value>
+		<value><Plant_TreePoplar>1.93</Plant_TreePoplar></value>
 	</Operation>
-	<!-- TreeBirch: 1.5 -> 0.98 -->
+	<!-- TreeBirch: 1.5 -> 0.83 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeBirch</xpath>
-		<value><Plant_TreeBirch>0.98</Plant_TreeBirch></value>
+		<value><Plant_TreeBirch>0.83</Plant_TreeBirch></value>
 	</Operation>
-	<!-- TreeCypress: 1.4 -> 0.91 -->
+	<!-- TreeCypress: 1.4 -> 0.77 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeCypress</xpath>
-		<value><Plant_TreeCypress>0.91</Plant_TreeCypress></value>
+		<value><Plant_TreeCypress>0.77</Plant_TreeCypress></value>
 	</Operation>
-	<!-- TreeWillow: 1.2 -> 0.78 -->
+	<!-- TreeWillow: 1.2 -> 0.66 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeWillow</xpath>
-		<value><Plant_TreeWillow>0.78</Plant_TreeWillow></value>
+		<value><Plant_TreeWillow>0.66</Plant_TreeWillow></value>
 	</Operation>
-	<!-- TreeMaple: 0.8 -> 0.52 -->
+	<!-- TreeMaple: 0.8 -> 0.44 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeMaple</xpath>
-		<value><Plant_TreeMaple>0.52</Plant_TreeMaple></value>
+		<value><Plant_TreeMaple>0.44</Plant_TreeMaple></value>
 	</Operation>
-	<!-- TreeTeak: 0.6 -> 0.39 -->
+	<!-- TreeTeak: 0.6 -> 0.33 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeTeak</xpath>
-		<value><Plant_TreeTeak>0.39</Plant_TreeTeak></value>
+		<value><Plant_TreeTeak>0.33</Plant_TreeTeak></value>
 	</Operation>
-	<!-- TreeOak: 0.45 -> 0.29 -->
+	<!-- TreeOak: 0.45 -> 0.25 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeOak</xpath>
-		<value><Plant_TreeOak>0.29</Plant_TreeOak></value>
+		<value><Plant_TreeOak>0.25</Plant_TreeOak></value>
 	</Operation>
-	<!-- TreeApple: 0.16 -> 0.104 -->
+	<!-- TreeApple: 0.16 -> 0.088 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeApple</xpath>
-		<value><Plant_TreeApple>0.104</Plant_TreeApple></value>
+		<value><Plant_TreeApple>0.088</Plant_TreeApple></value>
 	</Operation>
-	<!-- TreePeach: 0.08 -> 0.052 -->
+	<!-- TreePeach: 0.08 -> 0.044 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreePeach</xpath>
-		<value><Plant_TreePeach>0.052</Plant_TreePeach></value>
+		<value><Plant_TreePeach>0.044</Plant_TreePeach></value>
 	</Operation>
-	<!-- TreeGrape: 0.1 -> 0.065 -->
+	<!-- TreeGrape: 0.1 -> 0.055 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="TemperateForest"]/wildPlants/Plant_TreeGrape</xpath>
-		<value><Plant_TreeGrape>0.065</Plant_TreeGrape></value>
+		<value><Plant_TreeGrape>0.055</Plant_TreeGrape></value>
 	</Operation>
 
 	<!-- === Animals (-51%) === -->
