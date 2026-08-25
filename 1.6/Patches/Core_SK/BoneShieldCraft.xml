@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Костяной щит (Shield_Bone): в дефе нет recipeMaker — предмет существует,
+	     но нигде не крафтится (в отличие от Shield_Tribal). Добавляем рецепт по
+	     образцу трайбл-щита: верстак кожевника, Продвинутый пошив I (Apparel_A2).
+	     Стоимость — штатные 38 дерева (stuff из дефа). -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Shield_Bone"]</xpath>
+		<value>
+			<recipeMaker>
+				<workSpeedStat>SmithingSpeed</workSpeedStat>
+				<workSkill>Crafting</workSkill>
+				<effectWorking>Smith</effectWorking>
+				<soundWorking>Recipe_Machining</soundWorking>
+				<recipeUsers>
+					<li>LeatherworkerTable</li>
+				</recipeUsers>
+				<researchPrerequisite>Apparel_A2</researchPrerequisite>
+				<unfinishedThingDef>UnfinishedShield</unfinishedThingDef>
+			</recipeMaker>
+		</value>
+	</Operation>
+
+	<!-- У дефа нет WorkToMake — без него у авторецепта нулевая работа -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Shield_Bone"]/statBases</xpath>
+		<value><WorkToMake>2400</WorkToMake></value>
+	</Operation>
+</Patch>
