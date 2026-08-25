@@ -85,9 +85,9 @@
 		<defName>StoneDart</defName>
 		<label>stone dart</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
-			<!-- Слабее каменной стрелы (6 урона, 0.2/1.42) -->
+			<!-- Урон выше каменной стрелы (6), пробитие ниже (0.2/1.42) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>5</damageAmountBase>
+			<damageAmountBase>7</damageAmountBase>
 			<armorPenetrationSharp>0.15</armorPenetrationSharp>
 			<armorPenetrationBlunt>0.8</armorPenetrationBlunt>
 		</projectile>
@@ -97,9 +97,9 @@
 		<defName>MetalDart</defName>
 		<label>metal dart</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
-			<!-- Слабее стальной стрелы (7 урона, 0.5/3.02) -->
+			<!-- Урон выше стальной стрелы (7), пробитие ниже (0.5/3.02) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>6</damageAmountBase>
+			<damageAmountBase>10</damageAmountBase>
 			<armorPenetrationSharp>0.35</armorPenetrationSharp>
 			<armorPenetrationBlunt>1.5</armorPenetrationBlunt>
 		</projectile>
