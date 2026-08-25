@@ -88,8 +88,8 @@
 			<!-- Слабее каменной стрелы HSK (10 урона, 2.4/3.84) -->
 			<damageDef>Arrow</damageDef>
 			<damageAmountBase>7</damageAmountBase>
-			<armorPenetrationSharp>0.15</armorPenetrationSharp>
-			<armorPenetrationBlunt>0.8</armorPenetrationBlunt>
+			<armorPenetrationSharp>1.2</armorPenetrationSharp>
+			<armorPenetrationBlunt>2.0</armorPenetrationBlunt>
 		</projectile>
 	</ThingDef>
 
@@ -100,8 +100,8 @@
 			<!-- Слабее стальной стрелы HSK (14 урона, 3/4.2) -->
 			<damageDef>Arrow</damageDef>
 			<damageAmountBase>10</damageAmountBase>
-			<armorPenetrationSharp>0.35</armorPenetrationSharp>
-			<armorPenetrationBlunt>1.5</armorPenetrationBlunt>
+			<armorPenetrationSharp>2.0</armorPenetrationSharp>
+			<armorPenetrationBlunt>2.8</armorPenetrationBlunt>
 		</projectile>
 	</ThingDef>
 
