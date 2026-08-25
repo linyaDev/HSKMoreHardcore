@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Балестра (Arbalest) — одноручный лёгкий арбалет: CE-тег одноручности,
+	     перенос из Метательного IV (Bow_B2) в Метательное III (Greatbow) и
+	     собственные лёгкие болты (дефы — Defs/Ammo/Bolts_Light.xml) вместо
+	     общего AmmoSet_Bolt тяжёлых арбалетов. -->
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/weaponTags</xpath>
+		<value>
+			<li>CE_OneHandedWeapon</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/recipeMaker/researchPrerequisite</xpath>
+		<value><researchPrerequisite>Greatbow</researchPrerequisite></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/comps/li[@Class="CombatExtended.CompProperties_AmmoUser"]/ammoSet</xpath>
+		<value><ammoSet>AmmoSet_LightBolt</ammoSet></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/defaultProjectile</xpath>
+		<value><defaultProjectile>Projectile_LightBolt</defaultProjectile></value>
+	</Operation>
+</Patch>
