@@ -7,6 +7,22 @@
 	     BasePoisonDart (Core_SK) для снарядов — у снарядов переопределяем
 	     damageDef с ядовитого ArrowVenom на обычный Arrow. -->
 
+	<!-- ==================== Ammo classes ========================== -->
+	<!-- Собственные классы, чтобы не пересекаться со StoneArrow/SteelArrow
+	     стрел и болтов. -->
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>DartStone</defName>
+		<label>stone dart</label>
+		<labelShort>stone</labelShort>
+	</CombatExtended.AmmoCategoryDef>
+
+	<CombatExtended.AmmoCategoryDef>
+		<defName>DartMetal</defName>
+		<label>metal dart</label>
+		<labelShort>metal</labelShort>
+	</CombatExtended.AmmoCategoryDef>
+
 	<!-- ==================== Ammo ========================== -->
 
 	<ThingDef Class="CombatExtended.AmmoDef" ParentName="SmallAmmoBase">
@@ -30,7 +46,7 @@
 			<Mass>0.012</Mass>
 			<Bulk>0.01</Bulk>
 		</statBases>
-		<ammoClass>StoneArrow</ammoClass>
+		<ammoClass>DartStone</ammoClass>
 		<comps>
 			<li Class="CompProperties_Forbiddable"/>
 		</comps>
@@ -57,7 +73,7 @@
 			<Mass>0.015</Mass>
 			<Bulk>0.01</Bulk>
 		</statBases>
-		<ammoClass>SteelArrow</ammoClass>
+		<ammoClass>DartMetal</ammoClass>
 		<comps>
 			<li Class="CompProperties_Forbiddable"/>
 		</comps>
@@ -69,10 +85,11 @@
 		<defName>StoneDart</defName>
 		<label>stone dart</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
+			<!-- Слабее каменной стрелы (6 урона, 0.2/1.42) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>5</damageAmountBase>
-			<armorPenetrationBlunt>1.2</armorPenetrationBlunt>
-			<armorPenetrationSharp>2.4</armorPenetrationSharp>
+			<damageAmountBase>4</damageAmountBase>
+			<armorPenetrationSharp>0.15</armorPenetrationSharp>
+			<armorPenetrationBlunt>0.8</armorPenetrationBlunt>
 		</projectile>
 	</ThingDef>
 
@@ -80,10 +97,11 @@
 		<defName>MetalDart</defName>
 		<label>metal dart</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
+			<!-- Слабее стальной стрелы (7 урона, 0.5/3.02) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>7</damageAmountBase>
-			<armorPenetrationBlunt>1.8</armorPenetrationBlunt>
-			<armorPenetrationSharp>4.2</armorPenetrationSharp>
+			<damageAmountBase>5</damageAmountBase>
+			<armorPenetrationSharp>0.35</armorPenetrationSharp>
+			<armorPenetrationBlunt>1.5</armorPenetrationBlunt>
 		</projectile>
 	</ThingDef>
 
