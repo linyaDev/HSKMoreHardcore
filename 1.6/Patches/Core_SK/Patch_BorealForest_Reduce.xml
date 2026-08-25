@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 
-	<!-- Reduce BorealForest: plantDensity 0.7 -> 0.535, tree weights x0.5,
+	<!-- Reduce BorealForest: plantDensity 0.7 -> 0.535, tree weights x0.39,
 	     animals -20%. Non-tree weights left at HSK stock.
-	     Итог по абсолютному числу: деревья ~49% от исходного HSK (прежний нерф x0.3 давал ~19%),
-	     трава/мох ~100%, вся растительность ~77% от стока.
+	     Итог по абсолютному числу: деревья ~41% от исходного HSK (прежний нерф x0.3 давал ~19%),
+	     трава/мох ~106%, вся растительность ~77% от стока.
 	     Dense variant carries the original HSK values -->
 
 	<!-- animalDensity: 2.5 -> 2.0 (-20%) -->
@@ -19,31 +19,31 @@
 		<value><plantDensity>0.535</plantDensity></value>
 	</Operation>
 
-	<!-- === Trees (weights x0.5) === -->
-	<!-- TreePine: 8.0 -> 3.98 -->
+	<!-- === Trees (weights x0.39) === -->
+	<!-- TreePine: 8.0 -> 3.12 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_TreePine</xpath>
-		<value><Plant_TreePine>3.98</Plant_TreePine></value>
+		<value><Plant_TreePine>3.12</Plant_TreePine></value>
 	</Operation>
-	<!-- TreeBirch: 1.3 -> 0.65 -->
+	<!-- TreeBirch: 1.3 -> 0.51 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_TreeBirch</xpath>
-		<value><Plant_TreeBirch>0.65</Plant_TreeBirch></value>
+		<value><Plant_TreeBirch>0.51</Plant_TreeBirch></value>
 	</Operation>
-	<!-- TreePoplar: 0.1 -> 0.05 -->
+	<!-- TreePoplar: 0.1 -> 0.039 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_TreePoplar</xpath>
-		<value><Plant_TreePoplar>0.05</Plant_TreePoplar></value>
+		<value><Plant_TreePoplar>0.039</Plant_TreePoplar></value>
 	</Operation>
-	<!-- TreeMaple: 0.2 -> 0.099 -->
+	<!-- TreeMaple: 0.2 -> 0.078 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_TreeMaple</xpath>
-		<value><Plant_TreeMaple>0.099</Plant_TreeMaple></value>
+		<value><Plant_TreeMaple>0.078</Plant_TreeMaple></value>
 	</Operation>
-	<!-- TreeWillow: 0.28 -> 0.14 -->
+	<!-- TreeWillow: 0.28 -> 0.11 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/BiomeDef[defName="BorealForest"]/wildPlants/Plant_TreeWillow</xpath>
-		<value><Plant_TreeWillow>0.14</Plant_TreeWillow></value>
+		<value><Plant_TreeWillow>0.11</Plant_TreeWillow></value>
 	</Operation>
 
 	<!-- === Animals (-20%) === -->
