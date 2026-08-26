@@ -26,10 +26,18 @@
 					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/costList</xpath>
 					<value><ComponentIndustrial>2</ComponentIndustrial></value>
 				</li>
-				<!-- Arbalest (балестра): те же 2 промышленных компонента -->
+				<!-- Arbalest (балестра): те же 2 промышленных компонента и доски -->
 				<li Class="PatchOperationAdd">
 					<xpath>Defs/ThingDef[defName="Arbalest"]/costList</xpath>
 					<value><ComponentIndustrial>2</ComponentIndustrial></value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="Arbalest"]/stuffCategories</xpath>
+					<value>
+						<stuffCategories>
+							<li>Woody</li>
+						</stuffCategories>
+					</value>
 				</li>
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/stuffCategories</xpath>

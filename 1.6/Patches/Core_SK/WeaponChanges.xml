@@ -52,6 +52,12 @@
 		</value>
 	</Operation>
 
+	<!-- Описание под новую роль: одноручный лёгкий арбалет (рус. — в Languages) -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/description</xpath>
+		<value><description>A light one-handed crossbow. A special drawing mechanism lets it be cocked with one hand, and its low weight allows carrying it alongside a shield. Fires light bolts — weaker than a full-sized crossbow, but leaves the other hand free.</description></value>
+	</Operation>
+
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="Arbalest"]/recipeMaker/researchPrerequisite</xpath>
 		<value><researchPrerequisite>Greatbow</researchPrerequisite></value>
