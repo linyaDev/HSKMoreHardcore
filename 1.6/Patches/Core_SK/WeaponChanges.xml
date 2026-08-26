@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<!-- ============================================================
+	     Все правки оружия в одном файле.
+
+	     Духовая трубка (blowgun):
+	       - одноручная (CE_OneHandedWeapon)
+	       - новые дротики в аммосете (дефы: Defs/Ammo/Darts_StoneMetal.xml)
+	       - рецепт: только 35 дерева (убрана травяная медицина)
+
+	     Балестра (Arbalest):
+	       - одноручная
+	       - исследование Bow_B2 (Метательное IV) -> Greatbow (Метательное III)
+	       - свои лёгкие болты вместо общих (дефы: Defs/Ammo/Bolts_Light.xml)
+	       - средневековые компоненты: 7 -> 2
+
+	     Усиленный арбалет (Crossbow):
+	       - средневековые компоненты: 8 -> 2
+	     ============================================================ -->
+
+	<!-- ==================== Духовая трубка ==================== -->
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="blowgun"]/weaponTags</xpath>
+		<value>
+			<li>CE_OneHandedWeapon</li>
+		</value>
+	</Operation>
+
+	<!-- Рецепт: только 35 дерева. Травяная медицина в costList — рудимент
+	     времён «трубки с набором ядовитых дротиков», яд теперь в самих дротиках. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="blowgun"]/costList</xpath>
+	</Operation>
+
+	<!-- Каменный и металлический дротики в аммосет трубки -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/CombatExtended.AmmoSetDef[defName="AmmoSet_Darts"]/ammoTypes</xpath>
+		<value>
+			<Ammo_Dart_Stone>StoneDart</Ammo_Dart_Stone>
+			<Ammo_Dart_Metal>MetalDart</Ammo_Dart_Metal>
+		</value>
+	</Operation>
+
+	<!-- ==================== Балестра ==================== -->
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/weaponTags</xpath>
+		<value>
+			<li>CE_OneHandedWeapon</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/recipeMaker/researchPrerequisite</xpath>
+		<value><researchPrerequisite>Greatbow</researchPrerequisite></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/comps/li[@Class="CombatExtended.CompProperties_AmmoUser"]/ammoSet</xpath>
+		<value><ammoSet>AmmoSet_LightBolt</ammoSet></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/defaultProjectile</xpath>
+		<value><defaultProjectile>Projectile_LightBolt</defaultProjectile></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Arbalest"]/costList/ComponentMedieval</xpath>
+		<value><ComponentMedieval>2</ComponentMedieval></value>
+	</Operation>
+
+	<!-- ==================== Усиленный арбалет ==================== -->
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Crossbow"]/costList/ComponentMedieval</xpath>
+		<value><ComponentMedieval>2</ComponentMedieval></value>
+	</Operation>
+
+</Patch>
