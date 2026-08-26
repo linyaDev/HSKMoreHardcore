@@ -3,7 +3,7 @@
 
 	<!-- Каменные и металлические дротики для духовой трубки. Без яда: камень —
 	     дешёвый расходник, металл — пробивной. Подключаются к AmmoSet_Darts
-	     патчем BlowgunOneHanded.xml. Родители: SmallAmmoBase (CE) для предметов,
+	     патчем WeaponChanges.xml. Родители: SmallAmmoBase (CE) для предметов,
 	     BasePoisonDart (Core_SK) для снарядов — у снарядов переопределяем
 	     damageDef с ядовитого ArrowVenom на обычный Arrow. -->
 
