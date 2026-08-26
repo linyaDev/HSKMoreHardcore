@@ -87,7 +87,7 @@
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<!-- Слабее каменной стрелы HSK (10 урона, 2.4/3.84) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>7</damageAmountBase>
+			<damageAmountBase>5</damageAmountBase>
 			<armorPenetrationSharp>1.2</armorPenetrationSharp>
 			<armorPenetrationBlunt>2.0</armorPenetrationBlunt>
 		</projectile>
@@ -99,7 +99,7 @@
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<!-- Слабее стальной стрелы HSK (14 урона, 3/4.2) -->
 			<damageDef>Arrow</damageDef>
-			<damageAmountBase>10</damageAmountBase>
+			<damageAmountBase>7</damageAmountBase>
 			<armorPenetrationSharp>2.0</armorPenetrationSharp>
 			<armorPenetrationBlunt>2.8</armorPenetrationBlunt>
 		</projectile>
