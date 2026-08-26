@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Племенной военный торговец (Caravan_Neolithic_WarMerchant): вернуть FSX.
+	     CE добавляет ему FSX 5~20 своим патчем, но CE грузится раньше
+	     Core_SK_CoreModule, а тот целиком заменяет stockGenerators — добавка
+	     стирается. У прочих оружейных торговцев сток не переписывается, поэтому
+	     их FSX на месте. Наш мод грузится последним. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_WarMerchant"]/stockGenerators</xpath>
+		<value>
+			<li Class="StockGenerator_SingleDef">
+				<thingDef>FSX</thingDef>
+				<countRange>5~20</countRange>
+			</li>
+		</value>
+	</Operation>
+</Patch>
