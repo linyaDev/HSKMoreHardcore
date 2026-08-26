@@ -13,10 +13,6 @@
 	       - одноручная
 	       - исследование Bow_B2 (Метательное IV) -> Greatbow (Метательное III)
 	       - свои лёгкие болты вместо общих (дефы: Defs/Ammo/Bolts_Light.xml)
-	       - средневековые компоненты: 7 -> 2
-
-	     Усиленный арбалет (Crossbow):
-	       - средневековые компоненты: 8 -> 2
 	     ============================================================ -->
 
 	<!-- ==================== Духовая трубка ==================== -->
@@ -65,18 +61,6 @@
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/defaultProjectile</xpath>
 		<value><defaultProjectile>Projectile_LightBolt</defaultProjectile></value>
-	</Operation>
-
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="Arbalest"]/costList/ComponentMedieval</xpath>
-		<value><ComponentMedieval>2</ComponentMedieval></value>
-	</Operation>
-
-	<!-- ==================== Усиленный арбалет ==================== -->
-
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="Crossbow"]/costList/ComponentMedieval</xpath>
-		<value><ComponentMedieval>2</ComponentMedieval></value>
 	</Operation>
 
 </Patch>
