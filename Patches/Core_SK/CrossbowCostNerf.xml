@@ -7,10 +7,10 @@
 		<mods><li>HMC Vile's Pre-Industrial Overhaul</li></mods>
 		<nomatch Class="PatchOperationSequence">
 			<operations>
-				<!-- Reinforced crossbow: keep 8 primitive components, add 4 industrial -->
+				<!-- Reinforced crossbow: keep 8 primitive components, add 2 industrial -->
 				<li Class="PatchOperationAdd">
 					<xpath>Defs/ThingDef[defName="Crossbow"]/costList</xpath>
-					<value><ComponentIndustrial>4</ComponentIndustrial></value>
+					<value><ComponentIndustrial>2</ComponentIndustrial></value>
 				</li>
 				<!-- Reinforced crossbow: build from planks (Woody) instead of raw logs -->
 				<li Class="PatchOperationReplace">
@@ -24,7 +24,12 @@
 				<!-- Scorpion crossbow: same treatment -->
 				<li Class="PatchOperationAdd">
 					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/costList</xpath>
-					<value><ComponentIndustrial>4</ComponentIndustrial></value>
+					<value><ComponentIndustrial>2</ComponentIndustrial></value>
+				</li>
+				<!-- Arbalest (балестра): те же 2 промышленных компонента -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Arbalest"]/costList</xpath>
+					<value><ComponentIndustrial>2</ComponentIndustrial></value>
 				</li>
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/stuffCategories</xpath>
