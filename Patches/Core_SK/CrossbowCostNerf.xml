@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Crossbow cost nerfs. Vile's Pre-Industrial rewrites both defs entirely
-	     (Crossbow -> Light Crossbow, Norbal_Scorpion -> Repeating Nu Gong) with its
-	     own costs, so only apply when Vile's is not loaded. -->
+	<!-- Crossbow cost nerfs. Vile's Pre-Industrial rewrites these defs entirely
+	     (Crossbow -> Light Crossbow, Arbalest -> Arbalest Mk2) with its own costs,
+	     so only apply when Vile's is not loaded. -->
 	<Operation Class="PatchOperationFindMod">
 		<mods><li>HMC Vile's Pre-Industrial Overhaul</li></mods>
 		<nomatch Class="PatchOperationSequence">
@@ -21,11 +21,6 @@
 						</stuffCategories>
 					</value>
 				</li>
-				<!-- Scorpion crossbow: same treatment -->
-				<li Class="PatchOperationAdd">
-					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/costList</xpath>
-					<value><ComponentIndustrial>2</ComponentIndustrial></value>
-				</li>
 				<!-- Arbalest (балестра): те же 2 промышленных компонента и доски -->
 				<li Class="PatchOperationAdd">
 					<xpath>Defs/ThingDef[defName="Arbalest"]/costList</xpath>
@@ -39,6 +34,12 @@
 						</stuffCategories>
 					</value>
 				</li>
+				<!-- Arbalest: range 42 -> 30 -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/range</xpath>
+					<value><range>30</range></value>
+				</li>
+				<!-- Scorpion crossbow: planks instead of logs (no component nerf) -->
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/stuffCategories</xpath>
 					<value>
@@ -46,11 +47,6 @@
 							<li>Woody</li>
 						</stuffCategories>
 					</value>
-				</li>
-				<!-- Arbalest: range 42 -> 30 -->
-				<li Class="PatchOperationReplace">
-					<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/range</xpath>
-					<value><range>30</range></value>
 				</li>
 			</operations>
 		</nomatch>
