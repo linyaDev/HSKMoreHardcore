@@ -47,6 +47,11 @@
 						</stuffCategories>
 					</value>
 				</li>
+				<!-- Arbalest: range 42 -> 30 -->
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/range</xpath>
+					<value><range>30</range></value>
+				</li>
 			</operations>
 		</nomatch>
 	</Operation>
