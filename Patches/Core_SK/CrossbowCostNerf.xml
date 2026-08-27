@@ -39,7 +39,11 @@
 					<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/range</xpath>
 					<value><range>30</range></value>
 				</li>
-				<!-- Scorpion crossbow: planks instead of logs (no component nerf) -->
+				<!-- Scorpion crossbow: 4 industrial components (magazine mechanism), planks instead of logs -->
+				<li Class="PatchOperationAdd">
+					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/costList</xpath>
+					<value><ComponentIndustrial>4</ComponentIndustrial></value>
+				</li>
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/ThingDef[defName="Norbal_Scorpion"]/stuffCategories</xpath>
 					<value>
