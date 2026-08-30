@@ -4,13 +4,13 @@
 	<!-- Плывун — результат терраформинга скалистой грязи. По статам — копия
 	     ванильной грязи (Mud): pathCost 14, бесплодный, мостится, следы, грязь.
 	     Без driesTo: в отличие от грязи не высыхает в почву (иначе терраформ
-	     давал бы бесплатную плодородную землю). Текстура песка с тёмным тоном. -->
+	     давал бы бесплатную плодородную землю). Текстура грязи с песчаным тоном. -->
 	<TerrainDef ParentName="NaturalTerrainBase">
 		<defName>Quicksand</defName>
 		<label>quicksand</label>
 		<description>Waterlogged shifting sand. Slow to cross and useless for growing, but it can be bridged over.</description>
-		<texturePath>Terrain/Surfaces/Sand</texturePath>
-		<color>(0.72, 0.66, 0.5)</color>
+		<texturePath>Terrain/Surfaces/Mud</texturePath>
+		<color>(0.95, 0.88, 0.7)</color>
 		<edgeType>FadeRough</edgeType>
 		<categoryType>Soil</categoryType>
 		<renderPrecedence>329</renderPrecedence>
