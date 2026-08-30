@@ -25,7 +25,7 @@
 		<stuffCategories>
 			<li>Woody</li>
 		</stuffCategories>
-		<costStuffCount>2</costStuffCount>
+		<costStuffCount>1</costStuffCount>
 		<uiOrder>2019</uiOrder>
 		<constructionSkillPrerequisite>0</constructionSkillPrerequisite>
 	</ThingDef>
