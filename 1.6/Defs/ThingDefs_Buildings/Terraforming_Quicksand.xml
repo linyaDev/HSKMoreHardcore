@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<!-- Терраформинг: скалистая грязь -> плывун. База и механика — Fertile Fields
+	     из Core_SK (RFF_TerraformBasicBase, исследование Terraform_A1). В меню
+	     «скалистая грязь в ...» добавляется патчем TerraformQuicksand.xml. -->
+	<ThingDef ParentName="RFF_TerraformBasicBase">
+		<defName>RockyDirt-Quicksand</defName>
+		<label>Quicksand</label>
+		<description>↑ Rocky dirt\n\n↓ Quicksand</description>
+		<uiIconPath>UI/Icons/Terraforming/RockyDirt-Sand</uiIconPath>
+		<modExtensions>
+			<li Class="FertileFields.Terrain">
+				<above>
+					<li>RockySoil</li>
+				</above>
+				<result>Quicksand</result>
+			</li>
+		</modExtensions>
+		<statBases>
+			<WorkToBuild>1140</WorkToBuild>
+		</statBases>
+		<costList>
+			<SandResource>2</SandResource>
+		</costList>
+	</ThingDef>
+
+</Defs>

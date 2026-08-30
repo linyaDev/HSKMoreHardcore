@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Плывун в меню терраформинга «скалистая грязь в ...» -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ArchitectSense.DesignationSubCategoryDef[defName="SubCategory_RockDirt"]/defNames</xpath>
+		<value>
+			<li>RockyDirt-Quicksand</li>
+		</value>
+	</Operation>
+</Patch>
