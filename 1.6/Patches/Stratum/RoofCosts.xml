@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Правки крыш Stratum (Core SK - Stratum, SolarWeb.Stratum).
+	     Примитивная соломенная крыша была бесплатной — теперь 1 сено. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="SolarWeb-Stratum-RoofThatch_Buildable"]</xpath>
+		<value>
+			<costList>
+				<Hay>1</Hay>
+			</costList>
+		</value>
+	</Operation>
+</Patch>
