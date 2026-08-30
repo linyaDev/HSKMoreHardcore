@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Ров (Moat, «полоса препятствий») убран из меню строительства — его роль
+	     оборонительного замедлителя занял терраформ «плывун» (HMH_Quicksand).
+	     Деф не удаляем: уже построенные рвы в сейвах остаются работать. -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="Moat"]/designationCategory</xpath>
+	</Operation>
+</Patch>
