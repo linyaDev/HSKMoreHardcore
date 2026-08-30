@@ -11,4 +11,16 @@
 	<Operation Class="PatchOperationRemove">
 		<xpath>Defs/ThingDef[defName="Moat"]/researchPrerequisites</xpath>
 	</Operation>
+
+	<!-- Из подкатегории «укрепления» — иначе ArchitectSense показал бы ров
+	     через неё даже без designationCategory; на его место — плывун -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ArchitectSense.DesignationSubCategoryDef[defName="SubCategory_Fortifications"]/defNames/li[text()="Moat"]</xpath>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ArchitectSense.DesignationSubCategoryDef[defName="SubCategory_Fortifications"]/defNames</xpath>
+		<value>
+			<li>HMH_QuicksandMoat</li>
+		</value>
+	</Operation>
 </Patch>
