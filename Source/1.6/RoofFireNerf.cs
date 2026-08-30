@@ -6,13 +6,13 @@ namespace HSKMoreHardcore
 {
     // Горящая пешка поджигает крышу Stratum слишком охотно: их Fire_Patch на
     // каждый расчётный тик любого огня зовёт TryIgniteRoof с шансом
-    // fireSize * горючесть_крыши * 0.5. Префиксом пропускаем 4 из 5 попыток,
-    // если огонь прикреплён к пешке — шанс поджога от пешки падает в 5 раз.
+    // fireSize * горючесть_крыши * 0.5. Префиксом пропускаем 2 из 3 попыток,
+    // если огонь прикреплён к пешке — шанс поджога от пешки падает в 3 раза.
     // Огонь на земле и искры вбок (TrySpread) не трогаем.
     [StaticConstructorOnStartup]
     public static class RoofFireNerf
     {
-        private const float PawnFireIgniteFactor = 0.2f;
+        private const float PawnFireIgniteFactor = 0.333f;
 
         static RoofFireNerf()
         {
