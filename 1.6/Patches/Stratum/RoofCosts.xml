@@ -10,4 +10,13 @@
 			</costList>
 		</value>
 	</Operation>
+
+	<!-- Наша примитивная дранка — в подкатегорию примитивных крыш (HSK-compat
+	     слой Stratum; списки там по StratumRoofDef-имени, не _Buildable) -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ArchitectSense.DesignationSubCategoryDef[defName="SubCategory_PrimitiveRoofs"]/defNames</xpath>
+		<value>
+			<li>HMH_RoofShingleWood</li>
+		</value>
+	</Operation>
 </Patch>

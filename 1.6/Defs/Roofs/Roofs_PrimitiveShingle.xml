@@ -44,7 +44,8 @@
 					<texPath>Roofs/ShingleRoof</texPath>
 					<isSeamless>true</isSeamless>
 				</graphicData>
-				<designationCategory>SolarWeb-Stratum-Roofs</designationCategory>
+				<!-- Под HSK категории Stratum нет — compat-слой кладёт крыши в Structure -->
+				<designationCategory>Structure</designationCategory>
 			</li>
 			<li Class="SolarWeb.Kalyphos.DefModExtensions.StructuralProperties" MayRequire="SolarWeb.Kalyphos">
 				<Name>Primitive Shingle Roof</Name>
