@@ -2,8 +2,9 @@
 <Defs>
 
 	<!-- Терраформинг: скалистая грязь -> плывун. База и механика — Fertile Fields
-	     из Core_SK (RFF_TerraformBasicBase, исследование Terraform_A1). В меню
-	     «скалистая грязь в ...» добавляется патчем TerraformQuicksand.xml. -->
+	     из Core_SK (RFF_TerraformBasicBase, исследование Terraform_A1), но кнопка
+	     живёт в «Безопасности» на месте убранного рва (категория одна на
+	     постройку, в меню терраформа его нет). Стоимость и работа — ровские. -->
 	<ThingDef ParentName="RFF_TerraformBasicBase">
 		<defName>RockyDirt-Quicksand</defName>
 		<label>Quicksand</label>
@@ -17,10 +18,12 @@
 				<result>HMH_Quicksand</result>
 			</li>
 		</modExtensions>
+		<designationCategory>Security</designationCategory>
 		<statBases>
-			<WorkToBuild>1140</WorkToBuild>
+			<WorkToBuild>800</WorkToBuild>
 		</statBases>
 		<costList>
+			<SoftClay>3</SoftClay>
 			<SandResource>2</SandResource>
 		</costList>
 		<!-- Плюс к Terraform_A1 из базы (списки при наследовании объединяются):
