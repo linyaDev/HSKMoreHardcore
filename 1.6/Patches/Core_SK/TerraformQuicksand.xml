@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Плывун в меню терраформинга «скалистая грязь в ...». Обратный
+	     Quicksand-RockyDirt сабкатегории не имеет — отдельная кнопка в
+	     категории терраформа (наследуется от базы). -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ArchitectSense.DesignationSubCategoryDef[defName="SubCategory_RockDirt"]/defNames</xpath>
+		<value>
+			<li>RockyDirt-Quicksand</li>
+		</value>
+	</Operation>
+</Patch>

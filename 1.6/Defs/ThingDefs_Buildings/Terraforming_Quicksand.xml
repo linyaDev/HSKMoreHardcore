@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-	<!-- Терраформинг: скалистая грязь -> плывун. База и механика — Fertile Fields
-	     из Core_SK (RFF_TerraformBasicBase, исследование Terraform_A1), но кнопка
-	     живёт в «Безопасности» на месте убранного рва (категория одна на
-	     постройку, в меню терраформа его нет). Стоимость и работа — ровские. -->
+	<!-- Плывун: три кнопки на базе терраформа Fertile Fields (Core_SK).
+	     1) HMH_QuicksandMoat — оборонная, в «Безопасности» на месте убранного
+	        рва, с его иконкой и стоимостью; требует ещё Фортификацию I.
+	     2) RockyDirt-Quicksand — то же самое в меню терраформа «скалистая
+	        грязь в ...» (патч TerraformQuicksand.xml), терраформ-иконка.
+	     3) Quicksand-RockyDirt — обратно: плывун -> скалистая грязь, меню
+	        терраформа (категория наследуется от базы).
+	     Стоимость 1 и 2 одинаковая (ровская), чтобы не было выгодного обхода. -->
+
 	<ThingDef ParentName="RFF_TerraformBasicBase">
-		<defName>RockyDirt-Quicksand</defName>
+		<defName>HMH_QuicksandMoat</defName>
 		<label>Quicksand</label>
 		<description>↑ Rocky dirt\n\n↓ Quicksand</description>
-		<uiIconPath>UI/Icons/Terraforming/RockyDirt-Sand</uiIconPath>
+		<uiIconPath>Things/Building/Walls/MenuMoatIcon</uiIconPath>
 		<modExtensions>
 			<li Class="FertileFields.Terrain">
 				<above>
@@ -26,11 +31,56 @@
 			<SoftClay>3</SoftClay>
 			<SandResource>2</SandResource>
 		</costList>
-		<!-- Плюс к Terraform_A1 из базы (списки при наследовании объединяются):
-		     плывун — оборонительный рубеж, требует ещё Фортификацию I -->
 		<researchPrerequisites>
 			<li>Fortification_A1</li>
 		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="RFF_TerraformBasicBase">
+		<defName>RockyDirt-Quicksand</defName>
+		<label>Quicksand</label>
+		<description>↑ Rocky dirt\n\n↓ Quicksand</description>
+		<uiIconPath>UI/Icons/Terraforming/RockyDirt-Sand</uiIconPath>
+		<modExtensions>
+			<li Class="FertileFields.Terrain">
+				<above>
+					<li>RockySoil</li>
+				</above>
+				<result>HMH_Quicksand</result>
+			</li>
+		</modExtensions>
+		<statBases>
+			<WorkToBuild>800</WorkToBuild>
+		</statBases>
+		<costList>
+			<SoftClay>3</SoftClay>
+			<SandResource>2</SandResource>
+		</costList>
+		<researchPrerequisites>
+			<li>Fortification_A1</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+	<ThingDef ParentName="RFF_TerraformBasicBase">
+		<defName>Quicksand-RockyDirt</defName>
+		<label>Rocky dirt</label>
+		<description>↑ Quicksand\n\n↓ Rocky dirt</description>
+		<uiIconPath>UI/Icons/Terraforming/Gravel-RockyDirt</uiIconPath>
+		<modExtensions>
+			<li Class="FertileFields.Terrain">
+				<above>
+					<li>HMH_Quicksand</li>
+				</above>
+				<result>RockySoil</result>
+			</li>
+		</modExtensions>
+		<statBases>
+			<WorkToBuild>1020</WorkToBuild>
+		</statBases>
+		<costList>
+			<CrushedStone>2</CrushedStone>
+			<SandResource>2</SandResource>
+		</costList>
 	</ThingDef>
 
 </Defs>
