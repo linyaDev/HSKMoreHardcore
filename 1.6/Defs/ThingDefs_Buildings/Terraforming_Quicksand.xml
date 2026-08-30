@@ -13,7 +13,7 @@
 	<ThingDef ParentName="RFF_TerraformBasicBase">
 		<defName>HMH_QuicksandMoat</defName>
 		<label>Quicksand</label>
-		<description>↑ Rocky dirt\n\n↓ Quicksand</description>
+		<description>↑ Rocky dirt\n\n↓ Quicksand\n\nCan be filled back in via Terraforming: "Rocky dirt".</description>
 		<uiIconPath>Things/Building/Walls/MenuMoatIcon</uiIconPath>
 		<modExtensions>
 			<li Class="FertileFields.Terrain">
