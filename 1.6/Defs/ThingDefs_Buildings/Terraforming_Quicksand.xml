@@ -23,6 +23,11 @@
 		<costList>
 			<SandResource>2</SandResource>
 		</costList>
+		<!-- Плюс к Terraform_A1 из базы (списки при наследовании объединяются):
+		     плывун — оборонительный рубеж, требует ещё Фортификацию I -->
+		<researchPrerequisites>
+			<li>Fortification_A1</li>
+		</researchPrerequisites>
 	</ThingDef>
 
 </Defs>
