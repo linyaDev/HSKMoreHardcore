@@ -8,7 +8,7 @@
 	<TerrainDef ParentName="NaturalTerrainBase">
 		<defName>HMH_Quicksand</defName>
 		<label>quicksand</label>
-		<description>Waterlogged shifting sand. Slow to cross and useless for growing, but it can be bridged over.</description>
+		<description>Waterlogged shifting sand. Slow to cross and useless for growing, but it can be bridged over. Can be filled back into rocky dirt via terraforming.</description>
 		<texturePath>Terrain/Surfaces/Mud</texturePath>
 		<color>(0.95, 0.88, 0.7)</color>
 		<edgeType>FadeRough</edgeType>
