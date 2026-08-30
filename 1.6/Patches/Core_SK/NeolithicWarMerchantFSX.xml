@@ -35,4 +35,23 @@
 			</li>
 		</value>
 	</Operation>
+
+	<!-- Шаман: нейротренажёры навыков и пситренажёры (псионика). Скромнее
+	     имперского торговца (у того псайтрейнеры 2 вида по 0-2). Без Royalty
+	     категория пситренажёров пуста — генератор просто ничего не даст. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_ShamanMerchant"]/stockGenerators</xpath>
+		<value>
+			<li Class="StockGenerator_Category">
+				<categoryDef>NeurotrainersSkill</categoryDef>
+				<thingDefCountRange>1~2</thingDefCountRange>
+				<countRange>1~1</countRange>
+			</li>
+			<li Class="StockGenerator_Category">
+				<categoryDef>NeurotrainersPsycast</categoryDef>
+				<thingDefCountRange>1~2</thingDefCountRange>
+				<countRange>0~1</countRange>
+			</li>
+		</value>
+	</Operation>
 </Patch>
