@@ -6,7 +6,7 @@
 	     Без driesTo: в отличие от грязи не высыхает в почву (иначе терраформ
 	     давал бы бесплатную плодородную землю). Текстура грязи с песчаным тоном. -->
 	<TerrainDef ParentName="NaturalTerrainBase">
-		<defName>Quicksand</defName>
+		<defName>HMH_Quicksand</defName>
 		<label>quicksand</label>
 		<description>Waterlogged shifting sand. Slow to cross and useless for growing, but it can be bridged over.</description>
 		<texturePath>Terrain/Surfaces/Mud</texturePath>

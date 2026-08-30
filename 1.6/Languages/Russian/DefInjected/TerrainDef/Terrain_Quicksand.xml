@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-	<Quicksand.label>плывун</Quicksand.label>
-	<Quicksand.description>Насыщенный водой зыбучий песок. Медленно проходится и бесплоден, но поверх можно навести мост.</Quicksand.description>
-	<Quicksand.tools.0.label>плывун</Quicksand.tools.0.label>
+	<HMH_Quicksand.label>плывун</HMH_Quicksand.label>
+	<HMH_Quicksand.description>Насыщенный водой зыбучий песок. Медленно проходится и бесплоден, но поверх можно навести мост.</HMH_Quicksand.description>
+	<HMH_Quicksand.tools.0.label>плывун</HMH_Quicksand.tools.0.label>
 </LanguageData>
