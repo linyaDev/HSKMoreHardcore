@@ -24,4 +24,15 @@
 			</li>
 		</value>
 	</Operation>
+
+	<!-- Племенной оптовик: тоже возит FSX -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_BulkGoods"]/stockGenerators</xpath>
+		<value>
+			<li Class="StockGenerator_SingleDef">
+				<thingDef>FSX</thingDef>
+				<countRange>5~20</countRange>
+			</li>
+		</value>
+	</Operation>
 </Patch>
