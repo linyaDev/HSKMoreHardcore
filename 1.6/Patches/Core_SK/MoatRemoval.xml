@@ -6,4 +6,9 @@
 	<Operation Class="PatchOperationRemove">
 		<xpath>Defs/ThingDef[defName="Moat"]/designationCategory</xpath>
 	</Operation>
+
+	<!-- И из списка открытий исследования Фортификация I -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>Defs/ThingDef[defName="Moat"]/researchPrerequisites</xpath>
+	</Operation>
 </Patch>
