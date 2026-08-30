@@ -182,12 +182,32 @@ namespace HSKMoreHardcore
                 return;
             }
 
-            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                "TradeSignal_ConfirmPayment".Translate(Props.silverCost),
-                delegate { ExecuteSignal(map, candidates); }));
+            // Выбор типа торговца: объединение caravanTraderKinds всех подходящих фракций
+            var options = new List<FloatMenuOption>();
+            var seenKinds = new List<TraderKindDef>();
+            foreach (Faction f in candidates)
+            {
+                foreach (TraderKindDef kind in f.def.caravanTraderKinds)
+                {
+                    if (seenKinds.Contains(kind))
+                        continue;
+                    seenKinds.Add(kind);
+                    TraderKindDef k = kind;
+                    options.Add(new FloatMenuOption(k.LabelCap, delegate { ConfirmAndExecute(map, candidates, k); }));
+                }
+            }
+
+            Find.WindowStack.Add(new FloatMenu(options));
         }
 
-        private void ExecuteSignal(Map map, List<Faction> candidates)
+        private void ConfirmAndExecute(Map map, List<Faction> candidates, TraderKindDef traderKind)
+        {
+            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                "TradeSignal_ConfirmPayment".Translate(Props.silverCost),
+                delegate { ExecuteSignal(map, candidates, traderKind); }));
+        }
+
+        private void ExecuteSignal(Map map, List<Faction> candidates, TraderKindDef traderKind)
         {
             if (!TakeSilverFromMap(map, Props.silverCost))
             {
@@ -195,12 +215,23 @@ namespace HSKMoreHardcore
                 return;
             }
 
+            // Если выбран конкретный тип — берём фракцию, у которой он есть
+            if (traderKind != null)
+            {
+                List<Faction> withKind = candidates.Where(f => f.def.caravanTraderKinds.Contains(traderKind)).ToList();
+                if (withKind.Count > 0)
+                    candidates = withKind;
+                else
+                    traderKind = null; // на всякий случай: тип пропал — прежнее поведение
+            }
+
             Faction faction = candidates.RandomElement();
             IncidentParms parms = new IncidentParms
             {
                 target = map,
                 faction = faction,
-                forced = true
+                forced = true,
+                traderKind = traderKind
             };
 
             IncidentDef incident = DefDatabase<IncidentDef>.GetNamedSilentFail("TraderCaravanArrival");
@@ -218,9 +249,10 @@ namespace HSKMoreHardcore
             UpdateGlow();
 
             string delayDaysStr = ((float)Props.arrivalDelayTicks / GenDate.TicksPerDay).ToString("F1");
-            Messages.Message(
-                Props.scheduledKey.Translate(faction.Name, delayDaysStr),
-                MessageTypeDefOf.PositiveEvent);
+            TaggedString scheduledMsg = Props.scheduledKey.Translate(faction.Name, delayDaysStr);
+            if (traderKind != null)
+                scheduledMsg += " (" + traderKind.LabelCap + ")";
+            Messages.Message(scheduledMsg, MessageTypeDefOf.PositiveEvent);
 
             Tracker?.ConsumeCharge(Props.cooldownKey, Props.maxCharges, Props.cooldownTicks);
         }
