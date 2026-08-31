@@ -19,6 +19,18 @@
 				<categoryDef>Foods</categoryDef>
 				<thingDefCountRange>0~0</thingDefCountRange>
 			</li>
+			<!-- Широкий ассортимент кож/шкур и меха-шерсти (фикс. виды шерсти
+			     из базового стока остаются, категория добавляет случайные) -->
+			<li Class="StockGenerator_Category">
+				<categoryDef>Leathers</categoryDef>
+				<thingDefCountRange>5~8</thingDefCountRange>
+				<totalPriceRange>300~700</totalPriceRange>
+			</li>
+			<li Class="StockGenerator_Category">
+				<categoryDef>Wools</categoryDef>
+				<thingDefCountRange>3~5</thingDefCountRange>
+				<totalPriceRange>200~500</totalPriceRange>
+			</li>
 		</value>
 	</Operation>
 </Patch>
