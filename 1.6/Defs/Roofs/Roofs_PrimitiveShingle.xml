@@ -9,7 +9,7 @@
 
 	<ThingDef ParentName="SolarWeb_Stratum_RoofBuildableBase">
 		<defName>HMH_RoofShingleWood_Buildable</defName>
-		<label>primitive shingle roof</label>
+		<label>wooden shake roof</label>
 		<description>Crude wooden shakes split from planks. Cheaper-looking than proper shingles, but anyone can nail them up, and they still keep the weather out.</description>
 		<statBases>
 			<MaxHitPoints>80</MaxHitPoints>
@@ -32,7 +32,7 @@
 
 	<SolarWeb.Stratum.Defs.StratumRoofDef>
 		<defName>HMH_RoofShingleWood</defName>
-		<label>primitive shingle roof</label>
+		<label>wooden shake roof</label>
 		<description>Crude wooden shakes split from planks. Cheaper-looking than proper shingles, but anyone can nail them up, and they still keep the weather out.</description>
 		<isThickRoof>false</isThickRoof>
 		<filthLeaving>Filth_RubbleBuilding</filthLeaving>
