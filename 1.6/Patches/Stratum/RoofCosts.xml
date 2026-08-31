@@ -17,6 +17,7 @@
 		<xpath>Defs/ArchitectSense.DesignationSubCategoryDef[defName="SubCategory_PrimitiveRoofs"]/defNames</xpath>
 		<value>
 			<li>HMH_RoofShingleWood</li>
+			<li>HMH_RoofMud</li>
 		</value>
 	</Operation>
 </Patch>

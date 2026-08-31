@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<!-- Примитивная крыша из грязи: уродливая (красота -5), зато не горит
+	     вовсе (Flammability 0). Стоит 2 мягкой глины, доступна со старта.
+	     Изоляция между соломой (0.7) и шинглом (0.9). Текстура WornRockThin
+	     из бандла Stratum с буро-грязевым тинтом. -->
+
+	<ThingDef ParentName="SolarWeb_Stratum_RoofBuildableBase">
+		<defName>HMH_RoofMud_Buildable</defName>
+		<label>primitive mud roof</label>
+		<description>A crude roof of packed mud and clay smeared over a lattice. Hideous and heavy, but it will never burn.</description>
+		<statBases>
+			<MaxHitPoints>50</MaxHitPoints>
+			<WorkToBuild>80</WorkToBuild>
+			<Beauty>-5.0</Beauty>
+			<Flammability>0</Flammability>
+			<SolarWeb-Stratum-Insulation>0.8</SolarWeb-Stratum-Insulation>
+			<SolarWeb-Stratum-ThermalConductivity>0.2</SolarWeb-Stratum-ThermalConductivity>
+		</statBases>
+		<costList>
+			<SoftClay>2</SoftClay>
+		</costList>
+		<uiOrder>2003</uiOrder>
+		<constructionSkillPrerequisite>0</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<SolarWeb.Stratum.Defs.StratumRoofDef>
+		<defName>HMH_RoofMud</defName>
+		<label>primitive mud roof</label>
+		<description>A crude roof of packed mud and clay smeared over a lattice. Hideous and heavy, but it will never burn.</description>
+		<isThickRoof>false</isThickRoof>
+		<filthLeaving>Filth_Dirt</filthLeaving>
+		<soundPunchThrough>Pawn_Melee_Punch_HitBuilding_Wood</soundPunchThrough>
+		<modExtensions>
+			<li Class="SolarWeb.Stratum.DefModExtensions.BuildableRoofExtension">
+				<buildableDef>HMH_RoofMud_Buildable</buildableDef>
+				<graphicData>
+					<texPath>Roofs/WornRockThin</texPath>
+					<color>(0.5, 0.4, 0.29)</color>
+					<isSeamless>true</isSeamless>
+				</graphicData>
+				<designationCategory>Structure</designationCategory>
+			</li>
+			<li Class="SolarWeb.Kalyphos.DefModExtensions.StructuralProperties" MayRequire="SolarWeb.Kalyphos">
+				<Name>Primitive Mud Roof</Name>
+				<Properties>
+					<ThermalCapacity>800</ThermalCapacity>
+					<ThermalConductivity>0.2</ThermalConductivity>
+					<FaceGasPermeability>0</FaceGasPermeability>
+					<MaxPressureDeltaKpa>50</MaxPressureDeltaKpa>
+				</Properties>
+			</li>
+		</modExtensions>
+	</SolarWeb.Stratum.Defs.StratumRoofDef>
+
+</Defs>
