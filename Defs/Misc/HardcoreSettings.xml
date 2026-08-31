@@ -43,6 +43,8 @@
 		<!-- Множители цены продажи торговцу (defName -> множитель) -->
 		<sellPriceOverrides>
 			<li><key>WoodLog</key><value>0.01</value></li>
+			<li><key>RedWoodLog</key><value>0.01</value></li>
+			<li><key>Bamboo</key><value>0.01</value></li>
 		</sellPriceOverrides>
 	</HSKMoreHardcore.HardcoreSettingsDef>
 </Defs>
