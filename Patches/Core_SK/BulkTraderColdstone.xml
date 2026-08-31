@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Add Coldstone 15-25 to all bulk goods traders -->
+	<!-- Оптовики возят 6-12 хладокамня и 6-12 светокамня -->
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators</xpath>
 		<value>
 			<li Class="StockGenerator_SingleDef">
 				<thingDef>Coldstone</thingDef>
-				<countRange>15~25</countRange>
+				<countRange>6~12</countRange>
+			</li>
+			<li Class="StockGenerator_SingleDef">
+				<thingDef>Glowstone</thingDef>
+				<countRange>6~12</countRange>
 			</li>
 		</value>
 	</Operation>
@@ -16,7 +20,11 @@
 		<value>
 			<li Class="StockGenerator_SingleDef">
 				<thingDef>Coldstone</thingDef>
-				<countRange>15~25</countRange>
+				<countRange>6~12</countRange>
+			</li>
+			<li Class="StockGenerator_SingleDef">
+				<thingDef>Glowstone</thingDef>
+				<countRange>6~12</countRange>
 			</li>
 		</value>
 	</Operation>
@@ -26,7 +34,11 @@
 		<value>
 			<li Class="StockGenerator_SingleDef">
 				<thingDef>Coldstone</thingDef>
-				<countRange>15~25</countRange>
+				<countRange>6~12</countRange>
+			</li>
+			<li Class="StockGenerator_SingleDef">
+				<thingDef>Glowstone</thingDef>
+				<countRange>6~12</countRange>
 			</li>
 		</value>
 	</Operation>
