@@ -3,8 +3,8 @@
 
 	<!-- Примитивная крыша из грязи: уродливая (красота -5), зато не горит
 	     вовсе (Flammability 0). Стоит 2 мягкой глины, доступна со старта.
-	     Изоляция между соломой (0.7) и шинглом (0.9). Текстура WornRockThin
-	     из бандла Stratum с буро-грязевым тинтом. -->
+	     Изоляция между соломой (0.7) и шинглом (0.9). Текстура — WornRockThin из бандла
+	     Stratum, заранее перекрашенная в грязь (Textures/HMH/Roofs/MudRoof). -->
 
 	<ThingDef ParentName="SolarWeb_Stratum_RoofBuildableBase">
 		<defName>HMH_RoofMud_Buildable</defName>
@@ -35,9 +35,11 @@
 		<modExtensions>
 			<li Class="SolarWeb.Stratum.DefModExtensions.BuildableRoofExtension">
 				<buildableDef>HMH_RoofMud_Buildable</buildableDef>
+				<!-- Своя заранее затонированная текстура: генератор иконок Stratum
+				     игнорирует цветовой тинт материала, тинтованный атлас давал
+				     белую иконку в дизайнере -->
 				<graphicData>
-					<texPath>Roofs/WornRockThin</texPath>
-					<color>(0.5, 0.4, 0.29)</color>
+					<texPath>HMH/Roofs/MudRoof</texPath>
 					<isSeamless>true</isSeamless>
 				</graphicData>
 				<designationCategory>Structure</designationCategory>
