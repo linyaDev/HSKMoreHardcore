@@ -8,6 +8,7 @@
 	       - одноручная (CE_OneHandedWeapon)
 	       - новые дротики в аммосете (дефы: Defs/Ammo/Darts_StoneMetal.xml)
 	       - рецепт: только 35 дерева (убрана травяная медицина)
+	       - время между атаками 0.8 -> 1.2
 
 	     Балестра (Arbalest):
 	       - одноручная
@@ -32,6 +33,12 @@
 	     времён «трубки с набором ядовитых дротиков», яд теперь в самих дротиках. -->
 	<Operation Class="PatchOperationRemove">
 		<xpath>Defs/ThingDef[defName="blowgun"]/costList</xpath>
+	</Operation>
+
+	<!-- Время между атаками 0.8 -> 1.2 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="blowgun"]/statBases/RangedWeapon_Cooldown</xpath>
+		<value><RangedWeapon_Cooldown>1.2</RangedWeapon_Cooldown></value>
 	</Operation>
 
 	<!-- Каменный и металлический дротики в аммосет трубки -->
