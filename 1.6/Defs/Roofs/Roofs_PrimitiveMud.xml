@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-	<!-- Примитивная крыша из грязи: уродливая (красота -3), зато не горит
+	<!-- Примитивная крыша из грязи: уродливая (красота -4), зато не горит
 	     вовсе (Flammability 0). Стоит 2 мягкой глины, доступна со старта.
 	     Изоляция между соломой (0.7) и шинглом (0.9). Текстура — WornRockThin из бандла
 	     Stratum, заранее перекрашенная в грязь (Textures/HMH/Roofs/MudRoof). -->
@@ -13,7 +13,7 @@
 		<statBases>
 			<MaxHitPoints>50</MaxHitPoints>
 			<WorkToBuild>80</WorkToBuild>
-			<Beauty>-3.0</Beauty>
+			<Beauty>-4.0</Beauty>
 			<Flammability>0</Flammability>
 			<SolarWeb-Stratum-Insulation>0.8</SolarWeb-Stratum-Insulation>
 			<SolarWeb-Stratum-ThermalConductivity>0.2</SolarWeb-Stratum-ThermalConductivity>
