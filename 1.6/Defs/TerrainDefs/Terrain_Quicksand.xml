@@ -2,7 +2,8 @@
 <Defs>
 
 	<!-- Плывун — результат терраформинга скалистой грязи. По статам — копия
-	     ванильной грязи (Mud): pathCost 14, бесплодный, мостится, следы, грязь.
+	     HSK-грязи (Mud в паке: pathCost 30, ~30% скорости), бесплодный,
+	     мостится, следы, грязь.
 	     Без driesTo: в отличие от грязи не высыхает в почву (иначе терраформ
 	     давал бы бесплатную плодородную землю). Текстура грязи с песчаным тоном. -->
 	<TerrainDef ParentName="NaturalTerrainBase">
@@ -14,7 +15,7 @@
 		<edgeType>FadeRough</edgeType>
 		<categoryType>Soil</categoryType>
 		<renderPrecedence>329</renderPrecedence>
-		<pathCost>14</pathCost>
+		<pathCost>30</pathCost>
 		<statBases>
 			<Beauty>-3</Beauty>
 			<BeautyOutdoors>0</BeautyOutdoors>
@@ -23,6 +24,8 @@
 		<affordances>
 			<li>Bridgeable</li>
 			<li>WaterproofConduitable</li>
+			<li>Light</li>
+			<li>Diggable</li>
 		</affordances>
 		<generatedFilth>Filth_Dirt</generatedFilth>
 		<fertility>0</fertility>
