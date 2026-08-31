@@ -3,7 +3,7 @@
 
 	<!-- Примитивная черепичная крыша (дранка) — копия shingle roof из Stratum,
 	     но только из дерева/досок (Woody), доступна со старта (навык 0, без
-	     исследований) и с красотой -1. Остальные статы — как у оригинала.
+	     исследований) и с красотой 0. Остальные статы — как у оригинала.
 	     Пара дефов по схеме Stratum: Buildable (ThingDef-заготовка) +
 	     StratumRoofDef (сама крыша) со связкой через BuildableRoofExtension. -->
 
@@ -14,7 +14,7 @@
 		<statBases>
 			<MaxHitPoints>80</MaxHitPoints>
 			<WorkToBuild>100</WorkToBuild>
-			<Beauty>-1.0</Beauty>
+			<Beauty>0</Beauty>
 			<Flammability>1.0</Flammability>
 			<SolarWeb-Stratum-Insulation>0.9</SolarWeb-Stratum-Insulation>
 			<SolarWeb-Stratum-ThermalConductivity>0.1</SolarWeb-Stratum-ThermalConductivity>
