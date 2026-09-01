@@ -13,6 +13,10 @@ namespace HSKMoreHardcore
         public List<string> ammoCraftExcludedRecipes;
         public int traderSilverMinimum = 3500;
         public Dictionary<string, float> sellPriceOverrides;
+        // Автоправило: всё со статом BurnDurationHours продаётся с этим множителем.
+        // sellPriceOverrides имеет приоритет; категории из fuelSellExcludedCategories не трогаются.
+        public float fuelSellPriceMultiplier = 1f;
+        public List<string> fuelSellExcludedCategories;
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
         public float treeRegrowthChance = 0.25f;
 

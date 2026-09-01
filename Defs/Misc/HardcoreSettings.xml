@@ -40,11 +40,19 @@
 		<!-- Шанс отрастания дерева (0.03 = вырастет 3% деревьев; 1.0 — ваниль).
 		     Начальную генерацию карты не затрагивает — только отрастание по ходу игры. -->
 		<treeRegrowthChance>0.03</treeRegrowthChance>
-		<!-- Множители цены продажи торговцу (defName -> множитель) -->
+		<!-- Автонерф цены продажи топлива: всё со статом BurnDurationHours
+		     (дрова, доски, бамбук, уголь, древесный уголь, торф, жир, растопка,
+		     химтопливо — включая топливо из других модов пака) продаётся за 1%.
+		     Горючие руды и суперматериалы исключены по категориям. -->
+		<fuelSellPriceMultiplier>0.01</fuelSellPriceMultiplier>
+		<fuelSellExcludedCategories>
+			<li>HCM</li> <!-- руды: олово, алюминий -->
+			<li>SuperMaterialCat</li> <!-- антиматерия -->
+		</fuelSellExcludedCategories>
+		<!-- Точечные множители цены продажи (defName -> множитель), приоритетнее
+		     топливного правила — сюда можно вписать исключения, напр.
+		     <li><key>Chemfuel</key><value>1</value></li> -->
 		<sellPriceOverrides>
-			<li><key>WoodLog</key><value>0.01</value></li>
-			<li><key>RedWoodLog</key><value>0.01</value></li>
-			<li><key>Bamboo</key><value>0.01</value></li>
 		</sellPriceOverrides>
 	</HSKMoreHardcore.HardcoreSettingsDef>
 </Defs>
