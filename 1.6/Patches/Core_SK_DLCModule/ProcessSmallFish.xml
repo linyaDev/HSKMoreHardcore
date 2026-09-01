@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Разделка мелкой рыбы — 1:1 по питательности. Вход рецепта меряется
+	     питательностью (IngredientValueGetter_Nutrition от базы готовки), но
+	     курс был убыточный: 6 питательности рыбы (24 лосося) -> 30 мяса
+	     (1.5 питательности). Теперь вход 1.5 (= 6 лососей, мелочи больше),
+	     выход прежний — 30 рыбьего мяса = 1.5 питательности. -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/RecipeDef[defName="ProcessSmallFish"]/ingredients/li/count</xpath>
+		<value><count>1.5</count></value>
+	</Operation>
+</Patch>
