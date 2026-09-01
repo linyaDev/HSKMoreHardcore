@@ -10,7 +10,7 @@
 
 	<Operation Class="PatchOperationReplace">
 		<xpath>/Defs/ThingDef[defName="Dryad_Berrymaker"]/comps/li[@Class="CompProperties_Spawner"]/spawnCount</xpath>
-		<value><spawnCount>8</spawnCount></value>
+		<value><spawnCount>5</spawnCount></value>
 	</Operation>
 
 	<Operation Class="PatchOperationReplace">
