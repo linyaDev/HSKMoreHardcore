@@ -22,6 +22,13 @@
 				<categoryDef>Ammo</categoryDef>
 				<thingDefCountRange>0~0</thingDefCountRange>
 			</li>
+			<!-- Скупка всех луков: у луков HSK нет tradeTag WeaponRanged (в отличие
+			     от огнестрела), поэтому штатный генератор торговца их не берёт.
+			     Категория BowRanged, ноль видов на продажу — только скупка. -->
+			<li Class="StockGenerator_Category">
+				<categoryDef>BowRanged</categoryDef>
+				<thingDefCountRange>0~0</thingDefCountRange>
+			</li>
 		</value>
 	</Operation>
 
