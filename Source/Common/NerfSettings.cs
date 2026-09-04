@@ -4,11 +4,11 @@ namespace HSKMoreHardcore
 {
     public static class NerfSettings
     {
-        public static float ammoDropMultiplier = 0.05f;
+        public static float ammoDropMultiplier = 0.25f;
         public static float medicineDropMultiplier = 0.1f;
 
         // Away from home map (quest sites, etc.)
-        public static float ammoDropMultiplierAway = 0.25f;
+        public static float ammoDropMultiplierAway = 0.04f;
         public static float medicineDropMultiplierAway = 0.05f;
         public static float weaponHpMultiplierHomeMin = 0.15f; // floor at large tech gap (home maps)
         public static float weaponGapPower = 2f;               // roll-curve power per tier of weapon tech gap
@@ -79,7 +79,7 @@ namespace HSKMoreHardcore
         };
 
         // Pod/crate ammo
-        public static float podAmmoMultiplier = 0.2f;
+        public static float podAmmoMultiplier = 0.25f;
 
         // Fishing
         public static int maxFishingPiers = 3;

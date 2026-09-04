@@ -72,6 +72,10 @@ namespace HSKMoreHardcore
                 {
                     thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.medicineDropMultiplier));
                 }
+                else if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing) && thing.stackCount > 1)
+                {
+                    thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.podAmmoMultiplier));
+                }
                 else if (thing.def.IsDrug && thing.stackCount > 1)
                 {
                     thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.podDrugMultiplier));
