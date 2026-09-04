@@ -117,11 +117,11 @@ namespace HSKMoreHardcore
                 int before = thing.stackCount;
                 thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * medMult));
             }
-            else if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
+            else if (isAwayMap && ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
             {
-                float ammoMult = isAwayMap ? NerfSettings.ammoDropMultiplierAway : NerfSettings.ammoDropMultiplier;
+                // Нерф патронов только на чужих картах; дома рейдеры роняют всё
                 int before = thing.stackCount;
-                thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * ammoMult));
+                thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.ammoDropMultiplierAway));
             }
             else if (thing.def.IsDrug && thing.stackCount > 1)
             {
