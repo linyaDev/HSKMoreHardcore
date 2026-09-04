@@ -72,8 +72,6 @@ namespace HSKMoreHardcore
             else
             {
                 comp.wornByEnemy = true;
-                // Нерф прочности брони, снятой с врага (по защите и нашему уровню развития)
-                ArmorLootNerf.Apply(droppedApparel, "enemy");
             }
         }
 
@@ -132,11 +130,10 @@ namespace HSKMoreHardcore
             }
             else if (thing is RimWorld.Apparel apparel)
             {
-                // Одежда в инвентаре врага (в т.ч. груз вьючных животных): метка «со следами боя» + нерф прочности
+                // Одежда в инвентаре врага (в т.ч. груз вьючных животных): метка «со следами боя»
                 var comp = apparel.TryGetComp<CompWornByEnemy>();
                 if (comp != null)
                     comp.wornByEnemy = true;
-                ArmorLootNerf.Apply(apparel, tag);
             }
         }
     }
