@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Убираем вампиров из рейдов нов и норбалов: HSK даёт обеим фракциям
+	     3% шанс ксенотипа Sanguophage в xenotypeSet. Узел под MayRequire Biotech,
+	     без DLC его нет — оборачиваем в conditional, чтобы не сыпать ошибками. -->
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/FactionDef[defName="NorbalTribe"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
+		<match Class="PatchOperationRemove">
+			<xpath>Defs/FactionDef[defName="NorbalTribe"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
+		</match>
+	</Operation>
+
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/FactionDef[defName="NovaAlliance"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
+		<match Class="PatchOperationRemove">
+			<xpath>Defs/FactionDef[defName="NovaAlliance"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
+		</match>
+	</Operation>
+</Patch>
