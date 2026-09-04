@@ -49,6 +49,11 @@
 			<li>HCM</li> <!-- руды: олово, алюминий -->
 			<li>SuperMaterialCat</li> <!-- антиматерия -->
 		</fuelSellExcludedCategories>
+		<!-- Минимальный техуровень игрока для событий (с Ignorance Is Bliss —
+		     его расчётный уровень, без него — уровень фракции игрока) -->
+		<incidentMinTechLevel>
+			<li><key>LongNight</key><value>Industrial</value></li>
+		</incidentMinTechLevel>
 		<!-- Точечные множители цены продажи (defName -> множитель), приоритетнее
 		     топливного правила — сюда можно вписать исключения, напр.
 		     <li><key>Chemfuel</key><value>1</value></li> -->

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using RimWorld;
 using Verse;
 
 namespace HSKMoreHardcore
@@ -17,6 +18,8 @@ namespace HSKMoreHardcore
         // sellPriceOverrides имеет приоритет; категории из fuelSellExcludedCategories не трогаются.
         public float fuelSellPriceMultiplier = 1f;
         public List<string> fuelSellExcludedCategories;
+        // Минимальный техуровень игрока для событий (defName -> TechLevel)
+        public Dictionary<string, TechLevel> incidentMinTechLevel;
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
         public float treeRegrowthChance = 0.25f;
 
