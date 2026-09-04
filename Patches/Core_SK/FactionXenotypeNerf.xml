@@ -16,4 +16,12 @@
 			<xpath>Defs/FactionDef[defName="NovaAlliance"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
 		</match>
 	</Operation>
+
+	<!-- Королевство: у него шанс был 1% -->
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/FactionDef[defName="MedievalKingdom"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
+		<match Class="PatchOperationRemove">
+			<xpath>Defs/FactionDef[defName="MedievalKingdom"]/xenotypeSet/xenotypeChances/Sanguophage</xpath>
+		</match>
+	</Operation>
 </Patch>
