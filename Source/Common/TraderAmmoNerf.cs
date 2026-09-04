@@ -62,14 +62,17 @@ namespace HSKMoreHardcore
             var settings = HardcoreSettingsDef.Instance;
             int silverMin = settings?.traderSilverMinimum ?? 3500;
 
-            // Нерф количества патронов у торговцев/наград убран — остался только
-            // минимум серебра (сейчас отключён настройкой traderSilverMinimum=0).
             for (int i = __result.Count - 1; i >= 0; i--)
             {
                 var thing = __result[i];
                 if (isTrader && thing.def == ThingDefOf.Silver && thing.stackCount < silverMin)
                 {
                     thing.stackCount = silverMin;
+                }
+                else if (ammoThingType.IsInstanceOfType(thing) && thing.stackCount > 1)
+                {
+                    float mult = isTrader ? NerfSettings.traderAmmoMultiplier : NerfSettings.rewardAmmoMultiplier;
+                    thing.stackCount = Mathf.Max(5, Mathf.FloorToInt(thing.stackCount * mult));
                 }
             }
         }
@@ -82,6 +85,12 @@ namespace HSKMoreHardcore
 
             if (action == TradeAction.PlayerBuys)
             {
+                // Наценка на патроны/оружие только при торговле в поселениях
+                // (и с орбитой): караван, пришедший к нам на карту, торгует
+                // без наценки — TradeSession.trader тогда пешка.
+                if (TradeSession.trader is Pawn)
+                    return;
+
                 if (ammoThingType != null && ammoThingType.IsInstanceOfType(thing))
                 {
                     __result *= NerfSettings.ammoPriceMultiplier;

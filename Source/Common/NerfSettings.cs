@@ -8,15 +8,15 @@ namespace HSKMoreHardcore
         public static float medicineDropMultiplier = 0.1f;
 
         // Away from home map (quest sites, etc.)
-        public static float ammoDropMultiplierAway = 0.05f;
+        public static float ammoDropMultiplierAway = 0.25f;
         public static float medicineDropMultiplierAway = 0.05f;
         public static float weaponHpMultiplierHomeMin = 0.15f; // floor at large tech gap (home maps)
         public static float weaponGapPower = 2f;               // roll-curve power per tier of weapon tech gap
         public static float weaponHpMultiplierAway = 0.05f;    // flat on away maps
 
         // Trader ammo
-        public static float traderAmmoMultiplier = 0.15f;
-        public static float rewardAmmoMultiplier = 0.15f;
+        public static float traderAmmoMultiplier = 1.0f;
+        public static float rewardAmmoMultiplier = 0.25f;
         public static float drugDropMultiplier = 0.33f;
         public static float podDrugMultiplier = 0.5f;
         public static float ammoPriceMultiplier = 4f;
