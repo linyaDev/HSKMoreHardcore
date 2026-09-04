@@ -28,15 +28,6 @@ namespace HSKMoreHardcore
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf applied.");
             }
 
-            // Пропускаем Core_SK Det() для оружия — мы нерфим его сами
-            var detMethod = AccessTools.Method("SK.Patch_GenDrop:Det");
-            if (detMethod != null)
-            {
-                harmony.Patch(detMethod,
-                    prefix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(DetPrefix)));
-                Log.Message("[HSKMoreHardcore] EnemyLootNerf (skip Det for weapons) applied.");
-            }
-
             // Помечаем одежду при раздевании вражеской пешки
             var apparelTryDrop = AccessTools.Method(typeof(Pawn_ApparelTracker), "TryDrop",
                 new Type[] { typeof(RimWorld.Apparel), typeof(RimWorld.Apparel).MakeByRefType(), typeof(IntVec3), typeof(bool) });
@@ -53,15 +44,6 @@ namespace HSKMoreHardcore
                 harmony.Patch(genInv,
                     postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(InventoryGenPostfix)));
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf (inventory gen) applied.");
-            }
-
-
-            var tryDrop = AccessTools.Method(typeof(Pawn_EquipmentTracker), "TryDropEquipment");
-            if (tryDrop != null)
-            {
-                harmony.Patch(tryDrop,
-                    postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(TryDropEquipmentPostfix)));
-                Log.Message("[HSKMoreHardcore] EnemyLootNerf (equipment) applied.");
             }
         }
 
@@ -95,14 +77,6 @@ namespace HSKMoreHardcore
             }
         }
 
-        // Пропускаем Core_SK урон для оружия — наша формула вместо этого
-        public static bool DetPrefix(Thing thing)
-        {
-            if (thing != null && thing.def.IsWeapon)
-                return false; // пропускаем Det() для оружия
-            return true;
-        }
-
         public static void InventoryGenPostfix(Pawn p)
         {
             try
@@ -121,107 +95,6 @@ namespace HSKMoreHardcore
             {
                 Log.Error($"[EnemyLootNerf] InventoryGenPostfix error on {p?.LabelShort}: {e}");
             }
-        }
-
-        public static void TryDropEquipmentPostfix(Pawn_EquipmentTracker __instance, bool __result, ThingWithComps resultingEq)
-        {
-            if (!__result || resultingEq == null)
-                return;
-
-            var pawn = __instance.pawn;
-            if (pawn == null || (pawn.Faction != null && pawn.Faction.IsPlayer))
-                return;
-
-            var map = pawn.Map ?? pawn.MapHeld;
-            bool isAwayMap = map != null && !map.IsPlayerHome;
-            string tag = isAwayMap ? "away" : "home";
-
-            if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1 && UsesArrows(resultingEq))
-            {
-                // arrows — skip HP nerf
-            }
-            else if (resultingEq.def.IsWeapon && resultingEq.HitPoints > 1)
-            {
-                WeaponHpCalc calc = ComputeWeaponHpMult(resultingEq, isAwayMap);
-                int before = resultingEq.HitPoints;
-                int target = Mathf.Max(1, Mathf.FloorToInt(resultingEq.MaxHitPoints * calc.mult));
-                resultingEq.HitPoints = Mathf.Min(before, target);
-            }
-        }
-
-        // Разбор расчёта множителя прочности оружия (для логов).
-        // Прогрессия по разрыву техуровня, как у брони: power растёт с gap = техур.оружия − развитие.
-        private struct WeaponHpCalc
-        {
-            public bool away;
-            public int tier;     // техуровень оружия (def.techLevel)
-            public int dev;      // наш уровень развития
-            public int gap;      // tier - dev
-            public float power;  // степень кривой (0 если нерфа нет)
-            public float roll;   // Rand.Value (NaN если нерфа нет / away)
-            public float mult;
-        }
-
-        private static WeaponHpCalc ComputeWeaponHpMult(Thing weapon, bool isAwayMap)
-        {
-            WeaponHpCalc c = default;
-            c.away = isAwayMap;
-            if (isAwayMap)
-            {
-                c.roll = float.NaN;
-                c.mult = NerfSettings.weaponHpMultiplierAway;
-                return c;
-            }
-
-            c.tier = (int)weapon.def.techLevel;
-            c.dev = ArmorLootNerf.PlayerDevLevel();
-            c.gap = c.tier - c.dev;
-
-            if (c.gap <= 0)
-            {
-                // Оружие нашего уровня или ниже — не трогаем
-                c.power = 0f;
-                c.roll = float.NaN;
-                c.mult = 1f;
-                return c;
-            }
-
-            c.power = NerfSettings.weaponGapPower * c.gap;
-            c.roll = HardcoreGameComponent.Roll(weapon.thingIDNumber);
-            c.mult = NerfSettings.weaponHpMultiplierHomeMin
-                   + (1f - NerfSettings.weaponHpMultiplierHomeMin) * Mathf.Pow(c.roll, c.power);
-            return c;
-        }
-
-        private static string WeaponHpBreakdown(WeaponHpCalc c)
-        {
-            if (c.away)
-                return $"away (фикс. множитель={c.mult:F2})";
-
-            string head = $"техур.оружия={ArmorLootNerf.TierName(c.tier)}, развитие={ArmorLootNerf.TierName(c.dev)}, разрыв={c.gap}";
-            if (c.gap <= 0)
-                return head + " (<=0, без изменений)";
-            return head + $", power={c.power:F1}, roll={c.roll:F3}, roll^power={Mathf.Pow(c.roll, c.power):F3} => множитель={c.mult:F2}";
-        }
-
-        private static bool UsesArrows(Thing thing)
-        {
-            var comp = thing.TryGetComp<ThingComp>();
-            // Ищем CompAmmoUser через рефлексию
-            foreach (var c in (thing as ThingWithComps)?.AllComps ?? new List<ThingComp>())
-            {
-                var propsField = AccessTools.Field(c.GetType(), "props");
-                var props = propsField?.GetValue(c);
-                if (props == null) continue;
-
-                var ammoSetField = AccessTools.Field(props.GetType(), "ammoSet");
-                if (ammoSetField == null) continue;
-
-                var ammoSet = ammoSetField.GetValue(props) as Def;
-                if (ammoSet != null && ammoSet.defName.Contains("Arrow"))
-                    return true;
-            }
-            return false;
         }
 
         // Срабатывает на ЛЮБОМ дропе вещи; нерфим только то, что падает из инвентаря вражеской пешки.
@@ -256,13 +129,6 @@ namespace HSKMoreHardcore
             {
                 int before = thing.stackCount;
                 thing.stackCount = Mathf.Max(1, Mathf.FloorToInt(thing.stackCount * NerfSettings.drugDropMultiplier));
-            }
-            else if (thing.def.IsWeapon && thing.HitPoints > 1 && !UsesArrows(thing))
-            {
-                WeaponHpCalc calc = ComputeWeaponHpMult(thing, isAwayMap);
-                int before = thing.HitPoints;
-                int target = Mathf.Max(1, Mathf.FloorToInt(thing.MaxHitPoints * calc.mult));
-                thing.HitPoints = Mathf.Min(before, target);
             }
             else if (thing is RimWorld.Apparel apparel)
             {
