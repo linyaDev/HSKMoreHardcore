@@ -15,6 +15,9 @@
 	       - исследование Bow_B2 (Метательное IV) -> Greatbow (Метательное III)
 	       - свои лёгкие болты вместо общих (дефы: Defs/Ammo/Bolts_Light.xml)
 
+	     Катапульта:
+	       - острое пробитие ядер 1 -> 10 мм
+
 	     Промышленные компоненты арбалетов (усиленный/скорпион/балестра по 2)
 	     живут в ОБЩЕМ Patches/Core_SK/CrossbowCostNerf.xml (действует и на 1.5,
 	     только без Vile's).
@@ -78,6 +81,21 @@
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="Arbalest"]/verbs/li/defaultProjectile</xpath>
 		<value><defaultProjectile>Projectile_LightBolt</defaultProjectile></value>
+	</Operation>
+
+	<!-- ==================== Катапульта ==================== -->
+	<!-- Острое пробитие ядер 1 мм -> 10 мм (тупое и так 1541 МПа).
+	     Прямое попадание — Blunt, но острая цифра влияет на отображаемое
+	     пробитие и смешанные расчёты брони. -->
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Stone_Ball"]/projectile/armorPenetrationSharp</xpath>
+		<value><armorPenetrationSharp>10</armorPenetrationSharp></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Explosive_Ball"]/projectile/armorPenetrationSharp</xpath>
+		<value><armorPenetrationSharp>10</armorPenetrationSharp></value>
 	</Operation>
 
 </Patch>
