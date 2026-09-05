@@ -19,4 +19,24 @@
 		<workerClass>HSKMoreHardcore.SpecialThingFilterWorker_AllowRepairable</workerClass>
 		<allowedByDefault>true</allowedByDefault>
 	</SpecialThingFilterDef>
+
+	<SpecialThingFilterDef>
+		<defName>AllowMendExhaustedApparel</defName>
+		<label>allow mend-exhausted</label>
+		<description>Apparel whose normal mending is exhausted (repaired to its mend limit; only full reconstruction can fix it). Disable to keep this storage for still-mendable apparel only.</description>
+		<parentCategory>Apparel</parentCategory>
+		<saveKey>AllowMendExhaustedApparel</saveKey>
+		<workerClass>HSKMoreHardcore.SpecialThingFilterWorker_AllowMendExhausted</workerClass>
+		<allowedByDefault>true</allowedByDefault>
+	</SpecialThingFilterDef>
+
+	<SpecialThingFilterDef>
+		<defName>AllowMendExhaustedWeapons</defName>
+		<label>allow mend-exhausted</label>
+		<description>Weapons whose normal mending is exhausted (repaired to their mend limit; only full reconstruction can fix them). Disable to keep this storage for still-mendable weapons only.</description>
+		<parentCategory>Weapons</parentCategory>
+		<saveKey>AllowMendExhaustedWeapons</saveKey>
+		<workerClass>HSKMoreHardcore.SpecialThingFilterWorker_AllowMendExhausted</workerClass>
+		<allowedByDefault>true</allowedByDefault>
+	</SpecialThingFilterDef>
 </Defs>
