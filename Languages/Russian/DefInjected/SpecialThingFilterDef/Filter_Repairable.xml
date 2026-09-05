@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-	<AllowRepairableApparel.label>разрешить восстанавливаемое</AllowRepairableApparel.label>
-	<AllowRepairableApparel.description>Если выключено, в этом складе будет храниться только одежда, которую уже нельзя починить обычным способом.</AllowRepairableApparel.description>
-	<AllowRepairableWeapons.label>разрешить восстанавливаемое</AllowRepairableWeapons.label>
-	<AllowRepairableWeapons.description>Если выключено, в этом складе будет храниться только оружие, которое уже нельзя починить обычным способом.</AllowRepairableWeapons.description>
+	<AllowRepairableApparel.label>разрешить пригодное к починке</AllowRepairableApparel.label>
+	<AllowRepairableApparel.description>Одежда, которую ещё можно чинить обычной починкой (лимит починок не исчерпан). Если выключено, на складе останется только одежда с исчерпанной починкой — кандидаты на полное восстановление.</AllowRepairableApparel.description>
+	<AllowRepairableWeapons.label>разрешить пригодное к починке</AllowRepairableWeapons.label>
+	<AllowRepairableWeapons.description>Оружие, которое ещё можно чинить обычной починкой (лимит починок не исчерпан). Если выключено, на складе останется только оружие с исчерпанной починкой — кандидаты на полное восстановление.</AllowRepairableWeapons.description>
 </LanguageData>
