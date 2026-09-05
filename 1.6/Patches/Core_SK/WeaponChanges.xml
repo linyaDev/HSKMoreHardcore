@@ -16,7 +16,7 @@
 	       - свои лёгкие болты вместо общих (дефы: Defs/Ammo/Bolts_Light.xml)
 
 	     Катапульта:
-	       - острое пробитие ядер 1 -> 10 мм
+	       - острое пробитие ядер 1 -> 3.5 мм
 
 	     Промышленные компоненты арбалетов (усиленный/скорпион/балестра по 2)
 	     живут в ОБЩЕМ Patches/Core_SK/CrossbowCostNerf.xml (действует и на 1.5,
@@ -84,18 +84,18 @@
 	</Operation>
 
 	<!-- ==================== Катапульта ==================== -->
-	<!-- Острое пробитие ядер 1 мм -> 10 мм (тупое и так 1541 МПа).
+	<!-- Острое пробитие ядер 1 мм -> 3.5 мм (тупое и так 1541 МПа).
 	     Прямое попадание — Blunt, но острая цифра влияет на отображаемое
 	     пробитие и смешанные расчёты брони. -->
 
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="Stone_Ball"]/projectile/armorPenetrationSharp</xpath>
-		<value><armorPenetrationSharp>10</armorPenetrationSharp></value>
+		<value><armorPenetrationSharp>3.5</armorPenetrationSharp></value>
 	</Operation>
 
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/ThingDef[defName="Explosive_Ball"]/projectile/armorPenetrationSharp</xpath>
-		<value><armorPenetrationSharp>10</armorPenetrationSharp></value>
+		<value><armorPenetrationSharp>3.5</armorPenetrationSharp></value>
 	</Operation>
 
 </Patch>
