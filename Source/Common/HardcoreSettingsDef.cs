@@ -22,6 +22,8 @@ namespace HSKMoreHardcore
         public Dictionary<string, TechLevel> incidentMinTechLevel;
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
         public float treeRegrowthChance = 0.25f;
+        // Срок жизни деревьев = growDays * это значение (ваниль 8; 0 = не менять)
+        public float treeLifespanDaysPerGrowDays = 0f;
 
         private static HardcoreSettingsDef cachedInstance;
 
