@@ -57,6 +57,11 @@
 		<incidentMinTechLevel>
 			<li><key>LongNight</key><value>Industrial</value></li>
 		</incidentMinTechLevel>
+		<!-- То же для квестовых сайтов (SitePartDef defName -> TechLevel):
+		     ЭМИ-динамо не приходит, пока игрок не дорос до индастриала -->
+		<sitePartMinTechLevel>
+			<li><key>EMIDynamo</key><value>Industrial</value></li>
+		</sitePartMinTechLevel>
 		<!-- Точечные множители цены продажи (defName -> множитель), приоритетнее
 		     топливного правила — сюда можно вписать исключения, напр.
 		     <li><key>Chemfuel</key><value>1</value></li> -->

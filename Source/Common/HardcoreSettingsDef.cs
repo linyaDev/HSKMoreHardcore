@@ -20,6 +20,8 @@ namespace HSKMoreHardcore
         public List<string> fuelSellExcludedCategories;
         // Минимальный техуровень игрока для событий (defName -> TechLevel)
         public Dictionary<string, TechLevel> incidentMinTechLevel;
+        // То же для квестовых сайтов (SitePartDef defName -> TechLevel)
+        public Dictionary<string, TechLevel> sitePartMinTechLevel;
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
         public float treeRegrowthChance = 0.25f;
         // Срок жизни деревьев = growDays * это значение (ваниль 8; 0 = не менять)
