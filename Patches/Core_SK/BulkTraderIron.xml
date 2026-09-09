@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Оптовики возят вдвое больше железной руды (у орбитального оптовика
+	     железа в стоке нет). Сток: Core_SK_CoreModule/TraderKindDefs.xml -->
+
+	<!-- Оптовик поселенцев: 120-350 -> 240-700 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Outlander_BulkGoods"]/stockGenerators/li[thingDef="Iron"]/countRange</xpath>
+		<value><countRange>240~700</countRange></value>
+	</Operation>
+
+	<!-- Оптовик племени: 120-250 -> 240-500 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_BulkGoods"]/stockGenerators/li[thingDef="Iron"]/countRange</xpath>
+		<value><countRange>240~500</countRange></value>
+	</Operation>
+</Patch>
