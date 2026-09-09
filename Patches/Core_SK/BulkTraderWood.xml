@@ -16,14 +16,11 @@
 		<value><countRange>300~780</countRange></value>
 	</Operation>
 
-	<!-- Поселение племени: 500-600 -> 1500-1800, 200-400 -> 600-1200 -->
+	<!-- Поселение племени: 200-400 -> 600-1200. В CoreModule деф патчится
+	     дважды, вторая версия целиком заменяет первую (с брёвнами 500-600),
+	     так что в живом дефе один генератор брёвен. -->
 	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[thingDef="WoodLog"]/countRange[text()="500~600"]</xpath>
-		<value><countRange>1500~1800</countRange></value>
-	</Operation>
-
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[thingDef="WoodLog"]/countRange[text()="200~400"]</xpath>
+		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[thingDef="WoodLog"]/countRange</xpath>
 		<value><countRange>600~1200</countRange></value>
 	</Operation>
 </Patch>
