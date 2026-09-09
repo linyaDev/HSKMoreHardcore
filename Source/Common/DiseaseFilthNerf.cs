@@ -34,6 +34,10 @@ namespace HSKMoreHardcore
             if (!__result)
                 return;
 
+            // Отключаемо в настройках мода: выключено — микробы чистятся как обычно
+            if (HSKMoreHardcoreMod.Settings != null && !HSKMoreHardcoreMod.Settings.diseaseFilthNoClean)
+                return;
+
             if (t is Filth filth
                 && filth.def.defName.StartsWith("Filth_")
                 && filth.def.defName.EndsWith("Germs")
