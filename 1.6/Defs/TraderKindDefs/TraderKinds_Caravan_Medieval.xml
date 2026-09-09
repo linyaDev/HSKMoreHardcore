@@ -61,6 +61,17 @@
 				<thingDefCountRange>1~2</thingDefCountRange>
 				<countRange>1~1</countRange>
 			</li>
+			<!-- Скупка неолитического оружия: луки и духовые трубки (ноль видов
+			     на продажу — только покупка; милишку любого техуровня генератор
+			     WeaponsMelee выше и так скупает) -->
+			<li Class="StockGenerator_Category">
+				<categoryDef>BowRanged</categoryDef>
+				<thingDefCountRange>0~0</thingDefCountRange>
+			</li>
+			<li Class="StockGenerator_Category">
+				<categoryDef>Specialranged</categoryDef>
+				<thingDefCountRange>0~0</thingDefCountRange>
+			</li>
 
 			<!-- Apparel -->
 			<li Class="StockGenerator_Category">
