@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Дерево у торговцев x3 (сток: Core_SK_CoreModule/TraderKindDefs.xml).
+	     У поселения племени два генератора брёвен — целимся по текущему
+	     значению countRange, чтобы не заменить оба одним числом. -->
+
+	<!-- Оптовик поселенцев: 120-350 -> 360-1050 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Outlander_BulkGoods"]/stockGenerators/li[thingDef="WoodLog"]/countRange</xpath>
+		<value><countRange>360~1050</countRange></value>
+	</Operation>
+
+	<!-- Оптовик племени: 100-260 -> 300-780 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Caravan_Neolithic_BulkGoods"]/stockGenerators/li[thingDef="WoodLog"]/countRange</xpath>
+		<value><countRange>300~780</countRange></value>
+	</Operation>
+
+	<!-- Поселение племени: 500-600 -> 1500-1800, 200-400 -> 600-1200 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[thingDef="WoodLog"]/countRange[text()="500~600"]</xpath>
+		<value><countRange>1500~1800</countRange></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[thingDef="WoodLog"]/countRange[text()="200~400"]</xpath>
+		<value><countRange>600~1200</countRange></value>
+	</Operation>
+</Patch>
