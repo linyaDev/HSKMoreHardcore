@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 	<HMH_DiseaseFilthNoClean>Alternative disease spread logic</HMH_DiseaseFilthNoClean>
-	<HMH_DiseaseFilthNoCleanTip>Enabled: disease germ filth cannot be cleaned for the first two days — an outbreak lives out its natural lifespan and can only be fought by isolating the sick.\n\nDisabled: stock HSK behavior — germs can be cleaned right away.</HMH_DiseaseFilthNoCleanTip>
+	<HMH_DiseaseFilthNoCleanTip>Enabled: disease germ filth cannot be cleaned for the first two days — an outbreak lives out its natural lifespan; fight it by isolating the sick and wearing protective face masks.\n\nDisabled: stock HSK behavior — germs can be cleaned right away.</HMH_DiseaseFilthNoCleanTip>
 </LanguageData>
