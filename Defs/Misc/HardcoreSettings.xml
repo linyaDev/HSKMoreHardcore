@@ -56,6 +56,7 @@
 		     его расчётный уровень, без него — уровень фракции игрока) -->
 		<incidentMinTechLevel>
 			<li><key>LongNight</key><value>Industrial</value></li>
+			<li><key>IceAge</key><value>Industrial</value></li>
 		</incidentMinTechLevel>
 		<!-- То же для квестовых сайтов (SitePartDef defName -> TechLevel):
 		     ЭМИ-динамо не приходит, пока игрок не дорос до индастриала -->
