@@ -4,6 +4,12 @@
 	     У поселения племени два генератора брёвен — целимся по текущему
 	     значению countRange, чтобы не заменить оба одним числом. -->
 
+	<!-- Орбитальный оптовик: сток 550-1100 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Orbital_BulkGoods"]/stockGenerators/li[thingDef="WoodLog"]/countRange</xpath>
+		<value><countRange>800~2000</countRange></value>
+	</Operation>
+
 	<!-- Оптовик поселенцев: сток 120-350 -->
 	<Operation Class="PatchOperationReplace">
 		<xpath>Defs/TraderKindDef[defName="Caravan_Outlander_BulkGoods"]/stockGenerators/li[thingDef="WoodLog"]/countRange</xpath>
