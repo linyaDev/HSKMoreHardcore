@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Железная руда дороже: 2 -> 4 (у торговцев продаётся с тегом Cheap x0.7,
+	     на практике ~3.9 за штуку с наценкой) -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Iron"]/statBases/MarketValue</xpath>
+		<value><MarketValue>4</MarketValue></value>
+	</Operation>
+</Patch>
