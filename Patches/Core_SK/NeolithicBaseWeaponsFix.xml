@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Баг HSK: Base_Neolithic_Standard в CoreModule заменяется дважды, и в
+	     выигравшей версии оружейные генераторы с потолком Industrial (копипаста
+	     из аутлендерской базы) — племя торгует индустриальными стволами.
+	     Возвращаем неолитический потолок. -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[tradeTag="WeaponRanged"]/maxTechLevelGenerate</xpath>
+		<value><maxTechLevelGenerate>Neolithic</maxTechLevelGenerate></value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/TraderKindDef[defName="Base_Neolithic_Standard"]/stockGenerators/li[categoryDef="WeaponsMelee"]/maxTechLevelGenerate</xpath>
+		<value><maxTechLevelGenerate>Neolithic</maxTechLevelGenerate></value>
+	</Operation>
+</Patch>
