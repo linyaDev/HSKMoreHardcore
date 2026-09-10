@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Оптовики возят вдвое больше железной руды (у орбитального оптовика
-	     железа в стоке нет). Сток: Core_SK_CoreModule/TraderKindDefs.xml -->
+	<!-- Крупные партии железной руды у оптовиков и поселения племени
+	     (у орбитального оптовика железа в стоке нет).
+	     Сток: Core_SK_CoreModule/TraderKindDefs.xml -->
 
 	<!-- Оптовик поселенцев: сток 120-350 -->
 	<Operation Class="PatchOperationReplace">
