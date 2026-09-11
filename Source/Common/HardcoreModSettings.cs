@@ -12,8 +12,9 @@ namespace HSKMoreHardcore
         // Выключено — микробы чистятся сразу, как в стоковом HSK.
         public bool diseaseFilthNoClean = true;
 
-        // Виджет прогресса техуровня по Ignorance Is Bliss (TechProgressWidget)
-        public bool showTechProgress = true;
+        // Виджет прогресса техуровня по Ignorance Is Bliss (TechProgressWidget).
+        // По умолчанию выключен — включается в настройках мода.
+        public bool showTechProgress = false;
         public float techWidgetX = -1f;
         public float techWidgetY = -1f;
 
@@ -21,7 +22,7 @@ namespace HSKMoreHardcore
         {
             base.ExposeData();
             Scribe_Values.Look(ref diseaseFilthNoClean, "diseaseFilthNoClean", true);
-            Scribe_Values.Look(ref showTechProgress, "showTechProgress", true);
+            Scribe_Values.Look(ref showTechProgress, "showTechProgress", false);
             Scribe_Values.Look(ref techWidgetX, "techWidgetX", -1f);
             Scribe_Values.Look(ref techWidgetY, "techWidgetY", -1f);
         }

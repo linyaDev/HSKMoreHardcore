@@ -217,8 +217,9 @@ namespace HSKMoreHardcore
             int have = cumAt.TryGetValue(next, out int c) ? c : 0;
             int need = Mathf.CeilToInt(threshold * totals[next]);
             cachedFraction = need > 0 ? (float)have / need : 1f;
+            // Подпись: ТЕКУЩИЙ уровень, цифры — прогресс до следующего
             cachedLabel = "HMH_TechWidget_Label".Translate(
-                next.ToStringHuman().CapitalizeFirst(), have, need);
+                current.ToStringHuman().CapitalizeFirst(), have, need);
             valid = true;
 
             var sb = new StringBuilder();
