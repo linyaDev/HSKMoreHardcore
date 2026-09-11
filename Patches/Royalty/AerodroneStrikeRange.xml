@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Дальность прицеливания привилегий аэродронного удара: 44.9 -> 100
+	     (радиус от пешки-обладателя привилегии) -->
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>Royalty</li></mods>
+		<match Class="PatchOperationSequence">
+			<operations>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RoyalTitlePermitDef[defName="CallOrbitalStrike"]/royalAid/targetingRange</xpath>
+					<value><targetingRange>100</targetingRange></value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RoyalTitlePermitDef[defName="CallOrbitalSalvo"]/royalAid/targetingRange</xpath>
+					<value><targetingRange>100</targetingRange></value>
+				</li>
+			</operations>
+		</match>
+	</Operation>
+</Patch>
