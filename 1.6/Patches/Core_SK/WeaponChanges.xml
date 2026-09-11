@@ -19,6 +19,7 @@
 	       - свои усиленные осколки вместо общих CE (дефы: Defs/Ammo/Fragments_Catapult.xml):
 	         мелкие 2 -> 3.5 мм / 14.4 -> 25 МПа, крупные 4.5 -> 6 мм / 122.5 -> 160 МПа
 	       - острое пробитие самих ядер 1 -> 3.5 мм
+	       - дальность 150 -> 200
 
 	     Промышленные компоненты арбалетов (усиленный/скорпион/балестра по 2)
 	     живут в ОБЩЕМ Patches/Core_SK/CrossbowCostNerf.xml (действует и на 1.5,
@@ -109,6 +110,12 @@
 				<HMH_Fragment_CatapultLarge>16</HMH_Fragment_CatapultLarge>
 			</fragments>
 		</value>
+	</Operation>
+
+	<!-- Дальность 150 -> 200 -->
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="Artillery_Medieval_Catapult_Top"]/verbs/li/range</xpath>
+		<value><range>200</range></value>
 	</Operation>
 
 	<!-- Острое пробитие самих ядер 1 -> 3.5 мм (тупое и так 1541 МПа) -->
