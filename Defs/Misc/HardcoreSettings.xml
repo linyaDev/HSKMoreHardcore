@@ -58,6 +58,12 @@
 			<li><key>LongNight</key><value>Industrial</value></li>
 			<li><key>IceAge</key><value>Industrial</value></li>
 		</incidentMinTechLevel>
+		<!-- Минимальный техуровень игрока для вариантов жуткого присоединившегося (Anomaly,
+		     CreepJoinerFormKindDef). Уровень — как в incidentMinTechLevel. Вариант ниже порога
+		     не выбирается, приходят остальные. Выбор в dev-меню не ограничивается. -->
+		<creepJoinerFormMinTechLevel>
+			<li><key>LoneGenius</key><value>Industrial</value></li>
+		</creepJoinerFormMinTechLevel>
 		<!-- Гости Hospitality по техуровню (игрок — как в incidentMinTechLevel, не ниже неолита):
 		     на сколько уровней фракция гостей может быть выше / ниже игрока (-1 = без ограничения).
 		     Приглашение через консоль связи не ограничивается. -->
