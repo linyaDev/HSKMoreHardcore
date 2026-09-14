@@ -10,7 +10,7 @@ namespace HSKMoreHardcore
     /// Когда любое безумное животное на карте получает урон от колониста,
     /// все manhunter на этой карте начинают ломать двери — но только если их
     /// цель пешка игрока. За чужими пешками (рейдеры, гости) гоняются как в ванилле.
-    /// Как только manhunter кого-то убил, флаг для карты снимается (ярость остаётся).
+    /// Как только manhunter кого-то опрокинул или убил, флаг для карты снимается (ярость остаётся).
     /// Глобальный флаг per-map: lastManhunterHarmTick.
     /// </summary>
     [StaticConstructorOnStartup]
@@ -71,6 +71,13 @@ namespace HSKMoreHardcore
             if (kill != null)
                 harmony.Patch(kill, postfix: new HarmonyMethod(typeof(ManhunterDoorBreak), nameof(KillPostfix)));
 
+            // Postfix на Pawn_HealthTracker.MakeDowned — manhunter кого-то опрокинул: снять флаг
+            var makeDowned = AccessTools.Method(typeof(Pawn_HealthTracker), "MakeDowned");
+            if (makeDowned != null)
+                harmony.Patch(makeDowned, postfix: new HarmonyMethod(typeof(ManhunterDoorBreak), nameof(DownedPostfix)));
+            else
+                Log.Warning("[HSKMoreHardcore] ManhunterDoorBreak: Pawn_HealthTracker.MakeDowned not found — флаг снимается только при убийстве.");
+
             Log.Message($"[HSKMoreHardcore] ManhunterDoorBreak applied. DebugLog={DebugLog}");
         }
 
@@ -80,21 +87,32 @@ namespace HSKMoreHardcore
             lastLoggedDecision.Clear();
         }
 
-        // Manhunter убил любую пешку — «месть» утолена: снимаем флаг ломания дверей
-        // для его карты. Сама ярость (ментальное состояние) остаётся; новый урон от
-        // колониста снова включит флаг.
+        // Manhunter опрокинул (или сразу убил) любую пешку — «месть» утолена: снимаем
+        // флаг ломания дверей для его карты. Сама ярость (ментальное состояние)
+        // остаётся; новый урон от колониста снова включит флаг.
+        public static void DownedPostfix(Pawn ___pawn, DamageInfo? dinfo)
+        {
+            ClearFlagByManhunter(dinfo, ___pawn, "опрокинул");
+        }
+
+        // Убийство без опрокидывания (сразу насмерть) — тоже снимаем
         public static void KillPostfix(Pawn __instance, DamageInfo? dinfo)
         {
-            if (dinfo?.Instigator is not Pawn killer || !IsManhunter(killer))
+            ClearFlagByManhunter(dinfo, __instance, "убил");
+        }
+
+        private static void ClearFlagByManhunter(DamageInfo? dinfo, Pawn victim, string what)
+        {
+            if (dinfo?.Instigator is not Pawn attacker || !IsManhunter(attacker))
                 return;
 
-            var map = killer.Map;
+            var map = attacker.Map;
             if (map == null)
                 return;
 
             bool hadFlag = lastHarmTickPerMap.Remove(map.uniqueID);
             if (DebugLog)
-                Log.Message($"[HSKMoreHardcore] ManhunterDoorBreak: {Describe(killer)} убил {Describe(__instance)} -> флаг карты {(hadFlag ? "СНЯТ" : "не был активен")}");
+                Log.Message($"[HSKMoreHardcore] ManhunterDoorBreak: {Describe(attacker)} {what} {Describe(victim)} -> флаг карты {(hadFlag ? "СНЯТ" : "не был активен")}");
         }
 
         // Когда manhunter получает урон от колониста — ставим глобальный флаг для карты
@@ -163,19 +181,17 @@ namespace HSKMoreHardcore
                 return;
             }
 
-            // Если рядом есть колонист — не переключаемся на дверь, пусть AI атакует его
-            if (HasNearbyEnemy(pawn, 10f, out Pawn nearby))
-            {
-                LogSkip(pawn, "nearby:" + nearby.thingIDNumber,
-                    $"рядом пешка игрока {Describe(nearby)}; цель {Describe(target)}; ванилла: {original}");
-                return;
-            }
-
-            Building_Door door = FindDoorNearestTo(pawn, target);
+            // Дверь — первая закрытая на реальном пути к цели. Проверки «колонист в 10
+            // клетках» нет: если цель достижима, ванилла сама даёт атаку и сюда не доходит,
+            // а по прямой сквозь стену она срывала атаку двери у самого порога.
+            // «Ближайшая к цели дверь» тоже не годится: касание засчитывается по
+            // диагонали, животное выбивало дверь из угла, но пройти в проём не могло;
+            // при двух дверях подряд путь даёт их по порядку — внешнюю, затем внутреннюю.
+            Building_Door door = FindDoorOnPath(pawn, target);
             if (door == null)
             {
                 LogSkip(pawn, "no-door:" + target.thingIDNumber,
-                    $"нет достижимой закрытой двери; цель {Describe(target)}; ванилла: {original}");
+                    $"нет закрытой двери на пути; цель {Describe(target)}; ванилла: {original}");
                 return;
             }
 
@@ -253,47 +269,30 @@ namespace HSKMoreHardcore
                 canBashFences: pawn.FenceBlocked);
         }
 
-        private static bool HasNearbyEnemy(Pawn pawn, float radius, out Pawn found)
-        {
-            found = null;
-            float radiusSq = radius * radius;
-            foreach (var p in pawn.Map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
-            {
-                if (p.Dead)
-                    continue;
-                if (pawn.Position.DistanceToSquared(p.Position) <= radiusSq)
-                {
-                    found = p;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Закрытая дверь колонии, ближайшая к цели животного и достижимая для него
-        private static Building_Door FindDoorNearestTo(Pawn pawn, Pawn target)
+        // Первая закрытая дверь на пути животного к цели (путь как у ванильного
+        // JobGiver_Manhunter: TraverseMode.PassDoors). NodesReversed идёт от цели к
+        // животному, поэтому перебираем с конца — от животного.
+        private static Building_Door FindDoorOnPath(Pawn pawn, Pawn target)
         {
             var map = pawn.Map;
             if (map == null)
                 return null;
 
-            Building_Door best = null;
-            float bestDist = float.MaxValue;
-            foreach (var b in map.listerBuildings.allBuildingsColonist)
+            using (PawnPath path = map.pathFinder.FindPathNow(pawn.Position, target,
+                TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassDoors), null, PathEndMode.Touch))
             {
-                if (b is Building_Door door && !door.Open
-                    && pawn.CanReach(door, PathEndMode.Touch, Danger.Deadly))
+                if (path == null || !path.Found)
+                    return null;
+
+                var nodes = path.NodesReversed;
+                for (int i = nodes.Count - 1; i >= 0; i--)
                 {
-                    float dist = target.Position.DistanceToSquared(door.Position);
-                    if (dist < bestDist)
-                    {
-                        bestDist = dist;
-                        best = door;
-                    }
+                    Building_Door door = nodes[i].GetDoor(map);
+                    if (door != null && !door.Open)
+                        return door;
                 }
             }
-
-            return best;
+            return null;
         }
 
         // category — короткий ключ без координат: по нему решаем, писать ли повтор
