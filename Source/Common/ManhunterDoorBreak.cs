@@ -8,7 +8,9 @@ namespace HSKMoreHardcore
 {
     /// <summary>
     /// Когда любое безумное животное на карте получает урон от колониста,
-    /// все manhunter на этой карте начинают ломать двери.
+    /// все manhunter на этой карте начинают ломать двери — но только если их
+    /// цель пешка игрока. За чужими пешками (рейдеры, гости) гоняются как в ванилле.
+    /// Как только manhunter кого-то убил, флаг для карты снимается (ярость остаётся).
     /// Глобальный флаг per-map: lastManhunterHarmTick.
     /// </summary>
     [StaticConstructorOnStartup]
@@ -49,12 +51,30 @@ namespace HSKMoreHardcore
             if (gameLoad != null)
                 harmony.Patch(gameLoad, postfix: new HarmonyMethod(typeof(ManhunterDoorBreak), nameof(ClearFlags)));
 
+            // Postfix на Pawn.Kill — manhunter кого-то убил: снять флаг ломания дверей
+            var kill = AccessTools.Method(typeof(Pawn), nameof(Pawn.Kill));
+            if (kill != null)
+                harmony.Patch(kill, postfix: new HarmonyMethod(typeof(ManhunterDoorBreak), nameof(KillPostfix)));
+
             Log.Message("[HSKMoreHardcore] ManhunterDoorBreak applied.");
         }
 
         public static void ClearFlags()
         {
             lastHarmTickPerMap.Clear();
+        }
+
+        // Manhunter убил любую пешку — «месть» утолена: снимаем флаг ломания дверей
+        // для его карты. Сама ярость (ментальное состояние) остаётся; новый урон от
+        // колониста снова включит флаг.
+        public static void KillPostfix(DamageInfo? dinfo)
+        {
+            if (dinfo?.Instigator is not Pawn killer || !IsManhunter(killer))
+                return;
+
+            var map = killer.Map;
+            if (map != null)
+                lastHarmTickPerMap.Remove(map.uniqueID);
         }
 
         // Когда manhunter получает урон от колониста — ставим глобальный флаг для карты
@@ -95,11 +115,18 @@ namespace HSKMoreHardcore
             if (elapsed > AggroWindowTicks)
                 return;
 
+            // Цель — как её выбирает сама ванилла. Ломаем двери, только если животное
+            // идёт на пешку игрока; за чужими (рейдеры, гости) пусть гонится как обычно,
+            // иначе оно разворачивается на полпути к ним и идёт бить дверь колонии.
+            Pawn target = FindPawnTarget(pawn);
+            if (target == null || target.Faction != Faction.OfPlayer)
+                return;
+
             // Если рядом есть колонист — не переключаемся на дверь, пусть AI атакует его
             if (HasNearbyEnemy(pawn, 10f))
                 return;
 
-            Building_Door door = FindDoorNearestToColonist(pawn);
+            Building_Door door = FindDoorNearestTo(pawn, target);
             if (door == null)
                 return;
             Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, door);
@@ -117,6 +144,17 @@ namespace HSKMoreHardcore
                 || pawn.MentalStateDef == MentalStateDefOf.ManhunterPermanent;
         }
 
+        // Копия JobGiver_Manhunter.FindPawnTarget: любая пешка с интеллектом, двери ломать можно
+        private static Pawn FindPawnTarget(Pawn pawn)
+        {
+            return (Pawn)AttackTargetFinder.BestAttackTarget(pawn,
+                TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable,
+                x => x is Pawn && (int)x.def.race.intelligence >= 1,
+                0f, 9999f, default(IntVec3), float.MaxValue,
+                canBashDoors: true, canTakeTargetsCloserThanEffectiveMinRange: true,
+                canBashFences: pawn.FenceBlocked);
+        }
+
         private static bool HasNearbyEnemy(Pawn pawn, float radius)
         {
             float radiusSq = radius * radius;
@@ -130,31 +168,13 @@ namespace HSKMoreHardcore
             return false;
         }
 
-        private static Building_Door FindDoorNearestToColonist(Pawn pawn)
+        // Закрытая дверь колонии, ближайшая к цели животного и достижимая для него
+        private static Building_Door FindDoorNearestTo(Pawn pawn, Pawn target)
         {
             var map = pawn.Map;
             if (map == null)
                 return null;
 
-            // Ближайший колонист к животному
-            Pawn nearestColonist = null;
-            float nearestColonistDist = float.MaxValue;
-            foreach (var p in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
-            {
-                if (p.Dead)
-                    continue;
-                float dist = pawn.Position.DistanceToSquared(p.Position);
-                if (dist < nearestColonistDist)
-                {
-                    nearestColonistDist = dist;
-                    nearestColonist = p;
-                }
-            }
-
-            if (nearestColonist == null)
-                return null;
-
-            // Дверь, ближайшая к этому колонисту, но достижимая для животного
             Building_Door best = null;
             float bestDist = float.MaxValue;
             foreach (var b in map.listerBuildings.allBuildingsColonist)
@@ -162,7 +182,7 @@ namespace HSKMoreHardcore
                 if (b is Building_Door door && !door.Open
                     && pawn.CanReach(door, PathEndMode.Touch, Danger.Deadly))
                 {
-                    float dist = nearestColonist.Position.DistanceToSquared(door.Position);
+                    float dist = target.Position.DistanceToSquared(door.Position);
                     if (dist < bestDist)
                     {
                         bestDist = dist;
