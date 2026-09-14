@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-	<!-- Плывун: три кнопки на базе терраформа Fertile Fields (Core_SK).
-	     1) HMH_QuicksandMoat — оборонная, в «Безопасности» на месте убранного
-	        рва, с его иконкой и стоимостью; требует ещё Фортификацию I.
-	     2) RockyDirt-Quicksand — то же самое в меню терраформа «скалистая
-	        грязь в ...» (патч TerraformQuicksand.xml), терраформ-иконка.
-	     3) Quicksand-RockyDirt — обратно: плывун -> скалистая грязь, меню
-	        терраформа (категория наследуется от базы).
-	     Стоимость 1 и 2 одинаковая (ровская), чтобы не было выгодного обхода. -->
+	<!-- Плывун: три постройки на базе терраформа Fertile Fields (Core_SK).
+	     1) HMH_QuicksandMoat — оборонная, раньше была в «Безопасности»;
+	     2) RockyDirt-Quicksand — скалистая грязь -> плывун (терраформ);
+	     3) Quicksand-RockyDirt — обратно: плывун -> скалистая грязь.
+	     Все три убраны из меню строительства (designationCategory IsNull, из
+	     подкатегорий ArchitectSense — патчи MoatRemoval.xml и TerraformQuicksand.xml).
+	     Дефы не удаляем: уже заложенные чертежи и плывун в сейвах остаются. -->
 
 	<ThingDef ParentName="RFF_TerraformBasicBase">
 		<defName>HMH_QuicksandMoat</defName>
@@ -23,7 +22,7 @@
 				<result>HMH_Quicksand</result>
 			</li>
 		</modExtensions>
-		<designationCategory>Security</designationCategory>
+		<designationCategory IsNull="True" />
 		<statBases>
 			<WorkToBuild>800</WorkToBuild>
 		</statBases>
@@ -49,6 +48,7 @@
 				<result>HMH_Quicksand</result>
 			</li>
 		</modExtensions>
+		<designationCategory IsNull="True" />
 		<statBases>
 			<WorkToBuild>800</WorkToBuild>
 		</statBases>
@@ -74,6 +74,7 @@
 				<result>RockySoil</result>
 			</li>
 		</modExtensions>
+		<designationCategory IsNull="True" />
 		<statBases>
 			<WorkToBuild>1020</WorkToBuild>
 		</statBases>

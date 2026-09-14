@@ -58,11 +58,22 @@
 			<li><key>LongNight</key><value>Industrial</value></li>
 			<li><key>IceAge</key><value>Industrial</value></li>
 		</incidentMinTechLevel>
-		<!-- То же для квестовых сайтов (SitePartDef defName -> TechLevel):
-		     ЭМИ-динамо не приходит, пока игрок не дорос до индастриала -->
-		<sitePartMinTechLevel>
-			<li><key>EMIDynamo</key><value>Industrial</value></li>
-		</sitePartMinTechLevel>
+		<!-- Гости Hospitality по техуровню (игрок — как в incidentMinTechLevel, не ниже неолита):
+		     на сколько уровней фракция гостей может быть выше / ниже игрока (-1 = без ограничения).
+		     Приглашение через консоль связи не ограничивается. -->
+		<guestMaxTechAhead>0</guestMaxTechAhead>
+		<guestMaxTechBehind>2</guestMaxTechBehind>
+		<!-- Серебро гостей Hospitality по техуровню их фракции: множитель к серебру,
+		     которое выдаёт сам Hospitality (снаряжение вида пешки не трогается).
+		     Нет строки — без изменений. -->
+		<guestSilverMultiplierByTech>
+			<li><key>Neolithic</key><value>3</value></li>
+			<li><key>Medieval</key><value>5</value></li>
+			<li><key>Industrial</key><value>7</value></li>
+			<li><key>Spacer</key><value>9</value></li>
+			<li><key>Ultra</key><value>9</value></li>
+			<li><key>Archotech</key><value>9</value></li>
+		</guestSilverMultiplierByTech>
 		<!-- Точечные множители цены продажи (defName -> множитель), приоритетнее
 		     топливного правила — сюда можно вписать исключения, напр.
 		     <li><key>Chemfuel</key><value>1</value></li> -->
