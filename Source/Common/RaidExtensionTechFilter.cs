@@ -11,6 +11,10 @@ namespace HSKMoreHardcore
     // «заблудившийся рейдер» приходят фракциями любого техуровня.
     // Добиваем его переопределения постфиксом через IgnoranceCompat.
     // Surprise-варианты наследуют эти методы, отдельный патч им не нужен.
+    // Если фракция задана заранее (parms.faction), ванилла выбор пропускает и
+    // FactionCanBeGroupSource не спрашивает. Для каравана и путника префиксом на
+    // их TryExecuteWorker сбрасываем такую фракцию, если она не проходит по
+    // техуровню, — дальше ванилла выбирает заново уже с фильтром.
     [StaticConstructorOnStartup]
     public static class RaidExtensionTechFilter
     {
@@ -23,6 +27,13 @@ namespace HSKMoreHardcore
             "SR.ModRimworld.RaidExtension.IncidentWorkerHostileTraveler",
             "SR.ModRimworld.RaidExtension.IncidentWorkerLogging",
             "SR.ModRimworld.RaidExtension.IncidentWorkerPoaching",
+        };
+
+        // Воркеры, у которых заранее заданная фракция сбрасывается префиксом
+        private static readonly string[] presetFactionResetTypeNames =
+        {
+            "SR.ModRimworld.RaidExtension.IncidentWorkerHostileTraderCaravanPassing",
+            "SR.ModRimworld.RaidExtension.IncidentWorkerHostileTraveler",
         };
 
         static RaidExtensionTechFilter()
@@ -50,7 +61,11 @@ namespace HSKMoreHardcore
                 var tryExec = AccessTools.DeclaredMethod(type, "TryExecuteWorker");
                 if (tryExec != null)
                 {
+                    var prefix = System.Array.IndexOf(presetFactionResetTypeNames, typeName) >= 0
+                        ? new HarmonyMethod(typeof(RaidExtensionTechFilter), nameof(TryExecutePrefix))
+                        : null;
                     harmony.Patch(tryExec,
+                        prefix: prefix,
                         postfix: new HarmonyMethod(typeof(RaidExtensionTechFilter), nameof(TryExecutePostfix)));
                 }
                 else
@@ -78,6 +93,20 @@ namespace HSKMoreHardcore
                     $"(тех {f?.def?.techLevel}, игрок {IgnoranceCompat.PlayerTechLevel}) -> " +
                     (eligible ? "допущен" : "ОТСЕЧЁН"));
             }
+        }
+
+        public static void TryExecutePrefix(IncidentWorker __instance, IncidentParms parms)
+        {
+            var f = parms?.faction;
+            if (f == null || IgnoranceCompat.FactionIsEligible(f))
+                return;
+
+            if (DebugLog)
+            {
+                Log.Message($"[HSKMoreHardcore] RaidExtTechFilter: {__instance?.GetType().Name} заданная фракция {f.Name} " +
+                    $"(тех {f.def?.techLevel}, игрок {IgnoranceCompat.PlayerTechLevel}) СБРОШЕНА, выбор заново");
+            }
+            parms.faction = null;
         }
 
         public static void TryExecutePostfix(IncidentWorker __instance, IncidentParms parms, bool __result)
