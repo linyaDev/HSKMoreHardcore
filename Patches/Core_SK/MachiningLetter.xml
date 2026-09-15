@@ -9,7 +9,7 @@
 		<xpath>Defs/ResearchProjectDef[defName="Machining"]</xpath>
 		<value>
 			<discoveredLetterTitle>Firearms</discoveredLetterTitle>
-			<discoveredLetterText>Your colonists have mastered firearms. But the very first look at the ammunition recipes may bring an unpleasant surprise: they require weapon parts, and such ammo may seem outrageously expensive.\n\nDon't be discouraged - this is intentional. The balance here has been reworked as a whole, and there is more metal in the world than it seems:\n- traders now bring noticeably more ore;\n- meteorites deliver metal right to your doorstep;\n- scrap metal can be smelted down;\n- quarries yield stone and ore endlessly;\n- scanners find deposits deep underground.\n\nDon't give up. Every shot counts now, but a colony that sets up its mining will never run out of ammo.</discoveredLetterText>
+			<discoveredLetterText>Your colonists have mastered firearms. But the very first look at the ammunition recipes may bring an unpleasant surprise: they require cartridge cases made from metal, and such ammo may seem outrageously expensive.\n\nDon't be discouraged - this is intentional. The balance here has been reworked as a whole, and there is more metal in the world than it seems:\n- traders now bring noticeably more ore;\n- meteorites deliver metal right to your doorstep;\n- scrap metal can be smelted down;\n- quarries yield stone and ore endlessly;\n- scanners find deposits deep underground.\n\nDon't give up. Every shot counts now, but a colony that sets up its mining will never run out of ammo.</discoveredLetterText>
 		</value>
 	</Operation>
 

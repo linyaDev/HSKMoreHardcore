@@ -13,14 +13,13 @@
 		<!-- Материалы-исключения: их количество в рецептах патронов не множится -->
 		<ammoCraftExcludedMaterials>
 			<li>ElectronicComponents</li>
-			<!-- Оружейные детали добавлены патчем AmmoWeaponParts.xml, расход там задан
+			<!-- Гильзы добавлены патчем AmmoCartridgeCases.xml, расход там задан
 			     по классу калибра и множиться не должен -->
-			<li>Pistol_Component</li>
-			<li>SMG_Component</li>
-			<li>Shotgun_Component</li>
-			<li>Rifle_Component</li>
-			<li>Sniper_Component</li>
-			<li>Heavy_Component</li>
+			<li>CartridgeCase_Pistol</li>
+			<li>CartridgeCase_Shotgun</li>
+			<li>CartridgeCase_Rifle</li>
+			<li>CartridgeCase_Sniper</li>
+			<li>CartridgeCase_Heavy</li>
 		</ammoCraftExcludedMaterials>
 		<!-- Рецепты патронов, исключённые из множителя стоимости -->
 		<ammoCraftExcludedRecipes>
