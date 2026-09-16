@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using HarmonyLib;
 using RimWorld;
@@ -21,6 +22,10 @@ namespace HSKMoreHardcore
     [StaticConstructorOnStartup]
     public static class GuestTechFilter
     {
+        // Диагностика: каждое решение PlanNewVisit и каждый фактический приход гостей
+        // в лог (без режима разработчика)
+        private const bool DebugLog = true;
+
         private static readonly System.Reflection.MethodInfo planNewVisitMethod;
         private static readonly Func<Faction, Map, float> getTravelDays;
         private static readonly AccessTools.FieldRef<DiaOption, string> diaOptionText;
@@ -56,6 +61,33 @@ namespace HSKMoreHardcore
             // После постфикса Hospitality, который добавляет кнопку приглашения
             harmony.Patch(dialogFor,
                 postfix: new HarmonyMethod(typeof(GuestTechFilter), nameof(FactionDialogForPostfix)) { priority = Priority.Last });
+
+            // Второй путь визитов — мимо очереди: рассказчик (StorytellerComp_FactionInteraction,
+            // incident VisitorGroup у Kara) запускает событие без фракции, и ванильный
+            // TryResolveParmsGeneral выбирает её через FactionCanBeGroupSource. Hospitality
+            // переопределяет этот метод без вызова базового — ни нашего фильтра, ни IiB там нет.
+            // Визиты из очереди и приглашения не затрагиваются: фракция в них уже задана.
+            var visitorWorkerType = AccessTools.TypeByName("Hospitality.IncidentWorker_VisitorGroup");
+            var factionSource = visitorWorkerType == null ? null : AccessTools.DeclaredMethod(visitorWorkerType, "FactionCanBeGroupSource");
+            if (factionSource != null)
+                harmony.Patch(factionSource,
+                    postfix: new HarmonyMethod(typeof(GuestTechFilter), nameof(FactionCanBeGroupSourcePostfix)));
+            else
+                Log.Warning("[HSKMoreHardcore] GuestTechFilter: IncidentWorker_VisitorGroup.FactionCanBeGroupSource не найден — визиты от рассказчика не фильтруются.");
+
+            if (DebugLog)
+            {
+                // Фактический приход гостей — чтобы увидеть визиты в обход фильтра
+                var visitorWorker = AccessTools.TypeByName("Hospitality.IncidentWorker_VisitorGroup");
+                var tryExecute = visitorWorker == null ? null : AccessTools.Method(visitorWorker, "TryExecuteWorker");
+                if (tryExecute != null)
+                    harmony.Patch(tryExecute,
+                        postfix: new HarmonyMethod(typeof(GuestTechFilter), nameof(VisitorArrivalPostfix)));
+                else
+                    Log.Warning("[HSKMoreHardcore] GuestTechFilter: IncidentWorker_VisitorGroup.TryExecuteWorker не найден — приходы гостей не логируются.");
+
+                Log.Message($"[HSKMoreHardcore] GuestTechFilter applied. DebugLog={DebugLog}, IiB active={IgnoranceCompat.Active}");
+            }
         }
 
         /// <summary>Может ли фракция прислать гостей при текущем техуровне игрока.</summary>
@@ -82,14 +114,48 @@ namespace HSKMoreHardcore
             return true;
         }
 
-        public static bool PlanNewVisitPrefix(Faction faction)
+        public static bool PlanNewVisitPrefix(float afterDays, Faction faction)
         {
-            if (faction == null || inviting || FactionTechAllowed(faction))
+            if (faction == null)
                 return true;
 
-            if (Prefs.DevMode)
+            bool allowed = FactionTechAllowed(faction);
+            bool run = inviting || allowed;
+
+            if (DebugLog)
+            {
+                string verdict = inviting ? "ПРИГЛАШЕНИЕ (фильтр не применяется)" : allowed ? "поставлен в очередь" : "ОТКЛОНЁН";
+                Log.Message($"[HSKMoreHardcore] GuestTechFilter: план визита {DescribeFaction(faction)} через {afterDays:0.#} дн. -> {verdict}; " +
+                    $"{DescribePlayerTech()}; вызвал {Caller()}");
+            }
+            else if (!run && Prefs.DevMode)
+            {
                 Log.Message($"[HSKMoreHardcore] GuestTechFilter: визит {faction.Name} (тех {faction.def.techLevel}, игрок {IgnoranceCompat.PlayerTechLevel}) не запланирован.");
-            return false;
+            }
+            return run;
+        }
+
+        // Фракции, про отсечение которых уже написали в лог в этой сессии
+        private static readonly System.Collections.Generic.HashSet<int> loggedCutFactions = new System.Collections.Generic.HashSet<int>();
+
+        // Выбор фракции для визита, который запустил рассказчик (без заранее заданной фракции)
+        public static void FactionCanBeGroupSourcePostfix(Faction f, ref bool __result)
+        {
+            if (!__result || f == null || FactionTechAllowed(f))
+                return;
+
+            __result = false;
+            if (DebugLog && loggedCutFactions.Add(f.loadID))
+                Log.Message($"[HSKMoreHardcore] GuestTechFilter: визит от рассказчика — фракция {DescribeFaction(f)} ОТСЕЧЕНА; {DescribePlayerTech()}");
+        }
+
+        // Лог фактического прихода: какая фракция пришла и прошла бы она фильтр сейчас
+        public static void VisitorArrivalPostfix(IncidentWorker __instance, IncidentParms parms, bool __result)
+        {
+            var faction = parms?.faction;
+            string filter = faction == null ? "-" : FactionTechAllowed(faction) ? "да" : "НЕТ — пришли в обход фильтра";
+            Log.Message($"[HSKMoreHardcore] GuestTechFilter: ПРИХОД гостей ({__instance?.def?.defName}, результат {__result}) " +
+                $"{(faction == null ? "фракция null" : DescribeFaction(faction))}; {DescribePlayerTech()}; по фильтру: {filter}");
         }
 
         // Копия GenericUtility.FillIncidentQueue с фильтром техуровня
@@ -100,6 +166,8 @@ namespace HSKMoreHardcore
             var candidates = Find.FactionManager.AllFactionsVisible
                 .Where(f => !f.IsPlayer && !f.defeated && !f.HostileTo(Faction.OfPlayer) && FactionTechAllowed(f))
                 .OrderBy(f => getTravelDays(f, map));
+            if (DebugLog)
+                Log.Message($"[HSKMoreHardcore] GuestTechFilter: заполнение очереди, кандидаты: {string.Join(", ", candidates.Select(DescribeFaction))}; {DescribePlayerTech()}");
             foreach (var faction in candidates)
             {
                 count--;
@@ -138,6 +206,40 @@ namespace HSKMoreHardcore
                     }
                 };
             }
+        }
+
+        private static string DescribeFaction(Faction f)
+        {
+            return $"{f.Name} [{f.def.defName}, тех {f.def.techLevel}]";
+        }
+
+        private static string DescribePlayerTech()
+        {
+            var settings = HardcoreSettingsDef.Instance;
+            return $"игрок по IiB {IgnoranceCompat.PlayerTechLevel} (IiB active={IgnoranceCompat.Active}), " +
+                $"фракция игрока {Faction.OfPlayer?.def?.techLevel}, ahead={settings?.guestMaxTechAhead}, behind={settings?.guestMaxTechBehind}";
+        }
+
+        // Первый метод Hospitality в стеке, кроме самого PlanNewVisit
+        private static string Caller()
+        {
+            var frames = new StackTrace().GetFrames();
+            if (frames == null)
+                return "?";
+            foreach (var frame in frames)
+            {
+                var m = frame.GetMethod();
+                var type = m?.DeclaringType;
+                if (type == null || type == typeof(GuestTechFilter))
+                    continue;
+                string ns = type.Namespace ?? "";
+                if (!ns.StartsWith("Hospitality") && !ns.StartsWith("RimWorld") && !ns.StartsWith("Verse"))
+                    continue;
+                if (m.Name.Contains("PlanNewVisit"))
+                    continue;
+                return $"{type.Name}.{m.Name}";
+            }
+            return "?";
         }
     }
 }
