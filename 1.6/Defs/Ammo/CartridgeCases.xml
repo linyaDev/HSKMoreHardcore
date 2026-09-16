@@ -142,15 +142,15 @@
 	     с развёрнутыми вложенными частями по рецептам HSK:
 	       компонент  (Make_ComponentIndustrial: 30 стали -> 10)      = 3 стали;
 	       механизм   (MakeSimpleMechanism: 30 стали + 10 комп. -> 5) = 12 стали;
-	       проволока  (MakeWires: 10 цветного -> 20)                  = 0.5 цветного.
-	     Дробные значения округлены вверх.
-	       пистолетные:  6+3  + 2 комп. + 1 пров. + 1 мех.  = 24 стали, 4 цветного;
-	       дробовые:     15+8 + 4 комп. + 5 пров. + 2 мех.  = 51 сталь, 11 цветного;
-	       винтовочные:  20+10 + 6 комп. + 8 пров. + 3 мех. = 74 стали, 14 цветного;
+	       проволока  (MakeWires: 10 цветного -> 20)                  = 0.5 тяжёлого.
+	     Затем всё поделено пополам и округлено вверх (итог ниже).
+	       пистолетные:  6+3  + 2 комп. + 1 пров. + 1 мех.  -> 12 стали, 2 тяжёлого;
+	       дробовые:     15+8 + 4 комп. + 5 пров. + 2 мех.  -> 26 стали, 6 тяжёлого;
+	       винтовочные:  20+10 + 6 комп. + 8 пров. + 3 мех. -> 37 стали, 7 тяжёлого;
 	       полноразмерные: винтовочная деталь + 6 комп. (стекло не металл)
-	                                                        = 92 стали, 14 цветного;
+	                                                        -> 46 стали, 7 тяжёлого;
 	       крупнокалиберные: 25+15 + 12 комп. + 15 пров. + 6 мех.
-	                                                        = 133 стали, 23 цветного. -->
+	                                                        -> 67 стали, 12 тяжёлого. -->
 
 	<RecipeDef>
 		<defName>MakeCartridgeCase_Pistol</defName>
@@ -172,22 +172,22 @@
 						<li>USLDBar</li>
 					</categories>
 				</filter>
-				<count>24</count>
+				<count>12</count>
 			</li>
 			<li>
 				<filter>
 					<categories>
-						<li>HCMBar</li>
+						<li>HeavyBar</li>
 					</categories>
 				</filter>
-				<count>4</count>
+				<count>2</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
 			<categories>
 				<li>SLDBar</li>
 				<li>USLDBar</li>
-				<li>HCMBar</li>
+				<li>HeavyBar</li>
 			</categories>
 		</fixedIngredientFilter>
 		<products>
@@ -221,22 +221,22 @@
 						<li>USLDBar</li>
 					</categories>
 				</filter>
-				<count>51</count>
+				<count>26</count>
 			</li>
 			<li>
 				<filter>
 					<categories>
-						<li>HCMBar</li>
+						<li>HeavyBar</li>
 					</categories>
 				</filter>
-				<count>11</count>
+				<count>6</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
 			<categories>
 				<li>SLDBar</li>
 				<li>USLDBar</li>
-				<li>HCMBar</li>
+				<li>HeavyBar</li>
 			</categories>
 		</fixedIngredientFilter>
 		<products>
@@ -270,22 +270,22 @@
 						<li>USLDBar</li>
 					</categories>
 				</filter>
-				<count>74</count>
+				<count>37</count>
 			</li>
 			<li>
 				<filter>
 					<categories>
-						<li>HCMBar</li>
+						<li>HeavyBar</li>
 					</categories>
 				</filter>
-				<count>14</count>
+				<count>7</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
 			<categories>
 				<li>SLDBar</li>
 				<li>USLDBar</li>
-				<li>HCMBar</li>
+				<li>HeavyBar</li>
 			</categories>
 		</fixedIngredientFilter>
 		<products>
@@ -319,22 +319,22 @@
 						<li>USLDBar</li>
 					</categories>
 				</filter>
-				<count>92</count>
+				<count>46</count>
 			</li>
 			<li>
 				<filter>
 					<categories>
-						<li>HCMBar</li>
+						<li>HeavyBar</li>
 					</categories>
 				</filter>
-				<count>14</count>
+				<count>7</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
 			<categories>
 				<li>SLDBar</li>
 				<li>USLDBar</li>
-				<li>HCMBar</li>
+				<li>HeavyBar</li>
 			</categories>
 		</fixedIngredientFilter>
 		<products>
@@ -368,22 +368,22 @@
 						<li>USLDBar</li>
 					</categories>
 				</filter>
-				<count>133</count>
+				<count>67</count>
 			</li>
 			<li>
 				<filter>
 					<categories>
-						<li>HCMBar</li>
+						<li>HeavyBar</li>
 					</categories>
 				</filter>
-				<count>23</count>
+				<count>12</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
 			<categories>
 				<li>SLDBar</li>
 				<li>USLDBar</li>
-				<li>HCMBar</li>
+				<li>HeavyBar</li>
 			</categories>
 		</fixedIngredientFilter>
 		<products>
