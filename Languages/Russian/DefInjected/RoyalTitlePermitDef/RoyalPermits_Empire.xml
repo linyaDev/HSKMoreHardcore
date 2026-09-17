@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+	<!-- Количества изменены патчем Patches/Royalty/PermitDropAmounts.xml:
+	     250 стали -> 750, 20 сухпайков -> 60 -->
+	<SteelDrop.description>Запрос доставки 750 единиц стали.</SteelDrop.description>
+	<FoodDrop.description>Запрос доставки 60 сухих пайков.</FoodDrop.description>
+
+</LanguageData>
