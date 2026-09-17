@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Привилегии Империи на ресурсы: ванильные 250 стали и 20 сухпайков
-	     (Royalty/Defs/RoyalTitles/RoyalPermits_Empire.xml) слишком малы для
-	     пака. Даём 500 стали и 40 сухпайков. Стоимость (1 очко, 4 фавора,
-	     титул Acolyte) и кулдаун не трогаем.
+	<!-- Привилегии Империи на ресурсы: ванильные количества
+	     (Royalty/Defs/RoyalTitles/RoyalPermits_Empire.xml) малы для пака.
+	     Сталь 250 -> 500, сухпайки 20 -> 40, серебро 500 -> 750.
+	     Стоимость (очки, фавор, минимальный титул) и кулдаун не трогаем.
 	     Русские описания — Languages/Russian/DefInjected/RoyalTitlePermitDef. -->
 	<Operation Class="PatchOperationFindMod">
 		<mods><li>Royalty</li></mods>
@@ -32,6 +32,18 @@
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/RoyalTitlePermitDef[defName="FoodDrop"]/description</xpath>
 					<value><description>Call for a drop of 40 packaged survival meals.</description></value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RoyalTitlePermitDef[defName="SilverDrop"]/royalAid/itemsToDrop</xpath>
+					<value>
+						<itemsToDrop>
+							<Silver>750</Silver>
+						</itemsToDrop>
+					</value>
+				</li>
+				<li Class="PatchOperationReplace">
+					<xpath>Defs/RoyalTitlePermitDef[defName="SilverDrop"]/description</xpath>
+					<value><description>Call for a drop of 750 silver.</description></value>
 				</li>
 			</operations>
 		</match>
