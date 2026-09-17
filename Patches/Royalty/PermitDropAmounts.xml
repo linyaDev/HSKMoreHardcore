@@ -4,10 +4,15 @@
 	     (Royalty/Defs/RoyalTitles/RoyalPermits_Empire.xml) малы для пака.
 	     Сталь 250 -> 500, сухпайки 20 -> 40, серебро 500 -> 750.
 	     Стоимость (очки, фавор, минимальный титул) и кулдаун не трогаем.
-	     Русские описания — Languages/Russian/DefInjected/RoyalTitlePermitDef. -->
+	     Русские описания — Languages/Russian/DefInjected/RoyalTitlePermitDef.
+
+	     Не применяется при HMC Nobility Expanded: он переопределяет эти же
+	     дефы (SteelDrop, FoodDrop, SilverDrop) своей системой привилегий. -->
 	<Operation Class="PatchOperationFindMod">
 		<mods><li>Royalty</li></mods>
-		<match Class="PatchOperationSequence">
+		<match Class="PatchOperationFindMod">
+		<mods><li>HMC Nobility Expanded</li></mods>
+		<nomatch Class="PatchOperationSequence">
 			<operations>
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/RoyalTitlePermitDef[defName="SteelDrop"]/royalAid/itemsToDrop</xpath>
@@ -46,6 +51,7 @@
 					<value><description>Call for a drop of 750 silver.</description></value>
 				</li>
 			</operations>
+		</nomatch>
 		</match>
 	</Operation>
 </Patch>

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 	<!-- Дальность прицеливания привилегий аэродронного удара: 44.9 -> 100
-	     (радиус от пешки-обладателя привилегии) -->
+	     (радиус от пешки-обладателя привилегии).
+
+	     Не применяется при HMC Nobility Expanded: он переопределяет эти же
+	     дефы (CallOrbitalStrike, CallOrbitalSalvo) своей системой привилегий. -->
 	<Operation Class="PatchOperationFindMod">
 		<mods><li>Royalty</li></mods>
-		<match Class="PatchOperationSequence">
+		<match Class="PatchOperationFindMod">
+		<mods><li>HMC Nobility Expanded</li></mods>
+		<nomatch Class="PatchOperationSequence">
 			<operations>
 				<li Class="PatchOperationReplace">
 					<xpath>Defs/RoyalTitlePermitDef[defName="CallOrbitalStrike"]/royalAid/targetingRange</xpath>
@@ -15,6 +20,7 @@
 					<value><targetingRange>100</targetingRange></value>
 				</li>
 			</operations>
+		</nomatch>
 		</match>
 	</Operation>
 </Patch>
