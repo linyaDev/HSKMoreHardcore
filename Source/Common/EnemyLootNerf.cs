@@ -38,6 +38,18 @@ namespace HSKMoreHardcore
                 Log.Message("[HSKMoreHardcore] EnemyLootNerf (apparel worn mark) applied.");
             }
 
+            // Помечаем оружие, которое выпало из рук вражеской пешки (смерть, опрокидывание,
+            // «раздеть всё», разоружение). Оружие колонистов не метим: они постоянно
+            // перекладывают стволы, и метка вешалась бы на ровном месте.
+            var equipmentTryDrop = AccessTools.Method(typeof(Pawn_EquipmentTracker), "TryDropEquipment",
+                new Type[] { typeof(ThingWithComps), typeof(ThingWithComps).MakeByRefType(), typeof(IntVec3), typeof(bool) });
+            if (equipmentTryDrop != null)
+            {
+                harmony.Patch(equipmentTryDrop,
+                    postfix: new HarmonyMethod(typeof(EnemyLootNerf), nameof(EquipmentDropPostfix)));
+                Log.Message("[HSKMoreHardcore] EnemyLootNerf (weapon battle-worn mark) applied.");
+            }
+
             var genInv = AccessTools.Method(typeof(RimWorld.PawnInventoryGenerator), "GenerateInventoryFor");
             if (genInv != null)
             {
@@ -73,6 +85,37 @@ namespace HSKMoreHardcore
             {
                 comp.wornByEnemy = true;
             }
+        }
+
+        // Оружие из рук вражеской пешки -> метка «со следами боя»
+        public static void EquipmentDropPostfix(Pawn_EquipmentTracker __instance, ThingWithComps eq, ThingWithComps resultingEq)
+        {
+            var dropped = resultingEq ?? eq;
+            if (dropped == null || dropped.def == null || !dropped.def.IsWeapon)
+                return;
+
+            MarkWeaponWornByEnemy(dropped, __instance.pawn);
+        }
+
+        // Ставит метку «со следами боя», если оружие выпало из враждебной (не игроковой) пешки.
+        public static void MarkWeaponWornByEnemy(Thing weapon, Pawn pawn)
+        {
+            if (pawn == null || pawn.Faction == null || pawn.Faction.IsPlayer
+                || pawn.IsPrisonerOfColony || pawn.IsSlaveOfColony)
+                return;
+
+            var comp = weapon.TryGetComp<CompWornByEnemy>();
+            if (comp == null)
+            {
+                var twc = weapon as ThingWithComps;
+                if (twc == null)
+                    return;
+                comp = new CompWornByEnemy();
+                comp.parent = twc;
+                twc.AllComps.Add(comp);
+            }
+
+            comp.wornByEnemy = true;
         }
 
         public static void InventoryGenPostfix(Pawn p)
@@ -134,6 +177,11 @@ namespace HSKMoreHardcore
                 var comp = apparel.TryGetComp<CompWornByEnemy>();
                 if (comp != null)
                     comp.wornByEnemy = true;
+            }
+            else if (thing.def.IsWeapon)
+            {
+                // Запасное оружие в инвентаре врага (сайдармы, груз вьючных животных)
+                MarkWeaponWornByEnemy(thing, pawn);
             }
         }
     }
