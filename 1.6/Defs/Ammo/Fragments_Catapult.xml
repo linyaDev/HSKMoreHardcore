@@ -17,8 +17,8 @@
 			<damageDef>Fragment</damageDef>
 			<damageAmountBase>12</damageAmountBase>
 			<speed>40</speed>
-			<armorPenetrationSharp>3.5</armorPenetrationSharp>
-			<armorPenetrationBlunt>25</armorPenetrationBlunt>
+			<armorPenetrationSharp>2.75</armorPenetrationSharp>
+			<armorPenetrationBlunt>19.7</armorPenetrationBlunt>
 			<tickToTruePos>0</tickToTruePos>
 			<gravityFactor>5</gravityFactor>
 			<diameter>3.5~4.5</diameter>
@@ -39,8 +39,8 @@
 			<damageDef>Fragment</damageDef>
 			<damageAmountBase>34</damageAmountBase>
 			<speed>60</speed>
-			<armorPenetrationSharp>6</armorPenetrationSharp>
-			<armorPenetrationBlunt>160</armorPenetrationBlunt>
+			<armorPenetrationSharp>5.25</armorPenetrationSharp>
+			<armorPenetrationBlunt>141.25</armorPenetrationBlunt>
 			<tickToTruePos>0</tickToTruePos>
 			<ballisticCoefficient>0.95~1.42</ballisticCoefficient>
 			<gravityFactor>5</gravityFactor>
