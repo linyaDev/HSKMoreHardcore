@@ -9,8 +9,15 @@
 
 		Пускаем на него пистолеты целиком (категория Pistols — в Core_SK это первые
 		стволы вообще: Gun_Revolver и RF_Gun_VektorCP открываются исследованием
-		Gunsmithing) и первую винтовку Lee-Enfield (Gun_BoltActionRifle, Rifles_C1).
-		Автоматика, дробовики, пистолеты-пулемёты и снайперки остаются на TableMending.
+		Gunsmithing) и первый тир остального огнестрела поимённо:
+
+		    Gun_BoltActionRifle (Lee-Enfield)        Rifles_C1
+		    Gun_PumpShotgun, Gun_M37A2_USCM          GasOperation
+		    Gun_MachinePistol (PDW), RF_Gun_TMP,
+		    RF_Gun_Skorpion, RF_Gun_GreaseGun        BlowbackOperation
+
+		Всё, что идёт со второго тира (Rifles_C2, Shotgun_C2, SMG_C2 и выше),
+		автоматика и снайперки остаются на электрическом TableMending.
 
 		Правятся оба фильтра: ingredients — что берут в работу, fixedIngredientFilter —
 		что видно в самом билле.
@@ -36,6 +43,12 @@
 				<value>
 					<thingDefs>
 						<li>Gun_BoltActionRifle</li>
+						<li>Gun_PumpShotgun</li>
+						<li>Gun_M37A2_USCM</li>
+						<li>Gun_MachinePistol</li>
+						<li>RF_Gun_TMP</li>
+						<li>RF_Gun_Skorpion</li>
+						<li>RF_Gun_GreaseGun</li>
 					</thingDefs>
 				</value>
 			</li>
@@ -44,6 +57,12 @@
 				<value>
 					<thingDefs>
 						<li>Gun_BoltActionRifle</li>
+						<li>Gun_PumpShotgun</li>
+						<li>Gun_M37A2_USCM</li>
+						<li>Gun_MachinePistol</li>
+						<li>RF_Gun_TMP</li>
+						<li>RF_Gun_Skorpion</li>
+						<li>RF_Gun_GreaseGun</li>
 					</thingDefs>
 				</value>
 			</li>
