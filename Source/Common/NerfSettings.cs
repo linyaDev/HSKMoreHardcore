@@ -87,6 +87,6 @@ namespace HSKMoreHardcore
         public static float fishSpawnSlowdown = 1f; // множитель замедления пополнения рыбы
 
         // Ammo craft
-        public static float ammoCraftCostMultiplier = 5f;
+        public static float ammoCraftCostMultiplier = 3f;
     }
 }

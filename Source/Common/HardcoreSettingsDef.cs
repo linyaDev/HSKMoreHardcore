@@ -19,7 +19,7 @@ namespace HSKMoreHardcore
         public float fuelSellPriceMultiplier = 1f;
         public List<string> fuelSellExcludedCategories;
         // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
-        // гостей) живут в отдельном моде HSK More Balance: Events.
+        // гостей) живут в отдельном моде HSK More Balance: Quests and Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
         public float treeRegrowthChance = 0.25f;
         // Срок жизни деревьев = growDays * это значение (ваниль 8; 0 = не менять)

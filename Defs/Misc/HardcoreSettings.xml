@@ -5,7 +5,7 @@
 		<label>HSK Hardcore Settings</label>
 
 		<!-- Множитель стоимости крафта патронов (ингредиенты) -->
-		<ammoCraftCostMultiplier>5</ammoCraftCostMultiplier>
+		<ammoCraftCostMultiplier>3</ammoCraftCostMultiplier>
 		<!-- Множитель стоимости крафта стрел (MakeAmmo_Arrow_*) -->
 		<arrowCraftCostMultiplier>1</arrowCraftCostMultiplier>
 		<!-- Множитель стоимости крафта болтов (MakeAmmo_Bolt_*) -->
@@ -53,7 +53,7 @@
 		</fuelSellExcludedCategories>
 		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
 		     фракции гостей и внезапных рейдов) переехали в отдельный мод
-		     HSK More Balance: Events, файл Defs/Misc/EventSettings.xml -->
+		     HSK More Balance: Quests and Events, файл Defs/Misc/EventSettings.xml -->
 		<!-- Серебро гостей Hospitality по техуровню их фракции: множитель к серебру,
 		     которое выдаёт сам Hospitality (снаряжение вида пешки не трогается).
 		     Нет строки — без изменений. -->
