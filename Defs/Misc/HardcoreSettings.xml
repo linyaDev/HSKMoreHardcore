@@ -51,25 +51,9 @@
 			<li>HCM</li> <!-- руды: олово, алюминий -->
 			<li>SuperMaterialCat</li> <!-- антиматерия -->
 		</fuelSellExcludedCategories>
-		<!-- Минимальный техуровень игрока для событий (с Ignorance Is Bliss —
-		     его расчётный уровень, без него — уровень фракции игрока) -->
-		<incidentMinTechLevel>
-			<li><key>LongNight</key><value>Industrial</value></li>
-			<li><key>IceAge</key><value>Industrial</value></li>
-			<!-- Терраформер механоидов: ультратех-постройка с погодным контроллером -->
-			<li><key>MechanoidTerraformerIncident</key><value>Spacer</value></li>
-		</incidentMinTechLevel>
-		<!-- Минимальный техуровень игрока для вариантов жуткого присоединившегося (Anomaly,
-		     CreepJoinerFormKindDef). Уровень — как в incidentMinTechLevel. Вариант ниже порога
-		     не выбирается, приходят остальные. Выбор в dev-меню не ограничивается. -->
-		<creepJoinerFormMinTechLevel>
-			<li><key>LoneGenius</key><value>Industrial</value></li>
-		</creepJoinerFormMinTechLevel>
-		<!-- Гости Hospitality по техуровню (игрок — как в incidentMinTechLevel, не ниже неолита):
-		     на сколько уровней фракция гостей может быть выше / ниже игрока (-1 = без ограничения).
-		     Приглашение через консоль связи не ограничивается. -->
-		<guestMaxTechAhead>0</guestMaxTechAhead>
-		<guestMaxTechBehind>2</guestMaxTechBehind>
+		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
+		     фракции гостей и внезапных рейдов) переехали в отдельный мод
+		     HSK More Balance: Events, файл Defs/Misc/EventSettings.xml -->
 		<!-- Серебро гостей Hospitality по техуровню их фракции: множитель к серебру,
 		     которое выдаёт сам Hospitality (снаряжение вида пешки не трогается).
 		     Нет строки — без изменений. -->

@@ -18,17 +18,12 @@ namespace HSKMoreHardcore
         // sellPriceOverrides имеет приоритет; категории из fuelSellExcludedCategories не трогаются.
         public float fuelSellPriceMultiplier = 1f;
         public List<string> fuelSellExcludedCategories;
-        // Минимальный техуровень игрока для событий (defName -> TechLevel)
-        public Dictionary<string, TechLevel> incidentMinTechLevel;
-        // Минимальный техуровень игрока для вариантов жуткого присоединившегося (defName формы -> TechLevel)
-        public Dictionary<string, TechLevel> creepJoinerFormMinTechLevel;
+        // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
+        // гостей) живут в отдельном моде HSK More Balance: Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
         public float treeRegrowthChance = 0.25f;
         // Срок жизни деревьев = growDays * это значение (ваниль 8; 0 = не менять)
         public float treeLifespanDaysPerGrowDays = 0f;
-        // Гости Hospitality: на сколько техуровней фракция может быть выше / ниже игрока (-1 = без ограничения)
-        public int guestMaxTechAhead = -1;
-        public int guestMaxTechBehind = -1;
         // Гости Hospitality: множитель выданного им серебра по техуровню фракции (нет строки — без изменений)
         public Dictionary<TechLevel, float> guestSilverMultiplierByTech;
 
