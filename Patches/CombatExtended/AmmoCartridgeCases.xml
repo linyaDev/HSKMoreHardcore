@@ -52,7 +52,7 @@
 
 				<!-- 12 Gauge -->
 				<li Class="PatchOperationAdd">
-					<xpath>Defs/RecipeDef[defName="MakeAmmo_12Gauge_Buck" or defName="MakeAmmo_12Gauge_Slug" or defName="MakeAmmo_12Gauge_Beanbag"]/ingredients</xpath>
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_12Gauge_Buck" or defName="MakeAmmo_12Gauge_Slug" or defName="MakeAmmo_12Gauge_Beanbag" or defName="MakeAmmo_12Gauge_Bird" or defName="MakeAmmo_12Gauge_ElectroSlug"]/ingredients</xpath>
 					<value>
 						<li>
 							<filter>
@@ -65,7 +65,7 @@
 					</value>
 				</li>
 				<li Class="PatchOperationAdd">
-					<xpath>Defs/RecipeDef[defName="MakeAmmo_12Gauge_Buck" or defName="MakeAmmo_12Gauge_Slug" or defName="MakeAmmo_12Gauge_Beanbag"]/fixedIngredientFilter/thingDefs</xpath>
+					<xpath>Defs/RecipeDef[defName="MakeAmmo_12Gauge_Buck" or defName="MakeAmmo_12Gauge_Slug" or defName="MakeAmmo_12Gauge_Beanbag" or defName="MakeAmmo_12Gauge_Bird" or defName="MakeAmmo_12Gauge_ElectroSlug"]/fixedIngredientFilter/thingDefs</xpath>
 					<value>
 						<li>CartridgeCase_Shotgun</li>
 					</value>
