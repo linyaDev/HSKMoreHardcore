@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!--
+		Ручной ремонтный станок (HandMendingWorkbench, исследование Repair_table_B1)
+		чинит по рецепту MendRepairArmor. В паке там только одежда, щиты, ближний бой
+		и примитивная дальнобойка (луки, арбалеты, метательное) — любой огнестрел
+		требовал электрического станка (TableMending, рецепт MendComplexWeapon).
+
+		Пускаем на него пистолеты целиком (категория Pistols — туда попадают и
+		чёрнопороховые Pistolet 1733 с Colt Peacemaker из Vile's) и первые винтовки
+		поимённо: дульнозарядные Vile's уровня Muskets_B1-B3 и Lee-Enfield (Rifles_C1).
+		Автоматика, дробовики, пистолеты-пулемёты и снайперки остаются на TableMending.
+
+		Правятся оба фильтра: ingredients — что берут в работу, fixedIngredientFilter —
+		что видно в самом билле.
+
+		Vile's Pre-Industrial заменяет этот рецепт целиком (его Patches/Vile_Mending.xml,
+		SK.PatchOperationReplaceExtended) и приносит свой блок thingDefs со средневековыми
+		перчатками. Поэтому список стволов дописывается в существующий thingDefs, если он
+		есть, и создаётся заново, если его нет, — иначе в фильтре оказалось бы два узла.
+	-->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+
+			<!-- Пистолеты — категорией -->
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/ingredients/li/filter/categories</xpath>
+				<value>
+					<li>Pistols</li>
+				</value>
+			</li>
+			<li Class="PatchOperationAdd">
+				<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/fixedIngredientFilter/categories</xpath>
+				<value>
+					<li>Pistols</li>
+				</value>
+			</li>
+
+			<!-- Первые винтовки — поимённо, в рабочий фильтр -->
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/ingredients/li/filter/thingDefs</xpath>
+				<match Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/ingredients/li/filter/thingDefs</xpath>
+					<value>
+						<li>Gun_BoltActionRifle</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_BrownBess</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Charleville</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Jezail</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Springfield</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_SharpsCarbine</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Winchester</li>
+					</value>
+				</match>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/ingredients/li/filter</xpath>
+					<value>
+						<thingDefs>
+							<li>Gun_BoltActionRifle</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_BrownBess</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Charleville</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Jezail</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Springfield</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_SharpsCarbine</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Winchester</li>
+						</thingDefs>
+					</value>
+				</nomatch>
+			</li>
+
+			<!-- То же самое в фильтр билла -->
+			<li Class="PatchOperationConditional">
+				<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/fixedIngredientFilter/thingDefs</xpath>
+				<match Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/fixedIngredientFilter/thingDefs</xpath>
+					<value>
+						<li>Gun_BoltActionRifle</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_BrownBess</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Charleville</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Jezail</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Springfield</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_SharpsCarbine</li>
+						<li MayRequire="ViTech.MedievalOverhaul">Gun_Winchester</li>
+					</value>
+				</match>
+				<nomatch Class="PatchOperationAdd">
+					<xpath>Defs/RecipeDef[defName="MendRepairArmor"]/fixedIngredientFilter</xpath>
+					<value>
+						<thingDefs>
+							<li>Gun_BoltActionRifle</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_BrownBess</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Charleville</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Jezail</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Springfield</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_SharpsCarbine</li>
+							<li MayRequire="ViTech.MedievalOverhaul">Gun_Winchester</li>
+						</thingDefs>
+					</value>
+				</nomatch>
+			</li>
+
+		</operations>
+	</Operation>
+</Patch>
