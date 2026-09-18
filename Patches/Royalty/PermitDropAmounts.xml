@@ -54,4 +54,14 @@
 		</nomatch>
 		</match>
 	</Operation>
+
+	<!-- Наш собственный «запрос древесины» (Defs/RoyalTitlePermitDefs/Permits_Wood.xml)
+	     при HMC Nobility Expanded не нужен: его окно строится по своей
+	     RoyaltyPermitCategoryTableDef, и деф просто висел бы мёртвым. -->
+	<Operation Class="PatchOperationFindMod">
+		<mods><li>HMC Nobility Expanded</li></mods>
+		<match Class="PatchOperationRemove">
+			<xpath>Defs/RoyalTitlePermitDef[defName="HMH_WoodDrop"]</xpath>
+		</match>
+	</Operation>
 </Patch>
