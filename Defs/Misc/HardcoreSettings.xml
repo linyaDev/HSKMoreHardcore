@@ -44,9 +44,9 @@
 		<treeLifespanDaysPerGrowDays>48</treeLifespanDaysPerGrowDays>
 		<!-- Автонерф цены продажи топлива: всё со статом BurnDurationHours
 		     (дрова, доски, бамбук, уголь, древесный уголь, торф, жир, растопка,
-		     химтопливо — включая топливо из других модов пака) продаётся за 1%.
+		     химтопливо — включая топливо из других модов пака) продаётся за 15%.
 		     Горючие руды и суперматериалы исключены по категориям. -->
-		<fuelSellPriceMultiplier>0.01</fuelSellPriceMultiplier>
+		<fuelSellPriceMultiplier>0.15</fuelSellPriceMultiplier>
 		<fuelSellExcludedCategories>
 			<li>HCM</li> <!-- руды: олово, алюминий -->
 			<li>SuperMaterialCat</li> <!-- антиматерия -->
