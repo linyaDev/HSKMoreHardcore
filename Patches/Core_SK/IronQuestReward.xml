@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!--
+		Железная руда в предметных наградах за квесты.
+
+		Награда собирается ThingSetMakerDef "Reward_ItemsStandard": сначала
+		ThingSetMaker_RandomOption выбирает корзину по весам (ваниль: Core 3,
+		HighFreq 5, MidFreq 2.5, LowFreq 1; пак добавляет свои патчем
+		Core_SK/Patches/SK_Patches_RewardsThingSets.xml), затем внутри корзины
+		ThingSetMaker_MarketValue набирает предметы до суммы награды.
+
+		Попасть в корзину можно только через thingSetMakerTags в дефе вещи, а у
+		Iron их нет вовсе — поэтому руда в наградах не появлялась. Кладём в
+		MidFreq (вес 2.5), а не в HighFreq, чтобы руда не вытесняла оружие и
+		импланты из самой ходовой корзины.
+
+		Стакаемому ресурсу набор по стоимости даётся легко: при MarketValue 3
+		награда на 1000 серебра — это около 330 руды, ограничение
+		minSingleItemMarketValuePct (0.15) стаку не мешает.
+	-->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Iron"]</xpath>
+		<value>
+			<thingSetMakerTags>
+				<li>RewardStandardMidFreq</li>
+			</thingSetMakerTags>
+		</value>
+	</Operation>
+</Patch>
