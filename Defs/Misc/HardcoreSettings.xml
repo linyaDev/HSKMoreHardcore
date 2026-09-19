@@ -83,6 +83,10 @@
 				</categories>
 			</li>
 		</sellPriceRules>
+		<!-- Животные, доставшиеся даром по событию (пришедшее стадо, боевые и
+		     караванные животные, самоприручившийся зверь) продаются за 30%.
+		     Метку ставит FreeAnimalMark, она видна в осмотре животного. -->
+		<freeAnimalSellMultiplier>0.3</freeAnimalSellMultiplier>
 		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
 		     фракции гостей и внезапных рейдов) переехали в отдельный мод
 		     HSK More Balance: Quests and Events, файл Defs/Misc/EventSettings.xml -->

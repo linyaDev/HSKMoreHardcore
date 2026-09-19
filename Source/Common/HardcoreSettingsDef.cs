@@ -17,6 +17,9 @@ namespace HSKMoreHardcore
         // список правил по категориям / статам (первое подходящее).
         public Dictionary<string, float> sellPriceOverrides;
         public List<SellPriceRule> sellPriceRules;
+        // Животные с меткой CompFreeAnimal (пришли событием, а не куплены) продаются
+        // с этим множителем. 1 = без изменений.
+        public float freeAnimalSellMultiplier = 1f;
         // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
         // гостей) живут в отдельном моде HSK More Balance: Quests and Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.

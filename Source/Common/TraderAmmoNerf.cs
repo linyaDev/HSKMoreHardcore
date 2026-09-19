@@ -106,6 +106,15 @@ namespace HSKMoreHardcore
                 if (settings == null)
                     return;
 
+                // Животное, доставшееся даром по событию, дешевле при продаже
+                if (settings.freeAnimalSellMultiplier != 1f
+                    && thing is Pawn pawn && pawn.RaceProps != null && pawn.RaceProps.Animal
+                    && pawn.TryGetComp<CompFreeAnimal>()?.joinedFree == true)
+                {
+                    __result *= settings.freeAnimalSellMultiplier;
+                    return;
+                }
+
                 float mult = GetSellMultiplier(thing.def, settings);
                 if (mult != 1f)
                     __result *= mult;
