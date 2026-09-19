@@ -22,6 +22,9 @@ namespace HSKMoreHardcore
         // Рождённые в колонии метки не получают и продаются по полной цене.
         public float freeAnimalSellMultiplier = 1f;
         public float tamedAnimalSellMultiplier = 1f;
+        // Стальной дождь: пауза между письмом и первыми осколками, в тиках
+        // (60 тиков = 1 секунда на обычной скорости). 0 = без задержки.
+        public int razorRainStartDelayTicks = 0;
         // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
         // гостей) живут в отдельном моде HSK More Balance: Quests and Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
