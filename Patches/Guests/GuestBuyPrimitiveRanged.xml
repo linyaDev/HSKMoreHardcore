@@ -26,7 +26,10 @@
 		такое оружие возить не начнут.
 	-->
 	<Operation Class="PatchOperationFindMod">
-		<mods><li>Hospitality</li></mods>
+		<mods>
+			<li>Hospitality (Continued)</li>
+			<li>Hospitality</li>
+		</mods>
 		<match Class="PatchOperationAdd">
 			<xpath>Defs/TraderKindDef[defName="Guest"]/stockGenerators</xpath>
 			<value>

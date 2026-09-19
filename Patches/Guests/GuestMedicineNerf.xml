@@ -2,6 +2,7 @@
 <Patch>
 	<Operation Class="PatchOperationFindMod">
 		<mods>
+			<li>Hospitality (Continued)</li>
 			<li>Hospitality</li>
 		</mods>
 		<match Class="PatchOperationRemove">
