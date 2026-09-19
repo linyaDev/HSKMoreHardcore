@@ -87,6 +87,9 @@
 		     караванные животные, самоприручившийся зверь) продаются за 30%.
 		     Метку ставит FreeAnimalMark, она видна в осмотре животного. -->
 		<freeAnimalSellMultiplier>0.3</freeAnimalSellMultiplier>
+		<!-- Прирученные вручную дикие животные — за полцены. Рождённые в колонии
+		     метки не получают и продаются по полной цене. -->
+		<tamedAnimalSellMultiplier>0.5</tamedAnimalSellMultiplier>
 		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
 		     фракции гостей и внезапных рейдов) переехали в отдельный мод
 		     HSK More Balance: Quests and Events, файл Defs/Misc/EventSettings.xml -->

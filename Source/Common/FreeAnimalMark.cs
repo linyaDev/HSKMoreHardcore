@@ -58,6 +58,17 @@ namespace HSKMoreHardcore
 
             harmony.Patch(setFaction,
                 postfix: new HarmonyMethod(typeof(FreeAnimalMark), nameof(SetFactionPostfix)));
+
+            // Ручное приручение: постфикс на общий метод вербовки/приручения.
+            // Через SetFaction это не поймать — туда же попадают новорождённые
+            // (PawnGenerator ставит фракцию матери вызовом SetFaction).
+            var doRecruit = AccessTools.Method(typeof(InteractionWorker_RecruitAttempt), "DoRecruit",
+                new[] { typeof(Pawn), typeof(Pawn), typeof(string).MakeByRefType(), typeof(string).MakeByRefType(), typeof(bool), typeof(bool) });
+            if (doRecruit != null)
+                harmony.Patch(doRecruit,
+                    postfix: new HarmonyMethod(typeof(FreeAnimalMark), nameof(DoRecruitPostfix)));
+            else
+                Log.Warning("[HSKMoreHardcore] FreeAnimalMark: InteractionWorker_RecruitAttempt.DoRecruit не найден — прирученные животные не метятся.");
         }
 
         public static void WorkerPrefix()
@@ -81,6 +92,18 @@ namespace HSKMoreHardcore
             var comp = __instance.TryGetComp<CompFreeAnimal>();
             if (comp != null)
                 comp.joinedFree = true;
+        }
+
+        public static void DoRecruitPostfix(Pawn recruitee)
+        {
+            if (recruitee?.RaceProps == null || !recruitee.RaceProps.Animal)
+                return;
+            if (recruitee.Faction == null || !recruitee.Faction.IsPlayer)
+                return;
+
+            var comp = recruitee.TryGetComp<CompFreeAnimal>();
+            if (comp != null && !comp.joinedFree)
+                comp.tamed = true;
         }
     }
 }

@@ -106,13 +106,24 @@ namespace HSKMoreHardcore
                 if (settings == null)
                     return;
 
-                // Животное, доставшееся даром по событию, дешевле при продаже
-                if (settings.freeAnimalSellMultiplier != 1f
-                    && thing is Pawn pawn && pawn.RaceProps != null && pawn.RaceProps.Animal
-                    && pawn.TryGetComp<CompFreeAnimal>()?.joinedFree == true)
+                // Животные не из колонии дешевле при продаже: пришедшие событием
+                // и прирученные вручную. Рождённые в колонии метки не имеют.
+                if (thing is Pawn pawn && pawn.RaceProps != null && pawn.RaceProps.Animal)
                 {
-                    __result *= settings.freeAnimalSellMultiplier;
-                    return;
+                    var mark = pawn.TryGetComp<CompFreeAnimal>();
+                    if (mark != null)
+                    {
+                        if (mark.joinedFree && settings.freeAnimalSellMultiplier != 1f)
+                        {
+                            __result *= settings.freeAnimalSellMultiplier;
+                            return;
+                        }
+                        if (mark.tamed && settings.tamedAnimalSellMultiplier != 1f)
+                        {
+                            __result *= settings.tamedAnimalSellMultiplier;
+                            return;
+                        }
+                    }
                 }
 
                 float mult = GetSellMultiplier(thing.def, settings);

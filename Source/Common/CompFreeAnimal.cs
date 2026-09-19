@@ -43,17 +43,25 @@ namespace HSKMoreHardcore
     // Влияет только на цену продажи (TraderAmmoNerf.PricePostfix).
     public class CompFreeAnimal : ThingComp
     {
+        // Пришло событием (стадо, боевые и караванные животные, самоприручение)
         public bool joinedFree;
+        // Приручено вручную с дикой карты
+        public bool tamed;
 
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref joinedFree, "joinedFree", false);
+            Scribe_Values.Look(ref tamed, "tamed", false);
         }
 
         public override string CompInspectStringExtra()
         {
-            return joinedFree ? "HSKMoreHardcore_FreeAnimal".Translate() : null;
+            if (joinedFree)
+                return "HSKMoreHardcore_FreeAnimal".Translate();
+            if (tamed)
+                return "HSKMoreHardcore_TamedAnimal".Translate();
+            return null;
         }
     }
 
