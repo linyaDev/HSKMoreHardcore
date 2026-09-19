@@ -106,54 +106,52 @@ namespace HSKMoreHardcore
                 if (settings == null)
                     return;
 
-                if (settings.sellPriceOverrides != null && settings.sellPriceOverrides.TryGetValue(thing.def.defName, out float mult))
-                {
+                float mult = GetSellMultiplier(thing.def, settings);
+                if (mult != 1f)
                     __result *= mult;
-                }
-                else if (settings.fuelSellPriceMultiplier != 1f && IsFuel(thing.def, settings))
-                {
-                    __result *= settings.fuelSellPriceMultiplier;
-                }
             }
         }
 
-        private static readonly Dictionary<ThingDef, bool> fuelCache = new Dictionary<ThingDef, bool>();
+        // Множитель цены продажи для дефа: точечный из sellPriceOverrides, иначе
+        // первое подходящее правило sellPriceRules. Результат кэшируется.
+        private static readonly Dictionary<ThingDef, float> sellMultCache = new Dictionary<ThingDef, float>();
 
-        // Топливо = предмет со статом BurnDurationHours > 0 (HSK-стат печного топлива:
-        // дрова, доски, уголь, торф, жир, растопка, химтопливо...), кроме категорий
-        // из fuelSellExcludedCategories (горючие руды, антиматерия).
-        private static bool IsFuel(ThingDef def, HardcoreSettingsDef settings)
+        private static float GetSellMultiplier(ThingDef def, HardcoreSettingsDef settings)
         {
-            if (fuelCache.TryGetValue(def, out bool cached))
+            if (def == null)
+                return 1f;
+
+            if (sellMultCache.TryGetValue(def, out float cached))
                 return cached;
 
-            bool result = false;
-            if (def.category == ThingCategory.Item && def.statBases != null)
-            {
-                for (int i = 0; i < def.statBases.Count; i++)
-                {
-                    var mod = def.statBases[i];
-                    if (mod?.stat?.defName == "BurnDurationHours" && mod.value > 0f)
-                    {
-                        result = true;
-                        break;
-                    }
-                }
+            float result = 1f;
 
-                if (result && settings.fuelSellExcludedCategories != null && def.thingCategories != null)
+            if (settings.sellPriceOverrides != null
+                && settings.sellPriceOverrides.TryGetValue(def.defName, out float over))
+            {
+                result = over;
+            }
+            else if (settings.sellPriceRules != null)
+            {
+                foreach (var rule in settings.sellPriceRules)
                 {
-                    foreach (var cat in def.thingCategories)
+                    if (rule == null)
+                        continue;
+                    if (!rule.HasAnySelector)
                     {
-                        if (cat != null && settings.fuelSellExcludedCategories.Contains(cat.defName))
-                        {
-                            result = false;
-                            break;
-                        }
+                        Log.WarningOnce($"[HSKMoreHardcore] Правило цены продажи \"{rule.label ?? "без имени"}\" без признаков отбора — пропущено.",
+                            (rule.label ?? "noname").GetHashCode());
+                        continue;
+                    }
+                    if (rule.Matches(def))
+                    {
+                        result = rule.multiplier;
+                        break;
                     }
                 }
             }
 
-            fuelCache[def] = result;
+            sellMultCache[def] = result;
             return result;
         }
     }

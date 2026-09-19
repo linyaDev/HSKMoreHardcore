@@ -42,15 +42,47 @@
 		<!-- Срок жизни деревьев: growDays * значение (ваниль 8 — дуб жил ~4.7 лет
 		     и лес вымирал сам при нашем нерфе отрастания; 48 — дуб ~28 лет) -->
 		<treeLifespanDaysPerGrowDays>48</treeLifespanDaysPerGrowDays>
-		<!-- Автонерф цены продажи топлива: всё со статом BurnDurationHours
-		     (дрова, доски, бамбук, уголь, древесный уголь, торф, жир, растопка,
-		     химтопливо — включая топливо из других модов пака) продаётся за 15%.
-		     Горючие руды и суперматериалы исключены по категориям. -->
-		<fuelSellPriceMultiplier>0.15</fuelSellPriceMultiplier>
-		<fuelSellExcludedCategories>
-			<li>HCM</li> <!-- руды: олово, алюминий -->
-			<li>SuperMaterialCat</li> <!-- антиматерия -->
-		</fuelSellExcludedCategories>
+		<!-- Множители цены при продаже игроком. Правила проверяются сверху вниз,
+		     срабатывает первое подходящее. Отбор — по любому из признаков:
+		         categories    — категории вещи, с учётом вложенных
+		         thingDefs     — конкретные вещи по defName
+		         requireStat   — стат задан в дефе со значением больше нуля
+		     Плюс исключения: excludedCategories, excludedThingDefs.
+		     Точечные sellPriceOverrides ниже приоритетнее любого правила. -->
+		<sellPriceRules>
+			<li>
+				<label>топливо</label>
+				<!-- Всё со статом печного топлива: дрова, доски, бамбук, уголь,
+				     древесный уголь, торф, жир, растопка, химтопливо — включая
+				     топливо из других модов пака. -->
+				<multiplier>0.15</multiplier>
+				<requireStat>BurnDurationHours</requireStat>
+				<excludedCategories>
+					<li>HCM</li> <!-- руды: олово, алюминий -->
+					<li>SuperMaterialCat</li> <!-- антиматерия -->
+				</excludedCategories>
+			</li>
+			<li>
+				<label>медикаменты</label>
+				<!-- Категория Medicine: травяная, индустриальная, глиттер и
+				     аптечки модов пака. Идёт выше еды: травяная медицина лежит
+				     ещё и в PlantMatter, но под правило еды не попадает. -->
+				<multiplier>0.3</multiplier>
+				<categories>
+					<li>Medicine</li>
+				</categories>
+			</li>
+			<li>
+				<label>еда</label>
+				<!-- Категория Foods целиком: готовые блюда (FoodMeals), сырьё
+				     (FoodRaw), продукты животноводства. Наркотики сюда не входят —
+				     они в Manufactured/Drugs. -->
+				<multiplier>0.3</multiplier>
+				<categories>
+					<li>Foods</li>
+				</categories>
+			</li>
+		</sellPriceRules>
 		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
 		     фракции гостей и внезапных рейдов) переехали в отдельный мод
 		     HSK More Balance: Quests and Events, файл Defs/Misc/EventSettings.xml -->

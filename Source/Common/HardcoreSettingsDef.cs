@@ -13,11 +13,10 @@ namespace HSKMoreHardcore
         public List<string> ammoCraftExcludedMaterials;
         public List<string> ammoCraftExcludedRecipes;
         public int traderSilverMinimum = 3500;
+        // Множители цены продажи игроком. Сначала точечные по defName, потом
+        // список правил по категориям / статам (первое подходящее).
         public Dictionary<string, float> sellPriceOverrides;
-        // Автоправило: всё со статом BurnDurationHours продаётся с этим множителем.
-        // sellPriceOverrides имеет приоритет; категории из fuelSellExcludedCategories не трогаются.
-        public float fuelSellPriceMultiplier = 1f;
-        public List<string> fuelSellExcludedCategories;
+        public List<SellPriceRule> sellPriceRules;
         // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
         // гостей) живут в отдельном моде HSK More Balance: Quests and Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.
