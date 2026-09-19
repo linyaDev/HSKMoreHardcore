@@ -6,6 +6,7 @@
 	<TradeSignal_CooldownShared>Готов к использованию.</TradeSignal_CooldownShared>
 	<TradeSignal_Charges>Заряды: {0}/{1}</TradeSignal_Charges>
 	<TradeSignal_TooAdvanced>Мы попытались отправить сообщение, но другие племена не поняли нас.</TradeSignal_TooAdvanced>
+	<TradeSignal_TooAdvancedStatus>Племена больше не понимают наши сигналы: колония слишком развита.</TradeSignal_TooAdvancedStatus>
 
 	<TribalSignal_CommandLabel>Позвать племенных торговцев</TribalSignal_CommandLabel>
 	<TribalSignal_CommandDesc>Поднять дымовой сигнал. Случайная не враждебная неолитовая фракция с караванами получит зов; караван придёт не сразу, а через некоторое время. Требуется {0} серебра. После вызова действует перезарядка.</TribalSignal_CommandDesc>

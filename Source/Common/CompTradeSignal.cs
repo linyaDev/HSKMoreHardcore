@@ -106,7 +106,11 @@ namespace HSKMoreHardcore
             };
 
             int charges = GetCharges();
-            if (charges <= 0)
+            if (IsDisabledByProgress())
+            {
+                cmd.Disable("TradeSignal_TooAdvancedStatus".Translate());
+            }
+            else if (charges <= 0)
             {
                 int ticksLeft = GetTicksToNextCharge();
                 cmd.Disable("TradeSignal_OnCooldown".Translate(ticksLeft.ToStringTicksToPeriod()));
@@ -127,6 +131,9 @@ namespace HSKMoreHardcore
                 if (ticksLeft > 0)
                     return Props.activeKey.Translate(ticksLeft.ToStringTicksToPeriod());
             }
+
+            if (IsDisabledByProgress())
+                return "TradeSignal_TooAdvancedStatus".Translate();
 
             int charges = GetCharges();
             if (charges < Props.maxCharges)
@@ -161,10 +168,11 @@ namespace HSKMoreHardcore
             if (map == null) return;
             if (GetCharges() <= 0) return;
 
+            // Кнопка в этом случае уже неактивна — страховка на случай вызова извне.
+            // Заряд не тратим: постройка просто больше не работает.
             if (IsDisabledByProgress())
             {
                 Messages.Message("TradeSignal_TooAdvanced".Translate(), MessageTypeDefOf.RejectInput);
-                Tracker?.ConsumeCharge(Props.cooldownKey, Props.maxCharges, Props.cooldownTicks);
                 return;
             }
 
@@ -279,13 +287,19 @@ namespace HSKMoreHardcore
             return remaining <= 0;
         }
 
+        // Техуровень игрока берём из IgnoranceCompat (Ignorance Is Bliss, по прогрессу
+        // исследований), а не из фракции: та скачет от Tech Advancing и отключала
+        // костёр раньше времени. Без Ignorance Is Bliss — как раньше, по фракции.
         private bool IsDisabledByProgress()
         {
-            if (Props.disableAtTechLevel != TechLevel.Undefined &&
-                Faction.OfPlayer.def.techLevel >= Props.disableAtTechLevel)
-                return true;
+            if (Props.disableAtTechLevel == TechLevel.Undefined)
+                return false;
 
-            return false;
+            TechLevel playerTech = IgnoranceCompat.PlayerTechLevel;
+            if (playerTech == TechLevel.Undefined)
+                return false;
+
+            return playerTech >= Props.disableAtTechLevel;
         }
 
         private bool AnyValidTradeFaction(Map map)
