@@ -7,6 +7,10 @@
 	<TradeSignal_Charges>Заряды: {0}/{1}</TradeSignal_Charges>
 	<TradeSignal_TooAdvanced>Мы попытались отправить сообщение, но другие племена не поняли нас.</TradeSignal_TooAdvanced>
 	<TradeSignal_TooAdvancedStatus>Племена больше не понимают наши сигналы: колония слишком развита.</TradeSignal_TooAdvancedStatus>
+	<TradeSignal_DelayCommandLabel>Отсрочить караван</TradeSignal_DelayCommandLabel>
+	<TradeSignal_DelayCommandDesc>Послать гонца навстречу каравану и попросить задержаться: {0} серебра за отсрочку на {1} дн. Можно повторять, пока караван в пути.</TradeSignal_DelayCommandDesc>
+	<TradeSignal_Delayed>Караван задержится. Прибытие через {0}.</TradeSignal_Delayed>
+	<TradeSignal_DelayFailed>Караван уже не отозвать — гонцу некого догонять.</TradeSignal_DelayFailed>
 
 	<TribalSignal_CommandLabel>Позвать племенных торговцев</TribalSignal_CommandLabel>
 	<TribalSignal_CommandDesc>Поднять дымовой сигнал. Случайная не враждебная неолитовая фракция с караванами получит зов; караван придёт не сразу, а через некоторое время. Требуется {0} серебра. После вызова действует перезарядка.</TribalSignal_CommandDesc>

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -17,8 +18,14 @@ namespace HSKMoreHardcore
         public TechLevel disableAtTechLevel = TechLevel.Undefined;
         public string cooldownKey = "tribal";
 
+        // Отсрочка уже вызванного каравана: сколько стоит и на сколько сдвигает
+        public int delaySilverCost = 100;
+        public int delayTicks = 60000;
+
         public string commandLabelKey = "TribalSignal_CommandLabel";
         public string commandDescKey = "TribalSignal_CommandDesc";
+        public string delayCommandLabelKey = "TradeSignal_DelayCommandLabel";
+        public string delayCommandDescKey = "TradeSignal_DelayCommandDesc";
         public string scheduledKey = "TribalSignal_Scheduled";
         public string noFactionKey = "TribalSignal_NoFaction";
         public string activeKey = "TribalSignal_Burning";
@@ -94,8 +101,28 @@ namespace HSKMoreHardcore
             if (parent is not Building || !parent.Spawned || parent.Map == null)
                 yield break;
 
+            // Пока караван в пути — только кнопка отсрочки
             if (isActive)
+            {
+                if (arrivalTick > 0)
+                {
+                    var delayCmd = new Command_Action
+                    {
+                        defaultLabel = Props.delayCommandLabelKey.Translate(),
+                        defaultDesc = Props.delayCommandDescKey.Translate(Props.delaySilverCost,
+                            ((float)Props.delayTicks / GenDate.TicksPerDay).ToString("F1")),
+                        icon = parent.def.uiIcon,
+                        action = TryDelayArrival
+                    };
+
+                    int silver = CountSilverOnMap(parent.Map);
+                    if (silver < Props.delaySilverCost)
+                        delayCmd.Disable("TradeSignal_NotEnoughSilver".Translate(Props.delaySilverCost, silver));
+
+                    yield return delayCmd;
+                }
                 yield break;
+            }
 
             var cmd = new Command_Action
             {
@@ -160,6 +187,66 @@ namespace HSKMoreHardcore
             if (tracker == null)
                 return 0;
             return tracker.GetTicksToNextCharge(Props.cooldownKey, Props.maxCharges, Props.cooldownTicks);
+        }
+
+        // Отодвинуть прибытие уже вызванного каравана. Событие лежит в очереди
+        // рассказчика (QueuedIncident), поле fireTick закрыто — правим рефлексией:
+        // IncidentQueue каждый тик просто сравнивает FireTick с текущим, порядок
+        // элементов значения не имеет, поэтому переставлять ничего не нужно.
+        private void TryDelayArrival()
+        {
+            Map map = parent.Map;
+            if (map == null || !isActive || arrivalTick <= 0)
+                return;
+
+            var queued = FindQueuedArrival(map);
+            if (queued == null)
+            {
+                // Событие уже ушло из очереди (сработало или карта сменилась)
+                Messages.Message("TradeSignal_DelayFailed".Translate(), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            if (!TakeSilverFromMap(map, Props.delaySilverCost))
+            {
+                Messages.Message("TradeSignal_NotEnoughSilver".Translate(Props.delaySilverCost, CountSilverOnMap(map)), MessageTypeDefOf.RejectInput);
+                return;
+            }
+
+            int newTick = queued.FireTick + Props.delayTicks;
+            fireTickRef(queued) = newTick;
+            arrivalTick = newTick;
+
+            int ticksLeft = arrivalTick - Find.TickManager.TicksGame;
+            Messages.Message("TradeSignal_Delayed".Translate(ticksLeft.ToStringTicksToPeriod()), MessageTypeDefOf.PositiveEvent);
+        }
+
+        private static readonly AccessTools.FieldRef<QueuedIncident, int> fireTickRef =
+            AccessTools.FieldRefAccess<QueuedIncident, int>("fireTick");
+
+        // Наше событие в очереди: тот же деф, та же карта и тот же тик прибытия
+        private QueuedIncident FindQueuedArrival(Map map)
+        {
+            var queue = Find.Storyteller?.incidentQueue;
+            if (queue == null)
+                return null;
+
+            var incident = DefDatabase<IncidentDef>.GetNamedSilentFail("TraderCaravanArrival");
+            var enumerator = queue.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (enumerator.Current is not QueuedIncident qi)
+                    continue;
+                if (qi.FireTick != arrivalTick)
+                    continue;
+                var firing = qi.FiringIncident;
+                if (firing == null || (incident != null && firing.def != incident))
+                    continue;
+                if (firing.parms?.target != map)
+                    continue;
+                return qi;
+            }
+            return null;
         }
 
         private void TryCallTrader()
