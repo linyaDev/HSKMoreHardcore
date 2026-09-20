@@ -26,6 +26,8 @@ namespace HSKMoreHardcore
         public string commandDescKey = "TribalSignal_CommandDesc";
         public string delayCommandLabelKey = "TradeSignal_DelayCommandLabel";
         public string delayCommandDescKey = "TradeSignal_DelayCommandDesc";
+        // Ванильная иконка «придержать караван»; не нашлась — берём значок постройки
+        public string delayCommandIcon = "UI/Commands/PauseCaravan";
         public string scheduledKey = "TribalSignal_Scheduled";
         public string noFactionKey = "TribalSignal_NoFaction";
         public string activeKey = "TribalSignal_Burning";
@@ -89,6 +91,19 @@ namespace HSKMoreHardcore
             }
         }
 
+        private Texture2D cachedDelayIcon;
+
+        private Texture2D DelayIcon
+        {
+            get
+            {
+                if (cachedDelayIcon == null)
+                    cachedDelayIcon = ContentFinder<Texture2D>.Get(Props.delayCommandIcon, reportFailure: false)
+                        ?? parent.def.uiIcon;
+                return cachedDelayIcon;
+            }
+        }
+
         // Пересчитать свечение костра (CompGlower) после смены состояния «зажжён»
         private void UpdateGlow()
         {
@@ -111,7 +126,7 @@ namespace HSKMoreHardcore
                         defaultLabel = Props.delayCommandLabelKey.Translate(),
                         defaultDesc = Props.delayCommandDescKey.Translate(Props.delaySilverCost,
                             ((float)Props.delayTicks / GenDate.TicksPerDay).ToString("F1")),
-                        icon = parent.def.uiIcon,
+                        icon = DelayIcon,
                         action = TryDelayArrival
                     };
 
