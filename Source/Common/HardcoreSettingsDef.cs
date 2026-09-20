@@ -25,6 +25,9 @@ namespace HSKMoreHardcore
         // Стальной дождь: пауза между письмом и первыми осколками, в тиках
         // (60 тиков = 1 секунда на обычной скорости). 0 = без задержки.
         public int razorRainStartDelayTicks = 0;
+        // Время полёта метеорита Core_SK (SK.Events.MeteorIncoming) до удара, в тиках.
+        // Паковое значение 220~300; пустой диапазон оставляет как есть.
+        public IntRange meteorTicksToImpact = default(IntRange);
         // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
         // гостей) живут в отдельном моде HSK More Balance: Quests and Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.

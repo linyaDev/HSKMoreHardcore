@@ -94,6 +94,11 @@
 		     1800 тиков = 30 секунд на обычной скорости, 10 на тройной.
 		     Длину самого дождя не меняет — он просто начинается позже. -->
 		<razorRainStartDelayTicks>1800</razorRainStartDelayTicks>
+		<!-- Время полёта метеорита Core_SK до удара. Паковое 220~300 (около
+		     четырёх секунд) зашито в коде SK.Events.MeteorIncoming, поэтому
+		     переписывается патчем MeteorFallDelay. Отсюда идут MeteoriteImpact,
+		     метеориты затмения и метеоритный дождь. -->
+		<meteorTicksToImpact>900~1500</meteorTicksToImpact>
 		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
 		     фракции гостей и внезапных рейдов) переехали в отдельный мод
 		     HSK More Balance: Quests and Events, файл Defs/Misc/EventSettings.xml -->
