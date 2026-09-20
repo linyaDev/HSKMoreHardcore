@@ -28,6 +28,9 @@ namespace HSKMoreHardcore
         // Время полёта метеорита Core_SK (SK.Events.MeteorIncoming) до удара, в тиках.
         // Паковое значение 220~300; пустой диапазон оставляет как есть.
         public IntRange meteorTicksToImpact = default(IntRange);
+        // Множитель восстановления нефтяных залежей Rimefeller поверх его настроек.
+        // 0 = залежи не восстанавливаются, 1 = как в моде.
+        public float oilFieldRegenMultiplier = 1f;
         // Гейты событий (техуровень для событий, форм жуткого присоединившегося и
         // гостей) живут в отдельном моде HSK More Balance: Quests and Events.
         // Фактическое значение берётся из Defs/Misc/HardcoreSettings.xml; здесь только фолбэк.

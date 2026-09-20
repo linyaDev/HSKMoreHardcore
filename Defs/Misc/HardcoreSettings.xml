@@ -99,6 +99,9 @@
 		     переписывается патчем MeteorFallDelay. Отсюда идут MeteoriteImpact,
 		     метеориты затмения и метеоритный дождь. -->
 		<meteorTicksToImpact>900~1500</meteorTicksToImpact>
+		<!-- Восстановление нефтяных залежей Rimefeller: множитель к его RegenRate
+		     поверх настроек самого мода. 0 — нефть не возвращается, качаем до дна. -->
+		<oilFieldRegenMultiplier>0</oilFieldRegenMultiplier>
 		<!-- Гейты событий по техуровню (события, формы жуткого присоединившегося,
 		     фракции гостей и внезапных рейдов) переехали в отдельный мод
 		     HSK More Balance: Quests and Events, файл Defs/Misc/EventSettings.xml -->
