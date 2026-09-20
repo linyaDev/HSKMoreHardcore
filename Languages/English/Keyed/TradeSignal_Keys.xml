@@ -8,7 +8,7 @@
 	<TradeSignal_TooAdvanced>We tried to send the signal, but the other tribes couldn't understand us.</TradeSignal_TooAdvanced>
 	<TradeSignal_TooAdvancedStatus>The tribes no longer understand our signals: the colony has grown too advanced.</TradeSignal_TooAdvancedStatus>
 	<TradeSignal_DelayCommandLabel>Delay the caravan</TradeSignal_DelayCommandLabel>
-	<TradeSignal_DelayCommandDesc>Send a runner to ask the caravan to take its time: {0} silver for a {1} day delay. Can be repeated while the caravan is on its way.</TradeSignal_DelayCommandDesc>
+	<TradeSignal_DelayCommandDesc>Signal the caravan to take its time: {0} silver for a {1} day delay. Can be repeated while the caravan is on its way.</TradeSignal_DelayCommandDesc>
 	<TradeSignal_Delayed>The caravan will take longer. Arriving in {0}.</TradeSignal_Delayed>
 	<TradeSignal_DelayFailed>The caravan can no longer be reached.</TradeSignal_DelayFailed>
 
