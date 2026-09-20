@@ -16,8 +16,7 @@
 	       - свои лёгкие болты вместо общих (дефы: Defs/Ammo/Bolts_Light.xml)
 
 	     Катапульта:
-	       - свои усиленные осколки вместо общих CE (дефы: Defs/Ammo/Fragments_Catapult.xml):
-	         мелкие 2 -> 2.75 мм / 14.4 -> 19.7 МПа, крупные 4.5 -> 5.25 мм / 122.5 -> 141.25 МПа
+	       - осколки ядер паковые (общие CE Fragment_Small/Large), не трогаем
 	       - острое пробитие самих ядер 1 -> 2.25 мм
 	       - дальность 150 -> 200
 
@@ -87,30 +86,6 @@
 	</Operation>
 
 	<!-- ==================== Катапульта ==================== -->
-	<!-- Ядрам — собственные усиленные осколки вместо общих CE-шных
-	     (Fragment_Small/Large летят из всех гранат и снарядов, их не трогаем).
-	     Количество осколков прежнее: камень 38 мелких + 12 крупных,
-	     разрывное 12 мелких + 16 крупных. -->
-
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="Stone_Ball"]/comps/li[@Class="CombatExtended.CompProperties_Fragments"]/fragments</xpath>
-		<value>
-			<fragments>
-				<HMH_Fragment_CatapultSmall>38</HMH_Fragment_CatapultSmall>
-				<HMH_Fragment_CatapultLarge>12</HMH_Fragment_CatapultLarge>
-			</fragments>
-		</value>
-	</Operation>
-
-	<Operation Class="PatchOperationReplace">
-		<xpath>Defs/ThingDef[defName="Explosive_Ball"]/comps/li[@Class="CombatExtended.CompProperties_Fragments"]/fragments</xpath>
-		<value>
-			<fragments>
-				<HMH_Fragment_CatapultSmall>12</HMH_Fragment_CatapultSmall>
-				<HMH_Fragment_CatapultLarge>16</HMH_Fragment_CatapultLarge>
-			</fragments>
-		</value>
-	</Operation>
 
 	<!-- Дальность 150 -> 200 -->
 	<Operation Class="PatchOperationReplace">
