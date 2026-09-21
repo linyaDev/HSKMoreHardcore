@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 	<!--
-		Железная руда в предметных наградах за квесты.
+		Железная руда наградой за квест — своей корзиной.
 
-		Награда собирается ThingSetMakerDef "Reward_ItemsStandard": сначала
-		ThingSetMaker_RandomOption выбирает корзину по весам (ваниль: Core 3,
-		HighFreq 5, MidFreq 2.5, LowFreq 1; пак добавляет свои патчем
-		Core_SK/Patches/SK_Patches_RewardsThingSets.xml), затем внутри корзины
-		ThingSetMaker_MarketValue набирает предметы до суммы награды.
+		Раньше мы просто вешали на Iron тег RewardStandardMidFreq. Руда в награды
+		попадала, но мелкими порциями: в той корзине она конкурирует с десятком
+		других дефов, генератор набирает несколько предметов сразу, и каждому
+		достаётся своя доля бюджета (порог minSingleItemMarketValuePct — всего 15%
+		от суммы). В ветку «дорогое сырьё» руда не проходит: там отсекается всё
+		дешевле 7 серебра, а у неё 3.
 
-		Попасть в корзину можно только через thingSetMakerTags в дефе вещи, а у
-		Iron их нет вовсе — поэтому руда в наградах не появлялась. Кладём в
-		MidFreq (вес 2.5), а не в HighFreq, чтобы руда не вытесняла оружие и
-		импланты из самой ходовой корзины.
+		Поэтому добавляем в Reward_ItemsStandard отдельный вариант только с Iron —
+		тем же приёмом, каким пак добавляет свою корзину боеприпасов. Когда
+		выпадает эта ветка, руда единственная в наборе и забирает весь бюджет
+		награды: 1500 серебра — это 500 руды.
 
-		Стакаемому ресурсу набор по стоимости даётся легко: при MarketValue 3
-		награда на 1000 серебра — это около 330 руды, ограничение
-		minSingleItemMarketValuePct (0.15) стаку не мешает.
+		Вес 1.5 против 3 у Core, 5 у HighFreq, 2.5 у MidFreq и 1 у LowFreq
+		(плюс корзины пака из SK_Patches_RewardsThingSets.xml).
+
+		Путь li[1] — тот самый RandomOption с корзинами по тегам, куда пак
+		дописывает и свои варианты.
 	-->
 	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="Iron"]</xpath>
+		<xpath>Defs/ThingSetMakerDef[defName="Reward_ItemsStandard"]/root/options/li[1]/thingSetMaker/options</xpath>
 		<value>
-			<thingSetMakerTags>
-				<li>RewardStandardMidFreq</li>
-			</thingSetMakerTags>
+			<li>
+				<weight>1.5</weight>
+				<thingSetMaker Class="ThingSetMaker_MarketValue">
+					<fixedParams>
+						<filter>
+							<thingDefs>
+								<li>Iron</li>
+							</thingDefs>
+						</filter>
+					</fixedParams>
+				</thingSetMaker>
+			</li>
 		</value>
 	</Operation>
 </Patch>
