@@ -30,6 +30,13 @@ namespace HSKMoreHardcore
             Scribe_Values.Look(ref stableRollPeriod, "stableRollPeriod", int.MinValue);
         }
 
+        public override void FinalizeInit()
+        {
+            // Временная диагностика: прогресс исследований считается только
+            // при живой игре, на старте приложения его ещё нет
+            TechCountDebug.LogProgress();
+        }
+
         public Dictionary<int, int> FishSpawnTimers => fishSpawnTimers;
 
         // Детерминированный бросок [0,1) для данного экземпляра (thingId) в текущем 3-дневном окне
