@@ -12,6 +12,9 @@
 	<TradeSignal_Delayed>Караван задержится. Прибытие через {0}.</TradeSignal_Delayed>
 	<TradeSignal_DelayFailed>Сигнал подавать некому — караван уже не отозвать.</TradeSignal_DelayFailed>
 
+	<HSK_RequestTraderPaid>Заказать торговый караван за {0} серебра и {1} репутации (заказов {2}/{3})</HSK_RequestTraderPaid>
+	<HSK_TraderPaidSent>Заказ принят. Караван фракции «{0}» выходит к нам, {1} серебра отправлено в задаток.</HSK_TraderPaidSent>
+
 	<TribalSignal_CommandLabel>Позвать племенных торговцев</TribalSignal_CommandLabel>
 	<TribalSignal_CommandDesc>Поднять дымовой сигнал. Случайная не враждебная неолитовая фракция с караванами получит зов; караван придёт не сразу, а через некоторое время. Требуется {0} серебра. После вызова действует перезарядка.</TribalSignal_CommandDesc>
 	<TribalSignal_Scheduled>Сигнал отправлен фракции «{0}». Торговый караван ожидается примерно через {1} дн.</TribalSignal_Scheduled>

@@ -12,6 +12,9 @@
 	<TradeSignal_Delayed>The caravan will take longer. Arriving in {0}.</TradeSignal_Delayed>
 	<TradeSignal_DelayFailed>The caravan can no longer be reached.</TradeSignal_DelayFailed>
 
+	<HSK_RequestTraderPaid>Order a trade caravan for {0} silver and {1} goodwill (orders {2}/{3})</HSK_RequestTraderPaid>
+	<HSK_TraderPaidSent>The order is accepted. A caravan of {0} is on its way, {1} silver sent as a deposit.</HSK_TraderPaidSent>
+
 	<TribalSignal_CommandLabel>Call tribal traders</TribalSignal_CommandLabel>
 	<TribalSignal_CommandDesc>Raise a smoke signal. A random non-hostile Neolithic faction that can send trade caravans will be notified; the caravan arrives after a delay (not instantly). Requires {0} silver. Cooldown applies after calling.</TribalSignal_CommandDesc>
 	<TribalSignal_Scheduled>Smoke signal sent to {0}. A trader caravan should arrive in about {1} days.</TribalSignal_Scheduled>

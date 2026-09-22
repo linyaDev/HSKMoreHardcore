@@ -130,7 +130,7 @@ namespace HSKMoreHardcore
                         action = TryDelayArrival
                     };
 
-                    int silver = CountSilverOnMap(parent.Map);
+                    int silver = ColonySilver.CountOnMap(parent.Map);
                     if (silver < Props.delaySilverCost)
                         delayCmd.Disable("TradeSignal_NotEnoughSilver".Translate(Props.delaySilverCost, silver));
 
@@ -222,9 +222,9 @@ namespace HSKMoreHardcore
                 return;
             }
 
-            if (!TakeSilverFromMap(map, Props.delaySilverCost))
+            if (!ColonySilver.TakeFromMap(map, Props.delaySilverCost))
             {
-                Messages.Message("TradeSignal_NotEnoughSilver".Translate(Props.delaySilverCost, CountSilverOnMap(map)), MessageTypeDefOf.RejectInput);
+                Messages.Message("TradeSignal_NotEnoughSilver".Translate(Props.delaySilverCost, ColonySilver.CountOnMap(map)), MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -285,7 +285,7 @@ namespace HSKMoreHardcore
                 return;
             }
 
-            int silverAvailable = CountSilverOnMap(map);
+            int silverAvailable = ColonySilver.CountOnMap(map);
             if (silverAvailable < Props.silverCost)
             {
                 Messages.Message("TradeSignal_NotEnoughSilver".Translate(Props.silverCost, silverAvailable), MessageTypeDefOf.RejectInput);
@@ -319,9 +319,9 @@ namespace HSKMoreHardcore
 
         private void ExecuteSignal(Map map, List<Faction> candidates, TraderKindDef traderKind)
         {
-            if (!TakeSilverFromMap(map, Props.silverCost))
+            if (!ColonySilver.TakeFromMap(map, Props.silverCost))
             {
-                Messages.Message("TradeSignal_NotEnoughSilver".Translate(Props.silverCost, CountSilverOnMap(map)), MessageTypeDefOf.RejectInput);
+                Messages.Message("TradeSignal_NotEnoughSilver".Translate(Props.silverCost, ColonySilver.CountOnMap(map)), MessageTypeDefOf.RejectInput);
                 return;
             }
 
@@ -365,28 +365,6 @@ namespace HSKMoreHardcore
             Messages.Message(scheduledMsg, MessageTypeDefOf.PositiveEvent);
 
             Tracker?.ConsumeCharge(Props.cooldownKey, Props.maxCharges, Props.cooldownTicks);
-        }
-
-        private static int CountSilverOnMap(Map map)
-        {
-            int total = 0;
-            foreach (Thing t in map.listerThings.ThingsOfDef(ThingDefOf.Silver))
-                total += t.stackCount;
-            return total;
-        }
-
-        private static bool TakeSilverFromMap(Map map, int amount)
-        {
-            int remaining = amount;
-            List<Thing> silvers = map.listerThings.ThingsOfDef(ThingDefOf.Silver).ToList();
-            foreach (Thing silver in silvers)
-            {
-                if (remaining <= 0) break;
-                int take = Mathf.Min(silver.stackCount, remaining);
-                silver.SplitOff(take).Destroy();
-                remaining -= take;
-            }
-            return remaining <= 0;
         }
 
         // Техуровень игрока берём из IgnoranceCompat (Ignorance Is Bliss, по прогрессу

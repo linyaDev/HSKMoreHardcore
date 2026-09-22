@@ -39,6 +39,17 @@ namespace HSKMoreHardcore
         public float treeLifespanDaysPerGrowDays = 0f;
         // Гости Hospitality: множитель выданного им серебра по техуровню фракции (нет строки — без изменений)
         public Dictionary<TechLevel, float> guestSilverMultiplierByTech;
+        // Платный вызов каравана с консоли связи у нейтральной фракции.
+        // 0 серебра = строка не добавляется.
+        public int commsTraderSilverCost = 0;
+        public int commsTraderGoodwillCost = 15;
+        // Заряды общие на все фракции; каждый восстанавливается за cooldownTicks
+        public int commsTraderMaxCharges = 2;
+        public int commsTraderCooldownTicks = 3600000; // год
+        public int commsTraderArrivalDelayTicks = 120000; // как в ванильном запросе — 2 дня
+        // Фракции выше этого техуровня строку не получают (Undefined = без ограничения)
+        public TechLevel commsTraderMaxTechLevel = TechLevel.Undefined;
+        public List<string> commsTraderExcludedFactions;
 
         private static HardcoreSettingsDef cachedInstance;
 

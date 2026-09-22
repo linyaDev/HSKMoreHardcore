@@ -116,6 +116,22 @@
 			<li><key>Ultra</key><value>9</value></li>
 			<li><key>Archotech</key><value>9</value></li>
 		</guestSilverMultiplierByTech>
+		<!-- Платный вызов торгового каравана с консоли связи. Ваниль пускает
+		     запрос только к союзникам; эта строка добавляется нейтральным
+		     фракциям и стоит серебра плюс репутации.
+		     Вместо таймера — заряды: их 2 на все фракции сразу, каждый
+		     восстанавливается за commsTraderCooldownTicks (3600000 = год).
+		     Лежат в том же трекере, что и заряды сигнального костра. -->
+		<commsTraderSilverCost>500</commsTraderSilverCost>
+		<commsTraderGoodwillCost>15</commsTraderGoodwillCost>
+		<commsTraderMaxCharges>2</commsTraderMaxCharges>
+		<commsTraderCooldownTicks>3600000</commsTraderCooldownTicks>
+		<commsTraderArrivalDelayTicks>120000</commsTraderArrivalDelayTicks>
+		<!-- Империя и прочие спейсеры своих караванов по зову не шлют -->
+		<commsTraderMaxTechLevel>Industrial</commsTraderMaxTechLevel>
+		<commsTraderExcludedFactions>
+			<li>Empire</li>
+		</commsTraderExcludedFactions>
 		<!-- Точечные множители цены продажи (defName -> множитель), приоритетнее
 		     топливного правила — сюда можно вписать исключения, напр.
 		     <li><key>Chemfuel</key><value>1</value></li> -->
