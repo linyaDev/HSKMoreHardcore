@@ -85,6 +85,15 @@ namespace HSKMoreHardcore
 
             if (action == TradeAction.PlayerBuys)
             {
+                // Правила цены покупки действуют у любого торговца
+                var buySettings = HardcoreSettingsDef.Instance;
+                if (buySettings != null)
+                {
+                    float buyMult = GetBuyMultiplier(thing.def, buySettings);
+                    if (buyMult != 1f)
+                        __result *= buyMult;
+                }
+
                 // Наценка на патроны/оружие только при торговле в поселениях
                 // (и с орбитой): караван, пришедший к нам на карту, торгует
                 // без наценки — TradeSession.trader тогда пешка.
@@ -132,35 +141,46 @@ namespace HSKMoreHardcore
             }
         }
 
-        // Множитель цены продажи для дефа: точечный из sellPriceOverrides, иначе
-        // первое подходящее правило sellPriceRules. Результат кэшируется.
+        // Множитель цены для дефа: точечный из overrides, иначе первое подходящее
+        // правило из списка. Результат кэшируется отдельно для каждой стороны сделки.
         private static readonly Dictionary<ThingDef, float> sellMultCache = new Dictionary<ThingDef, float>();
+        private static readonly Dictionary<ThingDef, float> buyMultCache = new Dictionary<ThingDef, float>();
 
         private static float GetSellMultiplier(ThingDef def, HardcoreSettingsDef settings)
+        {
+            return GetMultiplier(def, settings.sellPriceOverrides, settings.sellPriceRules, sellMultCache, "продажи");
+        }
+
+        private static float GetBuyMultiplier(ThingDef def, HardcoreSettingsDef settings)
+        {
+            return GetMultiplier(def, settings.buyPriceOverrides, settings.buyPriceRules, buyMultCache, "покупки");
+        }
+
+        private static float GetMultiplier(ThingDef def, Dictionary<string, float> overrides,
+            List<PriceRule> rules, Dictionary<ThingDef, float> cache, string what)
         {
             if (def == null)
                 return 1f;
 
-            if (sellMultCache.TryGetValue(def, out float cached))
+            if (cache.TryGetValue(def, out float cached))
                 return cached;
 
             float result = 1f;
 
-            if (settings.sellPriceOverrides != null
-                && settings.sellPriceOverrides.TryGetValue(def.defName, out float over))
+            if (overrides != null && overrides.TryGetValue(def.defName, out float over))
             {
                 result = over;
             }
-            else if (settings.sellPriceRules != null)
+            else if (rules != null)
             {
-                foreach (var rule in settings.sellPriceRules)
+                foreach (var rule in rules)
                 {
                     if (rule == null)
                         continue;
                     if (!rule.HasAnySelector)
                     {
-                        Log.WarningOnce($"[HSKMoreHardcore] Правило цены продажи \"{rule.label ?? "без имени"}\" без признаков отбора — пропущено.",
-                            (rule.label ?? "noname").GetHashCode());
+                        Log.WarningOnce($"[HSKMoreHardcore] Правило цены {what} \"{rule.label ?? "без имени"}\" без признаков отбора — пропущено.",
+                            (rule.label ?? "noname").GetHashCode() ^ what.GetHashCode());
                         continue;
                     }
                     if (rule.Matches(def))
@@ -171,7 +191,7 @@ namespace HSKMoreHardcore
                 }
             }
 
-            sellMultCache[def] = result;
+            cache[def] = result;
             return result;
         }
     }

@@ -148,6 +148,20 @@
 		<commsTraderExcludedFactions>
 			<li>Empire</li>
 		</commsTraderExcludedFactions>
+		<!-- Множители цены покупки у торговца. Отбор устроен так же, как в
+		     sellPriceRules, но списки независимы: товар может быть дешевле
+		     только при продаже, только при покупке или в обе стороны. -->
+		<buyPriceRules>
+			<li>
+				<label>еда</label>
+				<!-- Еда продаётся игроком за 30% — за столько же её и покупаем,
+				     иначе торговцы наживаются на разнице в три с лишним раза. -->
+				<multiplier>0.3</multiplier>
+				<categories>
+					<li>Foods</li>
+				</categories>
+			</li>
+		</buyPriceRules>
 		<!-- Точечные множители цены продажи (defName -> множитель), приоритетнее
 		     топливного правила — сюда можно вписать исключения, напр.
 		     <li><key>Chemfuel</key><value>1</value></li> -->

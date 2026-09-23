@@ -16,7 +16,12 @@ namespace HSKMoreHardcore
         // Множители цены продажи игроком. Сначала точечные по defName, потом
         // список правил по категориям / статам (первое подходящее).
         public Dictionary<string, float> sellPriceOverrides;
-        public List<SellPriceRule> sellPriceRules;
+        public List<PriceRule> sellPriceRules;
+        // То же самое для цены покупки у торговца. Списки независимы:
+        // товар может быть дешевле только при продаже, только при покупке
+        // или в обе стороны.
+        public Dictionary<string, float> buyPriceOverrides;
+        public List<PriceRule> buyPriceRules;
         // Животные с меткой CompFreeAnimal продаются с этими множителями:
         // пришедшие событием и прирученные вручную. 1 = без изменений.
         // Рождённые в колонии метки не получают и продаются по полной цене.

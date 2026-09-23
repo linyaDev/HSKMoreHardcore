@@ -3,15 +3,16 @@ using Verse;
 
 namespace HSKMoreHardcore
 {
-    // Правило множителя цены при продаже игроком. Задаются списком в
-    // Defs/Misc/HardcoreSettings.xml (sellPriceRules), проверяются по порядку —
+    // Правило множителя цены сделки. Задаётся списком в
+    // Defs/Misc/HardcoreSettings.xml (sellPriceRules — продажа игроком,
+    // buyPriceRules — покупка), правила проверяются по порядку —
     // срабатывает первое подходящее. Точечные sellPriceOverrides по defName
-    // приоритетнее любого правила.
+    // приоритетнее любого правила (для покупки — buyPriceOverrides).
     //
     // Отбор: вещь должна пройти хотя бы один из заданных признаков
     // (categories / thingDefs / requireStat), а затем не попасть под исключения.
     // Правило без единого признака игнорируется — иначе оно накрыло бы всё подряд.
-    public class SellPriceRule
+    public class PriceRule
     {
         // Только для читаемости дефа и сообщений в логе
         public string label;
