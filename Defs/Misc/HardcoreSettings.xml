@@ -110,9 +110,11 @@
 		<razorRainStartDelayTicks>1800</razorRainStartDelayTicks>
 		<!-- Время полёта метеорита Core_SK до удара. Паковое 220~300 (около
 		     четырёх секунд) зашито в коде SK.Events.MeteorIncoming, поэтому
-		     переписывается патчем MeteorFallDelay. Отсюда идут MeteoriteImpact,
-		     метеориты затмения и метеоритный дождь. -->
-		<meteorTicksToImpact>900~1500</meteorTicksToImpact>
+		     переписывается патчем MeteorFallDelay. Задержка общая для всех трёх
+		     событий с метеоритами: MeteoriteImpact (одиночный с ресурсом),
+		     EclipseMeteorImpact (во время затмения) и BoulderMassHit (дождь,
+		     сыплет метеориты волнами через Thing_MeteorSpawner). -->
+		<meteorTicksToImpact>450~750</meteorTicksToImpact>
 		<!-- Восстановление нефтяных залежей Rimefeller: множитель к его RegenRate
 		     поверх настроек самого мода. 0 — нефть не возвращается, качаем до дна. -->
 		<oilFieldRegenMultiplier>0</oilFieldRegenMultiplier>
