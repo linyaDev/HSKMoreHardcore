@@ -44,15 +44,31 @@ namespace HSKMoreHardcore
             if (!spawnTicks.TryGetValue(__instance.thingIDNumber, out int start))
             {
                 // Первый тик после появления или после загрузки сейва
+                ForgetOldEntries(now);
                 spawnTicks[__instance.thingIDNumber] = now;
                 return false;
             }
 
-            if (now - start < delay)
-                return false;
+            // Запись не удаляем: иначе следующий тик снова начал бы отсчёт
+            // и пауза вставлялась бы перед каждой пачкой, растягивая дождь
+            return now - start >= delay;
+        }
 
-            spawnTicks.Remove(__instance.thingIDNumber);
-            return true;
+        // Отгремевшие спавнеры себя не убирают (Destroy мимо нас), поэтому
+        // выбрасываем записи старше двух дней — дождь столько не живёт
+        private static void ForgetOldEntries(int now)
+        {
+            if (spawnTicks.Count == 0)
+                return;
+
+            var stale = new List<int>();
+            foreach (var pair in spawnTicks)
+            {
+                if (now - pair.Value > 120000)
+                    stale.Add(pair.Key);
+            }
+            foreach (int id in stale)
+                spawnTicks.Remove(id);
         }
     }
 }
