@@ -47,7 +47,9 @@ namespace HSKMoreHardcore
             yield return extract;
             yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch)
                 .FailOnDespawnedNullOrForbidden(TargetIndex.B);
-            yield return Toils_Haul.StartCarryThing(TargetIndex.B, false, true);
+            // Количество на каждый стек ставит ExtractNextTargetFromQueue из countQueue,
+            // вычитать взятое не нужно — иначе job.count обнуляется и портит перенос вещи
+            yield return Toils_Haul.StartCarryThing(TargetIndex.B);
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
 
             Toil consume = new Toil();
@@ -65,7 +67,13 @@ namespace HSKMoreHardcore
             yield return consume;
             yield return Toils_Jump.JumpIfHaveTargetInQueue(TargetIndex.B, extract);
 
-            // 2) Несём вещь к верстаку.
+            // 2) Несём вещь к верстаку. Счётчик задаём заново: в нём осталось
+            // количество последнего стека стаффа, а вещь несём ровно одну.
+            Toil resetCount = new Toil();
+            resetCount.initAction = delegate { job.count = 1; };
+            resetCount.defaultCompleteMode = ToilCompleteMode.Instant;
+            yield return resetCount;
+
             yield return Toils_Goto.GotoThing(TargetIndex.C, PathEndMode.ClosestTouch)
                 .FailOnDespawnedNullOrForbidden(TargetIndex.C);
             yield return Toils_Haul.StartCarryThing(TargetIndex.C);
