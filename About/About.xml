@@ -170,11 +170,17 @@ MEDIEVAL
 			<packageId>skyarkhangel.HSK</packageId>
 			<displayName>Hardcore SK</displayName>
 		</li>
+		<li>
+			<packageId>linya.hskmorebalance.quests</packageId>
+			<displayName>HSK More Balance: Quests and Events</displayName>
+			<downloadUrl>https://github.com/linyaDev/HSKMoreBalanceQuests</downloadUrl>
+		</li>
 	</modDependencies>
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>
 		<li>brrainz.harmony</li>
 		<li>skyarkhangel.HSK</li>
+		<li>linya.hskmorebalance.quests</li>
 		<li>notfood.MendAndRecycle</li>
 		<li>DimonSever000.Wiki.Specific</li>
 	</loadAfter>
