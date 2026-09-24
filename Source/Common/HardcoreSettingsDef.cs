@@ -55,6 +55,15 @@ namespace HSKMoreHardcore
         // Фракции выше этого техуровня строку не получают (Undefined = без ограничения)
         public TechLevel commsTraderMaxTechLevel = TechLevel.Undefined;
         public List<string> commsTraderExcludedFactions;
+        // Разбор оружия: ствол целее weaponPartSalvageMinHitPct отдаёт
+        // weaponPartSalvageFraction своих деталей, потрёпанный — ничего.
+        // Доля 0 = детали не выпадают никогда. Что не уцелело, даёт прутки.
+        public float weaponPartSalvageMinHitPct = 0.5f;
+        public float weaponPartSalvageFraction = 0f;
+        public int weaponPartSmeltSteel = 5;
+        // Доля прочих продуктов разбора (металл из costList). Патроны, которые
+        // дописывает Combat Extended из магазина, не режутся. 1 = как в паке.
+        public float weaponSmeltOtherFraction = 1f;
 
         private static HardcoreSettingsDef cachedInstance;
 

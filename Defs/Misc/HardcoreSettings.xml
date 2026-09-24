@@ -191,6 +191,17 @@
 		<commsTraderExcludedFactions>
 			<li>Empire</li>
 		</commsTraderExcludedFactions>
+		<!-- Разбор оружия (smelt weapon, disassemble firearms — всё, что идёт
+		     через specialProducts Smelted). Ствол целее 50% HP отдаёт половину
+		     своих деталей, потрёпанный — только металл. С одной детали
+		     "половина" решается броском, то есть выпадет в половине случаев.
+		     Патроны из магазина выкидывает Combat Extended, их не трогаем. -->
+		<weaponPartSalvageMinHitPct>0.5</weaponPartSalvageMinHitPct>
+		<weaponPartSalvageFraction>0.5</weaponPartSalvageFraction>
+		<weaponPartSmeltSteel>5</weaponPartSmeltSteel>
+		<!-- Прочие продукты разбора (металл из costList) — тоже половина.
+		     Пак и так отдаёт четверть costList, с нами выходит восьмая часть. -->
+		<weaponSmeltOtherFraction>0.5</weaponSmeltOtherFraction>
 		<!-- Множители цены покупки у торговца. Отбор устроен так же, как в
 		     sellPriceRules, но списки независимы: товар может быть дешевле
 		     только при продаже, только при покупке или в обе стороны. -->
