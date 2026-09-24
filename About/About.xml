@@ -184,4 +184,10 @@ MEDIEVAL
 		<li>notfood.MendAndRecycle</li>
 		<li>DimonSever000.Wiki.Specific</li>
 	</loadAfter>
+	<!-- Прежний packageId мода до переименования в HSK More Balance: если
+	     старая копия осталась в папке модов, два комплекта одних и тех же
+	     патчей включать нельзя. -->
+	<incompatibleWith>
+		<li>linya.hskmorehardcore</li>
+	</incompatibleWith>
 </ModMetaData>
