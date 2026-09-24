@@ -3,7 +3,7 @@ using Verse;
 
 namespace HSKMoreHardcore
 {
-    // Игровые настройки мода (Options -> Mod settings -> HSK More Hardcore).
+    // Игровые настройки мода (Options -> Mod settings -> HSK More Balance).
     // Здесь только переключатели поведения; числовые константы баланса живут
     // в Defs/Misc/HardcoreSettings.xml.
     public class HardcoreModSettings : ModSettings
@@ -37,7 +37,7 @@ namespace HSKMoreHardcore
             Settings = GetSettings<HardcoreModSettings>();
         }
 
-        public override string SettingsCategory() => "HSK More Hardcore";
+        public override string SettingsCategory() => "HSK More Balance";
 
         public override void DoSettingsWindowContents(Rect inRect)
         {

@@ -1,4 +1,4 @@
-# HSK More Hardcore
+# HSK More Balance: Economy and Resources
 
 Мод, правящий баланс торговли и экономики в Hardcore SK: цены, лут и крафт.
 Цены пересчитаны с оглядкой на моды, встроенные в HSK — нефтянка Rimefeller, глубинные буры

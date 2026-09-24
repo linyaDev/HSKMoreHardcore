@@ -41,7 +41,7 @@ namespace HSKMoreHardcore
                     "В этом мире нет фракции «Княжество» — нейтральной средневековой фракции нов, которая шлёт торговые караваны.\n\nДобавить её и " + SettlementCount + " её поселения на карту мира?",
                     "Добавить", () => AddFaction(def),
                     "Нет", () => declined = true,
-                    "HSK More Hardcore"));
+                    "HSK More Balance: Economy and Resources"));
             });
         }
 
