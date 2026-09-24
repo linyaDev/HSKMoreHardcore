@@ -11,8 +11,10 @@
 Мод, правящий баланс торговли и экономики в Hardcore SK: цены, лут и крафт.
 
 ЭКОНОМИКА И ЦЕНЫ
-- Цены пересчитаны с оглядкой на моды, встроенные в Hardcore SK — нефтянка Rimefeller, глубинные буры и прочие источники бесконечного сырья. Что колония качает и бурит у себя, перестаёт быть товаром: номинальная стоимость такой цепочки существует только на бумаге.
-- Животные, доставшиеся даром, продаются дешевле: пришедшие по событию получают метку «Полудикое», прирученные вручную — «Приручённое», и каждая срезает цену. Купленные и рождённые в колонии продаются по полной.
+- Цены пересчитаны с оглядкой на моды, встроенные в Hardcore SK: нефтянка Rimefeller, глубинные буры и прочие бездонные источники сырья. То, что колония качает и бурит у себя без счёта, перестаёт быть товаром — реку нефти больше не продать.
+- Серебро снова что-то значит. Торговля перестала быть формальностью: у караванщиков есть что купить, а у колонии — на что копить.
+- Залежи, лежавшие мёртвым грузом, — соль, нефрит и прочая порода — наконец идут на продажу, а колонист-скульптор — статьёй дохода: статуи и прочее искусство хорошо продаются.
+- Животные, доставшиеся даром, продаются дешевле: пришедшие по событию получают метку «Полудикое», прирученные вручную — «Приручённое».
 
 ТОРГОВЦЫ
 - Племенной военный торговец возит зажигательную смесь и прометеум, скупает патроны и любые луки — раньше эти добавки Combat Extended затирал пак, а луки не брал никто. Племенной оптовик тоже возит зажигательную смесь.
@@ -86,8 +88,10 @@
 Balance overhaul for the Hardcore SK modlist: economy, loot, crafting, trading and incidents.
 
 ECONOMY AND PRICES
-- Prices are rebalanced around the mods built into Hardcore SK — Rimefeller oil, deep drills and other sources of endless raw materials. Whatever the colony pumps and drills for itself stops being a commodity.
-- Animals that came for free sell for less: ones that arrived through an incident are marked "Half-wild", hand-tamed ones "Tamed", and each mark cuts the price. Bought and colony-born animals sell at full price.
+- Prices are rebalanced around the mods built into Hardcore SK: Rimefeller oil, deep drills and other bottomless sources of raw materials. What the colony pumps and drills without limit stops being a commodity — you cannot sell a river of oil.
+- Silver means something again. Trade is no longer a formality: caravans carry things worth buying, and the colony has something to save up for.
+- Deposits that were dead weight — salt, jade and similar rock — are finally worth selling, and a colonist working the sculptor's table becomes a line of income: statues and other art sell well.
+- Animals that came for free sell for less: ones that arrived through an incident are marked "Half-wild", hand-tamed ones "Tamed".
 
 TRADERS
 - The tribal war merchant carries FSX and prometheum and buys ammo and any bows — the Combat Extended additions were being wiped by the pack, and nobody bought bows at all. The tribal bulk goods trader carries FSX too.
