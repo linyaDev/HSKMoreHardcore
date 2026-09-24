@@ -31,25 +31,24 @@
 - Разбор обломков переработан: корабельный хлам и разбившийся шаттл больше не осыпают колонию дорогими компонентами и снаряжением, которые разом разгоняют её стоимость — и вместе с ней силу рейдов.
 
 МЕДИЦИНА
-- Дороже лекарства, слабее бинты: и потенциал, и потолок качества лечения у них ниже.
+- Медицина подорожала, и чем выше тир, тем сильнее: индустриальная и ультратехнологичная у торговцев обходятся в разы дороже прежнего. Бинты вдобавок слабее — ниже и потенциал, и потолок качества лечения.
 - Индустриальная и ультратехнологичная медицина заменена на базовую в наградах и капсулах.
 
 КРАФТ И РЕСУРСЫ
-- Патроны дороже: ингредиентов на партию уходит в разы больше. Стрелы и болты подорожали меньше.
 - Гильзы: огнестрельному патрону нужна гильза своего класса — пять классов, рецепт открывается тем же исследованием, что и прежняя оружейная деталь.
 - Разбор оружия зависит от состояния ствола: целый отдаёт часть деталей, потрёпанный — только металл.
 - Переработка Mend and Recycle возвращает малую долю металла, кожа превращается в лоскутную кожу, остальное — в лоскутную ткань.
 - Мяса с гуманоидов меньше, меньше кожи с рыбы, глубинные залежи беднее.
 - Нефтяные залежи не восстанавливаются: найденное месторождение выкачивается до дна и больше не наполняется само.
-- Лес не отрастает сам по себе: деревья возвращаются в разы реже, зато живут намного дольше — рубить приходится с оглядкой, но собственная посадка не пропадёт.
+- Лес не отрастает сам по себе: деревья возвращаются в разы реже, зато живут намного дольше — рубить приходится с оглядкой, но собственная посадка не пропадёт (сделано ради баланса, числа выверены в игре). Рекомендую начать партию в лесу и посмотреть самому: лес стал заметно комфортнее и приятнее в игре.
 - Лоскутная ткань — новый мусорный материал, тканевый аналог лоскутной кожи.
 
 РЕМОНТ И СТИРКА
 - Починка вешает метку «Починено» со счётчиком; после порога обычная починка запрещена.
 - Полная реконструкция на ремонтном столе: чинит вещь до целого состояния, тратит большую часть базового материала и обнуляет счётчик починок.
-- Стирка одежды в тазике: снимает «Ношеное» и «Со следами боя», ставит «Постирано», вещь не уничтожается.
+- Стирка одежды в тазике: снимает «Ношеное» и «Со следами боя», ставит «Постирано».
 - Простой огнестрел чинится на ручном ремонтном станке — до электричества первый тир оружия больше не мёртвый.
-- Отдельный фильтр «чинибельное» для складов и билов.
+- Отдельный фильтр «чинибельное» — для складов и заданий на верстаке.
 
 КАЧЕСТВО
 - У построек и мебели качества больше нет — ни ролла при постройке, ни влияния на красоту, комфорт и цену. Легендарный поддон больше не разгоняет стоимость колонии, а разница между кроватями снова держится на самих кроватях: следующий тир лучше предыдущего. Оружие и одежда не затронуты.
@@ -58,22 +57,14 @@
 
 ФРАКЦИИ И ИМПЕРИЯ
 - Княжество — новая нейтральная средневековая фракция на новах, торговый двойник Королевства: шлёт караваны, не начинает игру врагом, с Империей не воюет. Подселяется в существующие сейвы с подтверждением; для неё сделан свой средневековый военный караванщик.
-- Вампиры убраны из фракций пака: норбалы, «Нова», Королевство, хищники, Братство, орассаны, Орион, пираты, Ancients, крысолюды — и во фракции, и в наборах ксенотипов отдельных видов пешек. Игроковые фракции не тронуты.
+- Вампиры убраны из фракций пака: норбалы, «Нова», Королевство, хищники, Братство, орассаны, Орион, пираты, Ancients, крысолюды — и во фракции, и в наборах ксенотипов отдельных видов пешек.
 - Привилегии Империи: по запросу присылают заметно больше стали, сухпайков и серебра, добавлена привилегия на древесину. Аэродронный удар бьёт намного дальше.
-- Дальность психических копий увеличена, телепортация обломков переехала на второй тир псисвязи.
 - Все правки привилегий автоматически отключаются, если установлен HMC Nobility Expanded — там своя система.
 
 СТРОЙКА И КРЫШИ
 - Крыши Stratum обходятся дешевле паковых: и черепица со стеклянной панелью, и соломенная крыша требуют меньше материала.
 - Свои примитивные крыши: деревянная дранка, доступная со старта, и грязевая — совсем неприглядная, зато не горит вовсе.
-
-СОБЫТИЯ И УГРОЗЫ
-- Метеориты летят дольше, чем в паке, — после письма есть время среагировать и увести людей. Действует на все три события: одиночный метеорит, метеорит затмения и метеоритный дождь.
-- Стальной дождь начинается не сразу после письма — есть пауза, чтобы спрятаться; длительность самого дождя не меняется.
-- Событие «заначка поселенца» всегда даёт серебро.
-- Безумные животные ломают двери, если по ним ударил колонист и целью стала пешка игрока.
-- Микробную грязь болезней нельзя убирать первые сутки — отключается в настройках мода.
-- Оптимистом и пессимистом становятся сильно реже: пороги настроения для этих черт подняты.
+- Правки крыш временные: в альфе Hardcore SK крыши переделывают, и после выхода их придётся пересматривать.
 
 КВЕСТЫ И НАГРАДЫ
 - Железная руда падает наградой отдельной корзиной — партиями, а не крохами.
@@ -115,25 +106,24 @@ LOOT
 - Wreck salvage is reworked: ship chunks and crashed shuttles no longer shower the colony with expensive components and gear that spike its wealth — and with it, raid strength.
 
 MEDICINE
-- Medicine costs more and bandages are weaker: both their potency and their tend quality cap are lower.
+- Medicine costs more, and the higher the tier the steeper the jump: industrial and ultratech kits are several times pricier at traders. Bandages are weaker too — lower potency and a lower tend quality cap.
 - Industrial and ultratech medicine is replaced with the basic kind in rewards and pods.
 
 CRAFTING AND RESOURCES
-- Ammo costs more: a batch eats several times the ingredients. Arrows and bolts went up by less.
 - Cartridge cases: every firearm round needs a case of its own class — five classes, unlocked by the same research as the weapon part it replaces.
 - Disassembling a gun depends on its condition: an intact one gives back some parts, a battered one only metal.
 - Mend and Recycle returns only a small share of the metal; leather becomes patchleather, everything else patchcloth.
 - Less meat from humanlikes, less leather from fish, poorer deep deposits.
 - Oil fields do not refill: a deposit you find is pumped dry for good.
-- The forest does not regrow on its own: trees come back far more rarely but live much longer — cut with care, and your own planting will not go to waste.
+- The forest does not regrow on its own: trees come back far more rarely but live much longer — cut with care, and your own planting will not go to waste (a deliberate balance change, tuned in play). Try a forest start and see for yourself — the woods became much more comfortable to live in.
 - Patchcloth — a new scrap material, the cloth counterpart of patchleather.
 
 REPAIR AND WASHING
 - Repairing marks an item "Repaired" with a counter; past the threshold ordinary repair is refused.
 - Full reconstruction at the mending table: restores an item completely, consumes most of its base material and resets the repair counter.
-- Washing apparel in a basin: removes "Worn" and "Battle-worn", adds "Washed", and the item survives.
+- Washing apparel in a basin: removes "Worn" and "Battle-worn", adds "Washed".
 - Simple firearms can be mended at the hand mending workbench — the first weapon tier is no longer a write-off before electricity.
-- A separate "repairable" filter for stockpiles and bills.
+- A separate "repairable" filter for stockpiles and workbench bills.
 
 QUALITY
 - Buildings and furniture have no quality at all — no roll, no effect on beauty, comfort or price. A legendary pallet no longer inflates colony wealth, and the difference between beds rests on the beds themselves again. Weapons and apparel are untouched.
@@ -142,22 +132,14 @@ QUALITY
 
 FACTIONS AND THE EMPIRE
 - The Principality — a new neutral medieval faction of novas, a trading counterpart to the Kingdom: it sends caravans, does not start hostile and is at peace with the Empire. It can be added to existing saves after a confirmation, and has its own medieval war merchant.
-- Sanguophages are removed from the pack's factions — Norbals, Nova Alliance, Kingdom, Predators, Brotherhood, Orassans, Orion, pirates, Ancients and ratkin — both from the faction and from individual pawn kinds. Player factions are untouched.
+- Sanguophages are removed from the pack's factions — Norbals, Nova Alliance, Kingdom, Predators, Brotherhood, Orassans, Orion, pirates, Ancients and ratkin — both from the faction and from individual pawn kinds.
 - Empire permits deliver noticeably more steel, packaged meals and silver, plus a new wood permit. The aerodrone strike reaches much farther.
-- Psychic lances reach farther, and chunkskip moved to the second psylink tier.
 - All permit changes switch themselves off if HMC Nobility Expanded is installed — it has its own permit system.
 
 BUILDING AND ROOFS
 - Stratum roofs cost less than the pack's version: shingles, the glass panel and the thatch roof all take less material.
 - Own primitive roofs: wooden shakes available from the start, and a mud roof — thoroughly ugly, but it does not burn at all.
-
-INCIDENTS AND THREATS
-- Meteorites fall slower than in the pack — after the letter there is time to react and move people. Applies to all three incidents: the single meteorite, the eclipse meteorite and the meteorite shower.
-- Razor rain starts with a pause after the letter, long enough to take cover; the length of the rain itself is unchanged.
-- The "colonist stash" incident always gives silver.
-- Manhunting animals break doors if a colonist hit them and their target is a player pawn.
-- Disease filth cannot be cleaned for the first day — can be switched off in the mod settings.
-- Optimist and pessimist traits appear far more rarely: their mood thresholds are raised.
+- The roof changes are temporary: roofs are being reworked in the Hardcore SK alpha, so these will have to be revisited once it lands.
 
 QUESTS AND REWARDS
 - Iron ore drops as a reward in a basket of its own — in batches, not crumbs.

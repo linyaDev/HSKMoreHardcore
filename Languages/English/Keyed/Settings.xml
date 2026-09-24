@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-	<HMH_DiseaseFilthNoClean>Alternative disease spread logic</HMH_DiseaseFilthNoClean>
-	<HMH_DiseaseFilthNoCleanTip>Enabled: disease germ filth cannot be cleaned for the first two days — an outbreak lives out its natural lifespan; fight it by isolating the sick and wearing protective face masks.\n\nDisabled: stock HSK behavior — germs can be cleaned right away.</HMH_DiseaseFilthNoCleanTip>
 	<HMH_ShowTechWidget>Tech level progress widget</HMH_ShowTechWidget>
 	<HMH_ShowTechWidgetTip>Overlay showing progress toward the next tech level as calculated by Ignorance Is Bliss. RMB to drag, LMB to open research. Requires Ignorance Is Bliss in "percent researched" mode.</HMH_ShowTechWidgetTip>
 	<HMH_TechWidget_Label>{0}: {1}/{2}</HMH_TechWidget_Label>
