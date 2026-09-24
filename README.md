@@ -1,27 +1,29 @@
 # HSK More Hardcore
 
-Balance mod for Hardcore SK modpack. Changes economy, loot, medicine, crafting and trading. Adds new mechanics and modifies existing ones to make survival harder and more meaningful.
+Балансная надстройка над сборкой Hardcore SK: экономика, лут, крафт, торговля и события.
+Цены пересчитаны с оглядкой на моды, встроенные в HSK — нефтянка Rimefeller, глубинные буры
+и прочие источники бесконечного сырья: что колония качает и бурит у себя, перестаёт быть товаром.
 
-Балансный мод для Hardcore SK. Изменяет экономику, лут, медицину, крафт и торговлю. Добавляет новые механики и изменяет существующие, чтобы выживание стало сложнее и осмысленнее.
+Balance overhaul for the Hardcore SK modlist: economy, loot, crafting, trading and incidents.
 
-## Requirements
+## Требования
 
-- RimWorld 1.5 / 1.6
-- Hardcore SK modpack
+- RimWorld 1.6
+- Hardcore SK
 - Harmony
 - Mend and Recycle
 
-## What it changes
+## Что меняет
 
-- **Loot** -- significantly reduced ammo, medicine and weapon drops from enemies, pods and crates. Weapon and armor durability scales with tech gap.
-- **Trading** -- increased weapon and ammo prices, reduced ammo stock at traders.
-- **Medicine** -- increased medicine cost, enemy medics use herbal only, visitor gifts replace medicine with herbal, bandage potency and quality cap reduced.
-- **Disease** -- disease filth cannot be cleaned for the first day.
-- **Fishing** -- fixed spawn timers with biome scaling, pier and trap limits, no meditation on fishing spots.
-- **Crafting** -- ammo crafting costs multiplied, material-based craft quality penalties.
-- **Apparel** -- quality-dependent stat offsets, battle-worn price reduction, craft quality affected by material.
-- **Plants** -- tree regrowth heavily reduced, palm yield reduced.
-- **Signal fire** -- charge system with cooldown-based recharge.
-- **Ancient danger** -- all weapons and armor removed from loot.
+- **Экономика и цены** — правила цены продажи и покупки по категориям; животные, доставшиеся даром, стоят дешевле.
+- **Торговцы** — племенному военному торговцу возвращены зажигательная смесь, прометеум и скупка патронов с луками; шаман возит нейротренажёры; больше руды и дерева у оптовиков.
+- **Гости** — больше серебра по техуровню фракции, покупают примитивную дальнобойку, без медикаментов в торговле и подарках.
+- **Лут** — переработан лут капсул и разбор обломков: без оружия не по эпохе и без всплеска стоимости колонии.
+- **Крафт и ресурсы** — дороже патроны, гильзы вместо оружейных деталей, разбор оружия по состоянию ствола, нефть и лес не восстанавливаются.
+- **Ремонт и стирка** — счётчик починок, полная реконструкция, стирка одежды, починка простого огнестрела до электричества.
+- **Качество** — у построек качества нет, бонусы одежды зависят от качества, плохие материалы чаще дают низкий тир.
+- **Фракции** — Княжество как нейтральная средневековая фракция, вампиры убраны из фракций пака, щедрее привилегии Империи.
+- **События** — метеориты и стальной дождь дают время среагировать, «заначка поселенца» всегда серебром.
+- **Эпохи** — правки под неолит (духовая трубка, грубый жилет, костяной щит, сигнальный костёр) и средневековье (балестра, катапульта).
 
-See [CHANGELOG.md](CHANGELOG.md) for full details.
+Полный список — в [CHANGELOG.md](CHANGELOG.md).
